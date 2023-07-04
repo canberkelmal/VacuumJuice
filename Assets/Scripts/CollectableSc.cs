@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CollectableSc : MonoBehaviour
 {
+    public float fillAmount = 0.2f;
     private GameObject player;
     private GameManager gameManager;
 
@@ -29,7 +30,7 @@ public class CollectableSc : MonoBehaviour
 
         if (transform.localPosition == Vector3.zero) {
             Debug.Log("Object collected!");
-            gameManager.FillTank(0.3f);
+            gameManager.FillTank(fillAmount);
             CancelInvoke("MoveToPlayer"); 
             Destroy(gameObject);
         }

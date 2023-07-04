@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     private float playerCurrentSpeed = 0;
     private float directorOffsZ = 1.5f;
     private float directorOffsY = 1f;
-    private float tankFillAmount = -0.8f;
+    private float tankFillAmount = -1.01f;
     private float tempTankFill = 1;
     void Awake()
     {
@@ -88,8 +88,9 @@ public class GameManager : MonoBehaviour
     {
         if(factor)
         {
-            if (Input.GetAxis("Mouse X") != 0)
+            if (Input.GetAxis("Mouse X") < -0.05 || Input.GetAxis("Mouse X") > 0.05)
             {
+                Debug.Log(Input.GetAxis("Mouse X"));
                 float mouseX = Input.GetAxis("Mouse X");
                 float moveAmount = mouseX * playerRotateSens;
                 Vector3 newPosX = director.transform.position + director.transform.right * moveAmount;
