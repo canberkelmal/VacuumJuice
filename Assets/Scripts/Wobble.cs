@@ -23,7 +23,7 @@ public class Wobble : MonoBehaviour
         rend = GetComponent<Renderer>();
         wobbleAmountX = 0f;
     }
-    private void Update()
+    private void FixedUpdate()
     {
         time += Time.deltaTime;
         // decrease wobble over time
@@ -35,7 +35,7 @@ public class Wobble : MonoBehaviour
         wobbleAmountX = wobbleAmountToAddX * Mathf.Sin(pulse * time);
 
         // send it to the shader
-        rend.material.SetFloat("_WobbleX", wobbleAmountX);
+        rend.material.SetFloat("_WobbleX", -wobbleAmountX);
 
         // velocity
         velocity = (lastPos - transform.position) / Time.deltaTime;

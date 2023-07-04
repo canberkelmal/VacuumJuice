@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public float playerMaxSpeed = 1f;
     public float playerXMin, playerXMax;
     public float collectSens = 1f;
+    public float fillTankSens = 1f;
 
     private GameObject mainCam;
     private GameObject tankShader;
@@ -25,6 +26,7 @@ public class GameManager : MonoBehaviour
     private float directorOffsZ = 1.5f;
     private float directorOffsY = 1f;
     private float tankFillAmount = -0.8f;
+    private float tempTankFill = 1;
     void Awake()
     {
         mainCam = GameObject.Find("Main Camera");
@@ -43,7 +45,18 @@ public class GameManager : MonoBehaviour
     public void FillTank(float fillAmount)
     {
         tankFillAmount += fillAmount;
-        tankShader.GetComponent<Renderer>().material.SetFloat("_Fill", tankFillAmount);
+        InvokeRepeating("FillTankAnim", 0, Time.fixedDeltaTime);
+    }
+
+    private void FillTankAnim()
+    {
+        tempTankFill = Mathf.MoveTowards(tankShader.GetComponent<Renderer>().material.GetFloat("_Fill"), tankFillAmount, fillTankSens * Time.deltaTime);
+        tankShader.GetComponent<Renderer>().material.SetFloat("_Fill", tempTankFill);
+
+        if(tempTankFill == tankFillAmount)
+        {
+            CancelInvoke("FillTankAnim");
+        }
     }
 
     void CameraController()

@@ -51,7 +51,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Fill: 0.04
+    - _Fill: -0.8
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Waving: 0
@@ -60,5 +60,5 @@ Material:
     - _WoobleX: 0
     - _WoobleZ: 0
     m_Colors:
-    - _Color: {r: 0.29245278, g: 0.13898745, b: 0, a: 1}
+    - _Color: {r: 1, g: 0.3208254, b: 0, a: 1}
   m_BuildTextureStacks: []
