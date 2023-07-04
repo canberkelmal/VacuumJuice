@@ -51,12 +51,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Fill: -0.8
+    - _Fill: -1.31
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Waving: 0
     - _WobbleX: 0
-    - _WobbleZ: -0.24
+    - _WobbleZ: 0
     - _WoobleX: 0
     - _WoobleZ: 0
     m_Colors:
