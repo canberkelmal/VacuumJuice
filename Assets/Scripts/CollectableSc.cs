@@ -2,9 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Sirenix.OdinInspector;
+
 public class CollectableSc : MonoBehaviour
 {
-    public float fillAmount = 0.2f;
+    [EnumPaging]
+    public CollectableType type;
+    public enum CollectableType
+    {
+        Juice, Vacuum, Tank
+    }
+
+    private bool IsJuice() => type == CollectableType.Juice;
+    private bool IsVacuum() => type == CollectableType.Vacuum;
+    private bool IsTank() => type == CollectableType.Tank;
+
+    public bool increase = true;
+    public int level = 1;
+
+    private int effectFactor = 1;
     private GameObject player;
     private GameManager gameManager;
 
@@ -12,6 +28,7 @@ public class CollectableSc : MonoBehaviour
     {
         player = GameObject.Find("Player");
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        effectFactor = increase ? level : -level;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -29,8 +46,15 @@ public class CollectableSc : MonoBehaviour
         transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.zero, (gameManager.collectSens * 2 / 3) * Time.fixedDeltaTime);
 
         if (transform.localPosition == Vector3.zero) {
-            Debug.Log("Object collected!");
-            gameManager.FillTank(fillAmount);
+            if(IsJuice())
+            {
+                gameManager.FillTank(effectFactor);
+            }
+            if (IsVacuum())
+            {
+                gameManager.SetVacuum(effectFactor);
+            }
+
             CancelInvoke("MoveToPlayer"); 
             Destroy(gameObject);
         }

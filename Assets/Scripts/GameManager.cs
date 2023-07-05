@@ -1,8 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.Burst.Intrinsics;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,12 +6,16 @@ public class GameManager : MonoBehaviour
 {
     public GameObject player;
     public GameObject director;
+    public GameObject vacuumCollider;
     public float playerRotateSens = 1;
     public float playerMoveSens = 1f;
     public float playerMaxSpeed = 1f;
     public float playerXMin, playerXMax;
     public float collectSens = 1f;
     public float fillTankSens = 1f;
+    public float fillMultiplier = 0.2f;
+    public float vacuumRadiusMultiplier = 0.1f;
+    public float vacuumLengthMultiplier = 0.5f;
 
     private GameObject mainCam;
     private GameObject tankShader;
@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     private float playerCurrentSpeed = 0;
     private float directorOffsZ = 1.5f;
     private float directorOffsY = 1f;
-    private float tankFillAmount = -1.01f;
+    private float tankFillAmount = -0.5f;
     private float tempTankFill = 1;
     void Awake()
     {
@@ -42,9 +42,9 @@ public class GameManager : MonoBehaviour
         CameraController();
     }
 
-    public void FillTank(float fillAmount)
+    public void FillTank(int fillFactor)
     {
-        tankFillAmount += fillAmount;
+        tankFillAmount += (fillFactor * fillMultiplier);
         InvokeRepeating("FillTankAnim", 0, Time.fixedDeltaTime);
     }
 
@@ -57,6 +57,37 @@ public class GameManager : MonoBehaviour
         {
             CancelInvoke("FillTankAnim");
         }
+    }
+
+    public void SetVacuum(int scaleFactor)
+    {
+        Vector3 radiusScale = (Vector3.right + Vector3.forward) * (scaleFactor * vacuumRadiusMultiplier);
+        vacuumCollider.transform.localScale += radiusScale;
+
+        Vector3 lengthScale = Vector3.up * (scaleFactor * vacuumLengthMultiplier);
+        Vector3 position = Vector3.forward * (scaleFactor * vacuumLengthMultiplier);
+        vacuumCollider.transform.localScale += lengthScale;
+        vacuumCollider.transform.localPosition += position;
+    }
+/*
+    public void SetVacuumRadius(bool factor)
+    {
+        vacuumRadiusLevel += factor ? 1 : -1;
+        Vector3 scale = (Vector3.right + Vector3.forward) * 0.1f;
+        vacuumCollider.transform.localScale += factor ? scale : -scale;
+    }
+    public void SetVacuumLength(bool factor)
+    {
+        vacuumLengthLevel += factor ? 1 : -1;
+        Vector3 scale = Vector3.up * 0.5f;
+        Vector3 position = Vector3.forward * 0.5f;
+        vacuumCollider.transform.localScale += factor ? scale : -scale;
+        vacuumCollider.transform.localPosition += factor ? position : -position;
+    }
+*/
+    public void SetTankCapacity()
+    {
+
     }
 
     void CameraController()
@@ -90,7 +121,6 @@ public class GameManager : MonoBehaviour
         {
             if (Input.GetAxis("Mouse X") < -0.05 || Input.GetAxis("Mouse X") > 0.05)
             {
-                Debug.Log(Input.GetAxis("Mouse X"));
                 float mouseX = Input.GetAxis("Mouse X");
                 float moveAmount = mouseX * playerRotateSens;
                 Vector3 newPosX = director.transform.position + director.transform.right * moveAmount;
