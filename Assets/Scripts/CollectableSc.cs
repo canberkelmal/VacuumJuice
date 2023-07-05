@@ -20,7 +20,7 @@ public class CollectableSc : MonoBehaviour
     public bool increase = true;
     public int level = 1;
 
-    private int effectFactor = 1;
+    private int effectFactor;
     private GameObject player;
     private GameManager gameManager;
 
