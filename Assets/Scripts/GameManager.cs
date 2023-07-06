@@ -16,9 +16,9 @@ public class GameManager : MonoBehaviour
     public float fillMultiplier = 0.2f;
     public float vacuumRadiusMultiplier = 0.1f;
     public float vacuumLengthMultiplier = 0.5f;
+    public GameObject tankShader;
 
     private GameObject mainCam;
-    private GameObject tankShader;
     private Vector3 camOffset;
     private bool controller = true;
     private bool isFinished = false;
@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         mainCam = GameObject.Find("Main Camera");
-        tankShader = player.transform.Find("LiquidTank").Find("Shader").gameObject;
+        //tankShader = player.transform.Find("LiquidTank").Find("Shader").gameObject;
         camOffset = player.transform.position - mainCam.transform.position;
         directorOffsY = player.transform.position.y - director.transform.position.y;
     }
