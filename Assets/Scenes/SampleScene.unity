@@ -21455,7 +21455,7 @@ MonoBehaviour:
   director: {fileID: 837761356}
   vacuumCollider: {fileID: 292366502}
   vacuumParticle: {fileID: 431245901}
-  playerRotateSens: 0.5
+  playerRotateSens: 0.2
   playerMoveSens: 20
   playerMaxSpeed: 7
   playerXMin: -4

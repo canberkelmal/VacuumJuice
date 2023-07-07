@@ -18,7 +18,7 @@ public class LineConnector : MonoBehaviour
         for(int i=0; i < _objs.Length; i++)
         {
             //Debug.Log(line.positionCount);
-            line.SetPosition(i, _objs[i].transform.position + Vector3.up * 0.2f);
+            line.SetPosition(i, _objs[i].transform.position);
         }
     }
 
