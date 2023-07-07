@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public GameObject player;
     public GameObject director;
-    public GameObject vacuumCollider;
+    public GameObject vacuumCollider, vacuumParticle;
     public float playerRotateSens = 1;
     public float playerMoveSens = 1f;
     public float playerMaxSpeed = 1f;
@@ -61,13 +61,17 @@ public class GameManager : MonoBehaviour
 
     public void SetVacuum(int scaleFactor)
     {
-        Vector3 radiusScale = (Vector3.right + Vector3.forward) * (scaleFactor * vacuumRadiusMultiplier);
+        //Vector3 radiusScale = (Vector3.right + Vector3.forward) * (scaleFactor * vacuumRadiusMultiplier);
+        Vector3 radiusScale = Vector3.one * (scaleFactor * vacuumRadiusMultiplier);
         vacuumCollider.transform.localScale += radiusScale;
+        Vector3 position = Vector3.forward * (scaleFactor * vacuumRadiusMultiplier * 0.6f);
+        vacuumCollider.transform.localPosition += position;
+        vacuumParticle.GetComponent<ParticleSystem>().emissionRate += 2;
 
-        Vector3 lengthScale = Vector3.up * (scaleFactor * vacuumLengthMultiplier);
+        /*Vector3 lengthScale = Vector3.up * (scaleFactor * vacuumLengthMultiplier);
         Vector3 position = Vector3.forward * (scaleFactor * vacuumLengthMultiplier);
         vacuumCollider.transform.localScale += lengthScale;
-        vacuumCollider.transform.localPosition += position;
+        vacuumCollider.transform.localPosition += position;*/
     }
 /*
     public void SetVacuumRadius(bool factor)
