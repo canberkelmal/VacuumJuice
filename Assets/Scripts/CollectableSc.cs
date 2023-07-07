@@ -23,6 +23,7 @@ public class CollectableSc : MonoBehaviour
     private int effectFactor;
     private GameObject player;
     private GameManager gameManager;
+    private bool triged = false;
 
     private void Awake()
     {
@@ -45,18 +46,26 @@ public class CollectableSc : MonoBehaviour
         transform.localPosition = Vector3.MoveTowards(transform.localPosition, Vector3.zero, gameManager.collectSens * Time.fixedDeltaTime);
         transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.zero, (gameManager.collectSens * 2 / 3) * Time.fixedDeltaTime);
 
-        if (transform.localPosition == Vector3.zero) {
-            if(IsJuice())
+        if (transform.localPosition == Vector3.zero && !triged)
+        {
+            triged = true;
+            if (IsJuice())
             {
-                gameManager.FillTank(effectFactor);
+                GameObject.Find("VacuumPipe").transform.Find("left").GetComponent<LineConnector>().PipeGetAnimTrigger(gameObject.GetComponent<CollectableSc>());
             }
-            if (IsVacuum())
+            else if (IsVacuum())
             {
                 gameManager.SetVacuum(effectFactor);
+                Destroy(gameObject);
             }
 
             CancelInvoke("MoveToPlayer"); 
-            Destroy(gameObject);
         }
+    }
+
+    public void TakeTheFruit()
+    {
+        gameManager.FillTank(effectFactor);
+        Destroy(gameObject);
     }
 }
