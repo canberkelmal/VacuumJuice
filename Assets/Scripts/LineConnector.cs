@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LineConnector : MonoBehaviour
 {
+    public Vector2 animTPoints = Vector2.zero;
     public float animSens = 1f;
     public float animWidth = 0.9f;
     public GameObject[] _objs;
@@ -33,30 +34,32 @@ public class LineConnector : MonoBehaviour
     public void PipeGetAnimTrigger(CollectableSc sc)
     {
         currentCollectable = sc;
-        tempT = 0.05f;
+        tempT = animTPoints.x;
         InvokeRepeating("PipeGetAnim", 0, Time.fixedDeltaTime);
     }
 
     private void PipeGetAnim()
     {
+/*
         if (tempT < 0.95f && line.widthCurve.keys[1].value < animWidth)
         {
-            tempW = Mathf.MoveTowards(line.widthCurve.keys[1].value, animWidth, animSens * Time.deltaTime * 1.5f);
             MoveKeyFrame(1, 0.05f, tempW);
         }
-        else if (tempT < 0.95f)
+*/
+        if ((tempT + Time.deltaTime * animSens) < animTPoints.y)
         {
+            tempW = Mathf.MoveTowards(line.widthCurve.keys[1].value, animWidth, animSens * Time.deltaTime * 1.5f);
             tempT += Time.deltaTime * animSens;
-            MoveKeyFrame(1, tempT, animWidth);
+            MoveKeyFrame(1, tempT, tempW);
         }
         else if (line.widthCurve.keys[1].value > 0.25f)
         {
-            tempW = Mathf.MoveTowards(line.widthCurve.keys[1].value, 0.25f, animSens * Time.deltaTime * 1.5f);
+            tempW = Mathf.MoveTowards(line.widthCurve.keys[1].value, 0.25f, animSens * Time.deltaTime * 2f);
             MoveKeyFrame(1, tempT, tempW);
         }
         else
         {
-            MoveKeyFrame(1, 0.05f, 0.25f);
+            MoveKeyFrame(1, animTPoints.x, 0.25f);
             currentCollectable.TakeTheFruit();
             CancelInvoke("PipeGetAnim");
         }

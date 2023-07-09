@@ -17963,8 +17963,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a74f20485c11e741b6d3d3ed6baaeed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animSens: 3
-  animWidth: 0.75
+  animTPoints: {x: 0.01, y: 0.99}
+  animSens: 2.5
+  animWidth: 0.7
   _objs:
   - {fileID: 1186029058}
   - {fileID: 1802409466}
