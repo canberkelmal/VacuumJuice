@@ -123,6 +123,14 @@ public class GameManager : MonoBehaviour
     {
         if(factor)
         {
+            float mouseX = Input.GetAxis("Mouse X");
+            float moveAmount = mouseX * playerRotateSens;
+            Vector3 newPosX = director.transform.position + director.transform.right * moveAmount;
+            newPosX.x = Mathf.Clamp(newPosX.x, playerXMin, playerXMax);
+            newPosX.z = player.transform.position.z + directorOffsZ;
+            newPosX.y = player.transform.position.y;
+            director.transform.position = newPosX;
+/*
             if (Input.GetAxis("Mouse X") < -0.05 || Input.GetAxis("Mouse X") > 0.05)
             {
                 float mouseX = Input.GetAxis("Mouse X");
@@ -137,7 +145,7 @@ public class GameManager : MonoBehaviour
             {
                 director.transform.position = Vector3.Lerp(director.transform.position, player.transform.position + Vector3.forward * directorOffsZ, playerRotateSens * Time.deltaTime);
                 director.transform.position = new Vector3(director.transform.position.x, director.transform.position.y, player.transform.position.z + directorOffsZ);
-            }
+            }*/
         }
 
         else
