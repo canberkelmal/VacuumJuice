@@ -18550,9 +18550,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac36a8b1df3e93645a4c03a4447e9447, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxWobble: 0.05
-  WobbleSpeed: 0.3
-  Recovery: 0.3
+  MaxWobble: 0.03
+  WobbleSpeed: 0.4
+  Recovery: 0.4
 --- !u!23 &1002594037
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -20582,7 +20582,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1482262921
 Transform:
   m_ObjectHideFlags: 0
