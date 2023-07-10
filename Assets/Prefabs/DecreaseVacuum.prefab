@@ -50,6 +50,7 @@ MonoBehaviour:
   type: 1
   increase: 0
   level: 2
+  takeAnim: {fileID: 150944, guid: 3b9161edba9968c48bd058067ad18c84, type: 3}
 --- !u!33 &3599693602545352072
 MeshFilter:
   m_ObjectHideFlags: 0

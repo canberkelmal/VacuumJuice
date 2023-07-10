@@ -579,7 +579,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 170874054}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.905, y: 1.5628005, z: -72.705}
+  m_LocalPosition: {x: -0.905, y: 1.5628005, z: -72.705}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -19250,7 +19250,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1186029058}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.905, y: 0.06280053, z: 0}
+  m_LocalPosition: {x: -0.905, y: 0.06280053, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -21492,7 +21492,7 @@ HingeJoint:
   m_Anchor: {x: 0, y: 1, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: -0.2512021, z: -0.63750076}
+  m_ConnectedAnchor: {x: 0, y: -0.62800527, z: -2.550003}
   serializedVersion: 2
   m_UseSpring: 1
   m_Spring:
@@ -21554,7 +21554,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1746864711}
   m_LocalRotation: {x: 0.70710677, y: 0, z: 0, w: 0.70710677}
-  m_LocalPosition: {x: 0.905, y: 1.5, z: -74.76}
+  m_LocalPosition: {x: -0.905, y: 1.5, z: -74.76}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -21682,6 +21682,10 @@ MonoBehaviour:
   director: {fileID: 837761356}
   vacuumCollider: {fileID: 292366502}
   vacuumParticle: {fileID: 431245901}
+  tankShader: {fileID: 1002594034}
+  buffParticle: {fileID: 145256, guid: 7b117ab47ae99e74fbb811d488c1eb17, type: 3}
+  debuffParticle: {fileID: 145256, guid: a317a819b28b7824288556ac2b8cce10, type: 3}
+  getJuiceParticle: {fileID: 0}
   playerRotateSens: 0.15
   playerMoveSens: 20
   playerMaxSpeed: 7
@@ -21692,7 +21696,6 @@ MonoBehaviour:
   fillMultiplier: 0.2
   vacuumRadiusMultiplier: 0.1
   vacuumLengthMultiplier: 0.5
-  tankShader: {fileID: 1002594034}
 --- !u!4 &1758430030
 Transform:
   m_ObjectHideFlags: 0
