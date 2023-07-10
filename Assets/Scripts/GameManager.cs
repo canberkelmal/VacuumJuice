@@ -7,6 +7,10 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public GameObject director;
     public GameObject vacuumCollider, vacuumParticle;
+    public GameObject tankShader;
+    public GameObject buffParticle;
+    public GameObject debuffParticle;
+    public GameObject getJuiceParticle;
     public float playerRotateSens = 1;
     public float playerMoveSens = 1f;
     public float playerMaxSpeed = 1f;
@@ -16,7 +20,6 @@ public class GameManager : MonoBehaviour
     public float fillMultiplier = 0.2f;
     public float vacuumRadiusMultiplier = 0.1f;
     public float vacuumLengthMultiplier = 0.5f;
-    public GameObject tankShader;
 
     private GameObject mainCam;
     private Vector3 camOffset;
@@ -62,6 +65,14 @@ public class GameManager : MonoBehaviour
     public void SetVacuum(int scaleFactor)
     {
         //Vector3 radiusScale = (Vector3.right + Vector3.forward) * (scaleFactor * vacuumRadiusMultiplier);
+        if(scaleFactor > 0)
+        {
+            Destroy(Instantiate(buffParticle, vacuumParticle.transform.position + Vector3.up, Quaternion.identity, vacuumCollider.transform), 1f);
+        }
+        else
+        {
+            Destroy(Instantiate(debuffParticle, vacuumParticle.transform.position + Vector3.up, Quaternion.Euler(90,0,0), vacuumCollider.transform), 1f);
+        }
         Vector3 radiusScale = Vector3.one * (scaleFactor * vacuumRadiusMultiplier);
         vacuumCollider.transform.localScale += radiusScale;
         Vector3 position = Vector3.forward * (scaleFactor * vacuumRadiusMultiplier * 0.6f);

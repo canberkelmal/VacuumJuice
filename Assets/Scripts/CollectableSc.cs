@@ -19,6 +19,7 @@ public class CollectableSc : MonoBehaviour
 
     public bool increase = true;
     public int level = 1;
+    public GameObject takeAnim;
 
     private int effectFactor;
     private GameObject player;
@@ -36,6 +37,7 @@ public class CollectableSc : MonoBehaviour
     {
         if(other.CompareTag("VacuumArea"))
         {
+            Instantiate(takeAnim, transform.position, Quaternion.identity);
             transform.parent = player.transform.Find("Collecteds");
             InvokeRepeating("MoveToPlayer", 0, Time.fixedDeltaTime);
         }

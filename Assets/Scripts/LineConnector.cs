@@ -13,12 +13,14 @@ public class LineConnector : MonoBehaviour
     private float tempT = 0.02f;
     private float tempW = 0.25f;
     private CollectableSc currentCollectable;
-    AnimationCurve curve = new AnimationCurve();
+    private AnimationCurve curve = new AnimationCurve();
+    private GameManager gameManager;
 
-    private void Start()
+    private void Awake()
     {
         line = this.gameObject.GetComponent<LineRenderer>();
         curve = line.widthCurve;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     private void Update()
@@ -61,6 +63,7 @@ public class LineConnector : MonoBehaviour
         {
             MoveKeyFrame(1, animTPoints.x, 0.25f);
             currentCollectable.TakeTheFruit();
+            Destroy(Instantiate(gameManager.getJuiceParticle, _objs[_objs.Length-1].transform.position, Quaternion.identity));
             CancelInvoke("PipeGetAnim");
         }
     }

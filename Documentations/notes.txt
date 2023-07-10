@@ -7,3 +7,12 @@ runner
 * Slow mo run - Supersonic (runner, puzzle, hyperCasual)
 * Dreamdale
 
+Vacuum Object Particles
+-----------------------
+- RoundHitRed
+- CartoonyPunchLight
+
+Buff Vacuum Particles
+-----------------------
+- StunExplosion
+- MagicBuffBlue
