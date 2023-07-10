@@ -58,7 +58,7 @@ public class CollectableSc : MonoBehaviour
             else if (IsVacuum())
             {
                 gameManager.SetVacuum(effectFactor);
-                Destroy(gameObject);
+                Destroy(gameObject);  //******************************************************************************//
             }
 
             CancelInvoke("MoveToPlayer"); 
