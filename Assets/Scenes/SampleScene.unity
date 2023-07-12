@@ -21685,7 +21685,8 @@ MonoBehaviour:
   tankShader: {fileID: 1002594034}
   buffParticle: {fileID: 145256, guid: 7b117ab47ae99e74fbb811d488c1eb17, type: 3}
   debuffParticle: {fileID: 145256, guid: a317a819b28b7824288556ac2b8cce10, type: 3}
-  getJuiceParticle: {fileID: 0}
+  getJuiceParticle: {fileID: 149344, guid: 617378de28fbaa64c96485d5b0d9169b, type: 3}
+  camSensivity: 6
   playerRotateSens: 0.15
   playerMoveSens: 20
   playerMaxSpeed: 7
