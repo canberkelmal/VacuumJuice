@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public GameObject buffParticle;
     public GameObject debuffParticle;
     public GameObject getJuiceParticle;
+    public float camSensivity = 1f;
     public float playerRotateSens = 1;
     public float playerMoveSens = 1f;
     public float playerMaxSpeed = 1f;
@@ -78,28 +79,7 @@ public class GameManager : MonoBehaviour
         Vector3 position = Vector3.forward * (scaleFactor * vacuumRadiusMultiplier * 0.6f);
         vacuumCollider.transform.localPosition += position;
         vacuumParticle.GetComponent<ParticleSystem>().emissionRate += 2;
-
-        /*Vector3 lengthScale = Vector3.up * (scaleFactor * vacuumLengthMultiplier);
-        Vector3 position = Vector3.forward * (scaleFactor * vacuumLengthMultiplier);
-        vacuumCollider.transform.localScale += lengthScale;
-        vacuumCollider.transform.localPosition += position;*/
     }
-/*
-    public void SetVacuumRadius(bool factor)
-    {
-        vacuumRadiusLevel += factor ? 1 : -1;
-        Vector3 scale = (Vector3.right + Vector3.forward) * 0.1f;
-        vacuumCollider.transform.localScale += factor ? scale : -scale;
-    }
-    public void SetVacuumLength(bool factor)
-    {
-        vacuumLengthLevel += factor ? 1 : -1;
-        Vector3 scale = Vector3.up * 0.5f;
-        Vector3 position = Vector3.forward * 0.5f;
-        vacuumCollider.transform.localScale += factor ? scale : -scale;
-        vacuumCollider.transform.localPosition += factor ? position : -position;
-    }
-*/
     public void SetTankCapacity()
     {
 
@@ -107,7 +87,9 @@ public class GameManager : MonoBehaviour
 
     void CameraController()
     {
-        mainCam.transform.position = player.transform.position - camOffset;
+        mainCam.transform.position = Vector3.Lerp(mainCam.transform.position, player.transform.position - camOffset, camSensivity * Time.deltaTime);
+        
+        //mainCam.transform.position = player.transform.position - camOffset;
     }
 
     void InputController()
