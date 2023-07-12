@@ -20,6 +20,7 @@ public class CollectableSc : MonoBehaviour
     public bool increase = true;
     public int level = 1;
     public GameObject takeAnim;
+    public Color takeSplashColor;
 
     private int effectFactor;
     private GameObject player;
@@ -37,7 +38,7 @@ public class CollectableSc : MonoBehaviour
     {
         if(other.CompareTag("VacuumArea"))
         {
-            Instantiate(takeAnim, transform.position, Quaternion.identity);
+            Destroy(Instantiate(takeAnim, transform.position, Quaternion.identity), 1f);
             transform.parent = player.transform.Find("Collecteds");
             InvokeRepeating("MoveToPlayer", 0, Time.fixedDeltaTime);
         }
@@ -58,7 +59,7 @@ public class CollectableSc : MonoBehaviour
             else if (IsVacuum())
             {
                 gameManager.SetVacuum(effectFactor);
-                Destroy(gameObject);  //******************************************************************************//
+                Destroy(gameObject);
             }
 
             CancelInvoke("MoveToPlayer"); 
@@ -67,6 +68,11 @@ public class CollectableSc : MonoBehaviour
 
     public void TakeTheFruit()
     {
+        GameObject getEffect = Instantiate(gameManager.getJuiceParticle, gameManager.tankShader.transform.position, Quaternion.identity);
+        getEffect.GetComponent<ParticleSystem>().startColor = takeSplashColor;
+        getEffect.transform.GetChild(0).GetComponent<ParticleSystem>().startColor = takeSplashColor;
+        getEffect.transform.GetChild(1).GetComponent<ParticleSystem>().startColor = takeSplashColor;
+        Destroy(getEffect, 1f);
         gameManager.FillTank(effectFactor);
         Destroy(gameObject);
     }
