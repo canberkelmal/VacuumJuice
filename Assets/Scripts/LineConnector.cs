@@ -63,7 +63,6 @@ public class LineConnector : MonoBehaviour
         {
             MoveKeyFrame(1, animTPoints.x, 0.25f);
             currentCollectable.TakeTheFruit();
-            Destroy(Instantiate(gameManager.getJuiceParticle, _objs[_objs.Length-1].transform.position, Quaternion.identity), 1f);
             CancelInvoke("PipeGetAnim");
         }
     }

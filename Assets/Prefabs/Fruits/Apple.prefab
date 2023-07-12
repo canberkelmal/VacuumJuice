@@ -50,6 +50,7 @@ MonoBehaviour:
   increase: 1
   level: 1
   takeAnim: {fileID: 150944, guid: 3b9161edba9968c48bd058067ad18c84, type: 3}
+  takeSplashColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!135 &4987089622872950834
 SphereCollider:
   m_ObjectHideFlags: 0
