@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public GameObject director;
     public GameObject vacuumCollider, vacuumParticle;
     public GameObject tankShader;
+    public Transform finalPoint;
     public GameObject buffParticle;
     public GameObject debuffParticle;
     public GameObject getJuiceParticle;
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviour
         //tankShader = player.transform.Find("LiquidTank").Find("Shader").gameObject;
         camOffset = player.transform.position - mainCam.transform.position;
         directorOffsY = player.transform.position.y - director.transform.position.y;
+        controller = true;
     }
 
     // Update is called once per frame
@@ -44,6 +46,11 @@ public class GameManager : MonoBehaviour
     {
         InputController();
         CameraController();
+    }
+
+    public void SetController(bool value)
+    {
+        controller = value;
     }
 
     public void FillTank(int fillFactor)
@@ -97,18 +104,34 @@ public class GameManager : MonoBehaviour
 
     void InputController()
     {
-        if (Input.GetMouseButton(0) && controller)
+        if (controller)
         {
+            if (Input.GetMouseButton(0))
+            {
+                UpdatePlayerRotationY();
+                UpdateDirectorPositionX(true);
+                MovePlayer(true);
+            }
+            else if (director.transform.position.x != player.transform.position.x || playerCurrentSpeed > 0)
+            {
+                UpdateDirectorPositionX(false);
+                UpdatePlayerRotationY();
+                MovePlayer(false);
+            }
+        }
+        else
+        {
+            Vector3 directorTarget = new Vector3(0, director.transform.position.y, player.transform.position.z + directorOffsZ);
+            director.transform.position = Vector3.MoveTowards(director.transform.position, directorTarget, playerRotateSens * 20 * Time.deltaTime);
+            director.transform.position = new Vector3(director.transform.position.x, director.transform.position.y, player.transform.position.z + directorOffsZ);
             UpdatePlayerRotationY();
-            UpdateDirectorPositionX(true);
             MovePlayer(true);
         }
-        else if ((director.transform.position.x != player.transform.position.x || playerCurrentSpeed > 0) && controller)
-        {
-            UpdateDirectorPositionX(false);
-            UpdatePlayerRotationY();
-            MovePlayer(false);
-        }
+
+
+
+
+
         // Restart the game when the "R" key is pressed
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -146,7 +169,7 @@ public class GameManager : MonoBehaviour
 
         else
         {
-            director.transform.position = Vector3.Lerp(director.transform.position, player.transform.position + Vector3.forward * directorOffsZ, playerRotateSens * 20 * Time.deltaTime);
+            director.transform.position = Vector3.Lerp(director.transform.position, player.transform.position + Vector3.forward * directorOffsZ, playerRotateSens * 50 * Time.deltaTime);
             director.transform.position = new Vector3(director.transform.position.x, director.transform.position.y, player.transform.position.z + directorOffsZ);
         }
     }
