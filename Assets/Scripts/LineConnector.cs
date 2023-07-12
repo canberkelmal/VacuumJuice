@@ -56,7 +56,7 @@ public class LineConnector : MonoBehaviour
         }
         else if (line.widthCurve.keys[1].value > 0.25f)
         {
-            tempW = Mathf.MoveTowards(line.widthCurve.keys[1].value, 0.25f, animSens * Time.deltaTime * 2f);
+            tempW = Mathf.MoveTowards(line.widthCurve.keys[1].value, 0.25f, animSens * Time.deltaTime * 3f);
             MoveKeyFrame(1, tempT, tempW);
         }
         else

@@ -48,6 +48,10 @@ public class GameManager : MonoBehaviour
 
     public void FillTank(int fillFactor)
     {
+        if(tankShader.GetComponent<Renderer>().material.GetFloat("_Fill") < tankFillAmount)
+        {
+            tankShader.GetComponent<Renderer>().material.SetFloat("_Fill", tankFillAmount);
+        }
         tankFillAmount += (fillFactor * fillMultiplier);
         InvokeRepeating("FillTankAnim", 0, Time.fixedDeltaTime);
     }
@@ -72,7 +76,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Destroy(Instantiate(debuffParticle, vacuumParticle.transform.position + Vector3.up, Quaternion.Euler(90,0,0), vacuumCollider.transform), 1f);
+            Destroy(Instantiate(debuffParticle, vacuumParticle.transform.position + Vector3.up * 2, Quaternion.Euler(180,0,0), vacuumCollider.transform), 1f);
         }
         Vector3 radiusScale = Vector3.one * (scaleFactor * vacuumRadiusMultiplier);
         vacuumCollider.transform.localScale += radiusScale;
@@ -88,8 +92,6 @@ public class GameManager : MonoBehaviour
     void CameraController()
     {
         mainCam.transform.position = Vector3.Lerp(mainCam.transform.position, player.transform.position - camOffset, camSensivity * Time.deltaTime);
-        
-        //mainCam.transform.position = player.transform.position - camOffset;
     }
 
     void InputController()
