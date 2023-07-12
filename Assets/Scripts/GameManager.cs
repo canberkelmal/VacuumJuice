@@ -73,16 +73,17 @@ public class GameManager : MonoBehaviour
         if(scaleFactor > 0)
         {
             Destroy(Instantiate(buffParticle, vacuumParticle.transform.position + Vector3.up, Quaternion.identity, vacuumCollider.transform), 1f);
+            vacuumParticle.GetComponent<ParticleSystem>().emissionRate += 2;
         }
         else
         {
             Destroy(Instantiate(debuffParticle, vacuumParticle.transform.position + Vector3.up * 2, Quaternion.Euler(180,0,0), vacuumCollider.transform), 1f);
+            vacuumParticle.GetComponent<ParticleSystem>().emissionRate -= 2;
         }
         Vector3 radiusScale = Vector3.one * (scaleFactor * vacuumRadiusMultiplier);
         vacuumCollider.transform.localScale += radiusScale;
         Vector3 position = Vector3.forward * (scaleFactor * vacuumRadiusMultiplier * 0.6f);
         vacuumCollider.transform.localPosition += position;
-        vacuumParticle.GetComponent<ParticleSystem>().emissionRate += 2;
     }
     public void SetTankCapacity()
     {
