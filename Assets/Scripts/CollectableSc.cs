@@ -61,6 +61,11 @@ public class CollectableSc : MonoBehaviour
                 gameManager.SetVacuum(effectFactor);
                 Destroy(gameObject);
             }
+            else if (IsTank())
+            {
+                gameManager.SetTankCapacity(effectFactor);
+                Destroy(gameObject);
+            }
 
             CancelInvoke("MoveToPlayer"); 
         }

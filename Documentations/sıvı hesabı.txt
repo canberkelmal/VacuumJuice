@@ -1,0 +1,6 @@
+ BOŞ	DOLU
+-0,5 -- 0,5
+
+Her meyve 0,1 dolduruyo(Level x 0.1)
+10 meyvede fulleniyo
+Her bardak 0.05 eksiltiyo

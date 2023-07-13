@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class FinalCupSc : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private GameManager gameManager;
+    private void Awake()
     {
-        
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
-
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.CompareTag("VacuumArea"))
+        {
+            Vector3 cupScreenPos = Camera.main.WorldToScreenPoint(transform.position);
+            Instantiate(gameManager.cupIcon, cupScreenPos, Quaternion.identity, gameManager.cupCountTx.transform.parent);
+
+            gameManager.FillACup();
+            Destroy(gameObject);
+        }
     }
 }
