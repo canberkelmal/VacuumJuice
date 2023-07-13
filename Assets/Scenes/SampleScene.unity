@@ -22534,7 +22534,7 @@ MonoBehaviour:
   playerXMax: 4
   collectSens: 6
   fillTankSens: 1
-  fillMultiplier: 0.1
+  fillMultiplier: 0.05
   vacuumRadiusMultiplier: 0.1
   vacuumLengthMultiplier: 0.5
   tankVolumeMultiplier: 0.2

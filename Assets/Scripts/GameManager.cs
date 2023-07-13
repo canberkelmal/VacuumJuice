@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     private float playerCurrentSpeed = 0;
     private float directorOffsZ = 1.5f;
     private float directorOffsY = 1f;
-    private float tankFillAmount = -0.5f;
+    private float tankFillAmount = 0;
     private float tempTankFill = 1;
     private int cupCount = 0;
     private float juiceAmount = 0;
@@ -84,7 +84,11 @@ public class GameManager : MonoBehaviour
 
     public void RefillTank()
     {
-        tankFillAmount = (-0.5f) + juiceAmount / (Mathf.Pow((1 + ((tankLevel - 1) * tankVolumeMultiplier)), 3));
+        tankFillAmount = (0.25f - ((tankLevel-1) * tankVolumeMultiplier * 0.2f)) + (juiceAmount / (Mathf.Pow((1 + ((tankLevel - 1) * tankVolumeMultiplier)), 3)));
+        if(tankFillAmount <= (0.25f - (tankLevel * tankVolumeMultiplier * 0.2f)))
+        {
+            tankFillAmount = 0;
+        }
         Debug.Log("Juice: " + juiceAmount + " || TankFill: " + tankFillAmount);
         InvokeRepeating("FillTankAnim", 0, Time.fixedDeltaTime);
     }

@@ -4,3 +4,15 @@
 Her meyve 0,1 dolduruyo(Level x 0.1)
 10 meyvede fulleniyo
 Her bardak 0.05 eksiltiyo
+
+SESLER
+ *epictoon
+  -likit 3
+  -slime 2
+  -slime
+  -energy01
+ *gameplay casual sounds
+  -pop 2,3,4
+  -potion drink 1,2,3,4
+  -special power up 2,5,10,13,16,18
+
