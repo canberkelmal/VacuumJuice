@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,10 +9,13 @@ public class GameManager : MonoBehaviour
     public GameObject director;
     public GameObject vacuumCollider, vacuumParticle;
     public GameObject tankShader;
-    public Transform finalPoint;
+    public GameObject[] tankObjs;
+    public GameObject cupIcon;
+    public Text cupCountTx;
     public GameObject buffParticle;
     public GameObject debuffParticle;
     public GameObject getJuiceParticle;
+    public float getCupSens = 1;
     public float camSensivity = 1f;
     public float playerRotateSens = 1;
     public float playerMoveSens = 1f;
@@ -19,9 +23,10 @@ public class GameManager : MonoBehaviour
     public float playerXMin, playerXMax;
     public float collectSens = 1f;
     public float fillTankSens = 1f;
-    public float fillMultiplier = 0.2f;
+    public float fillMultiplier = 0.1f;
     public float vacuumRadiusMultiplier = 0.1f;
     public float vacuumLengthMultiplier = 0.5f;
+    public float tankVolumeMultiplier = 0.2f;
 
     private GameObject mainCam;
     private Vector3 camOffset;
@@ -32,6 +37,9 @@ public class GameManager : MonoBehaviour
     private float directorOffsY = 1f;
     private float tankFillAmount = -0.5f;
     private float tempTankFill = 1;
+    private int cupCount = 0;
+    private float juiceAmount = 0;
+    private int tankLevel = 1;
     void Awake()
     {
         mainCam = GameObject.Find("Main Camera");
@@ -48,6 +56,12 @@ public class GameManager : MonoBehaviour
         CameraController();
     }
 
+    public void IncreaseCupCount()
+    {
+        cupCount++;
+        cupCountTx.text = cupCount.ToString();
+    }
+
     public void SetController(bool value)
     {
         controller = value;
@@ -59,9 +73,22 @@ public class GameManager : MonoBehaviour
         {
             tankShader.GetComponent<Renderer>().material.SetFloat("_Fill", tankFillAmount);
         }
-        tankFillAmount += (fillFactor * fillMultiplier);
+        juiceAmount += (fillFactor * fillMultiplier);
+        RefillTank();
+    }
+    public void FillACup()
+    {
+        juiceAmount -= (fillMultiplier / 2);
+        RefillTank();
+    }
+
+    public void RefillTank()
+    {
+        tankFillAmount = (-0.5f) + juiceAmount / (Mathf.Pow((1 + ((tankLevel - 1) * tankVolumeMultiplier)), 3));
+        Debug.Log("Juice: " + juiceAmount + " || TankFill: " + tankFillAmount);
         InvokeRepeating("FillTankAnim", 0, Time.fixedDeltaTime);
     }
+
 
     private void FillTankAnim()
     {
@@ -72,6 +99,16 @@ public class GameManager : MonoBehaviour
         {
             CancelInvoke("FillTankAnim");
         }
+    }
+    public void SetTankCapacity(int factor)
+    {
+        tankLevel += factor;
+        foreach(GameObject obj in tankObjs)
+        {
+            obj.transform.localScale += Vector3.one * tankVolumeMultiplier * factor;
+            obj.transform.localPosition -= Vector3.up * tankVolumeMultiplier * factor;
+        }
+        RefillTank();
     }
 
     public void SetVacuum(int scaleFactor)
@@ -91,10 +128,6 @@ public class GameManager : MonoBehaviour
         vacuumCollider.transform.localScale += radiusScale;
         Vector3 position = Vector3.forward * (scaleFactor * vacuumRadiusMultiplier * 0.6f);
         vacuumCollider.transform.localPosition += position;
-    }
-    public void SetTankCapacity()
-    {
-
     }
 
     void CameraController()
