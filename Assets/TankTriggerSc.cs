@@ -14,7 +14,7 @@ public class TankTriggerSc : MonoBehaviour
     {
         if (other.CompareTag("VacuumArea"))
         {
-            gameManager.EnterToFinish();
+            gameManager.FillFinalTank();
             Destroy(gameObject);
         }
     }

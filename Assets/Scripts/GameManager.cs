@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public GameObject director;
     public GameObject vacuumCollider, vacuumParticle;
     public GameObject tankShader;
+    public GameObject finalTankShader;
     public Material cupInsideShader;
     public GameObject[] tankObjs;
     public GameObject cupIcon;
@@ -41,12 +42,15 @@ public class GameManager : MonoBehaviour
     private Vector3 camOffset;
     private bool controller = true;
     private bool isFinished = false;
+    private bool isFinalTankFilling = false;
     private bool isEnded = false;
     private float playerCurrentSpeed = 0;
     private float directorOffsZ = 1.5f;
     private float directorOffsY = 1f;
     private float tankFillAmount = 0;
+    private float finalTankFillAmount = -5;
     private float tempTankFill = 1;
+    private float tempFinalTankFill = -5;
     private int cupCount = 0;
     private float juiceAmount = 0;
     private int tankLevel = 1;
@@ -117,6 +121,21 @@ public class GameManager : MonoBehaviour
         Debug.Log("Juice: " + juiceAmount + " || TankFill: " + tankFillAmount);
         InvokeRepeating("FillTankAnim", 0, Time.fixedDeltaTime);
     }
+    public void FillFinalTank()
+    {
+        finalTankShader.GetComponent<Renderer>().material.color = liquidColor;
+
+        isFinalTankFilling = true;
+        isEnded = true;
+        finalTankFillAmount = (-5) + (juiceAmount * 1.6f);
+        InvokeRepeating("FillFinalTankAnim", 0, Time.fixedDeltaTime);
+
+        isTankEmpty = true;
+        tankFillAmount = 0;
+        Debug.Log("Juice: " + juiceAmount + " || TankFill: " + tankFillAmount);
+        InvokeRepeating("FillTankAnim", 0, Time.fixedDeltaTime);
+        finalTankShader.GetComponent<Wobble>().lastPos.x = 300;
+    }
 
 
     private void FillTankAnim()
@@ -128,6 +147,17 @@ public class GameManager : MonoBehaviour
         {
             CancelInvoke("FillTankAnim");
         }
+    }
+    private void FillFinalTankAnim()
+    {
+        tempFinalTankFill = Mathf.MoveTowards(finalTankShader.GetComponent<Renderer>().material.GetFloat("_Fill"), finalTankFillAmount, fillTankSens * 3 * Time.deltaTime);
+        finalTankShader.GetComponent<Renderer>().material.SetFloat("_Fill", tempFinalTankFill);
+
+        if (tempFinalTankFill == finalTankFillAmount)
+        {
+            CancelInvoke("FillFinalTankAnim");
+        }
+
     }
     public void SetTankCapacity(int factor)
     {
