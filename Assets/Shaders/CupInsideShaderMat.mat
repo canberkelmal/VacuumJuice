@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LiquidShaderCoffee
-  m_Shader: {fileID: -6465566751694194690, guid: 0bdc538f80e5d5743b2f54da0d1041ab,
+  m_Name: CupInsideShaderMat
+  m_Shader: {fileID: -6465566751694194690, guid: 327d3eb64d036c843a4a04797fc2495f,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -31,7 +31,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 1
-  m_CustomRenderQueue: 2450
+  m_CustomRenderQueue: -1
   stringTagMap:
     RenderType: TransparentCutout
   disabledShaderPasses: []
@@ -59,7 +59,7 @@ Material:
     - _CastShadows: 1
     - _Cull: 0
     - _DstBlend: 0
-    - _Fill: 0
+    - _Fill: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SrcBlend: 1
@@ -73,5 +73,5 @@ Material:
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.7216071, g: 0.6230903, b: 0, a: 1}
   m_BuildTextureStacks: []

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FinalTrigger : MonoBehaviour
+public class TankTriggerSc : MonoBehaviour
 {
     private GameManager gameManager;
 

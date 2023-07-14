@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,12 +10,15 @@ public class GameManager : MonoBehaviour
     public GameObject director;
     public GameObject vacuumCollider, vacuumParticle;
     public GameObject tankShader;
+    public Material cupInsideShader;
     public GameObject[] tankObjs;
     public GameObject cupIcon;
+    public GameObject finishPanel;
     public Text cupCountTx;
     public GameObject buffParticle;
     public GameObject debuffParticle;
     public GameObject getJuiceParticle;
+    public GameObject getCupParticle;
     public float getCupSens = 1;
     public float camSensivity = 1f;
     public float playerRotateSens = 1;
@@ -27,11 +31,17 @@ public class GameManager : MonoBehaviour
     public float vacuumRadiusMultiplier = 0.1f;
     public float vacuumLengthMultiplier = 0.5f;
     public float tankVolumeMultiplier = 0.2f;
+    public float getCupDelay = 0.25f;
+    public bool isTankEmpty = true;
+
+    [NonSerialized]
+    public Color liquidColor, tempLiquidColor;
 
     private GameObject mainCam;
     private Vector3 camOffset;
     private bool controller = true;
     private bool isFinished = false;
+    private bool isEnded = false;
     private float playerCurrentSpeed = 0;
     private float directorOffsZ = 1.5f;
     private float directorOffsY = 1f;
@@ -40,6 +50,7 @@ public class GameManager : MonoBehaviour
     private int cupCount = 0;
     private float juiceAmount = 0;
     private int tankLevel = 1;
+    //private bool isFirstFruit
     void Awake()
     {
         mainCam = GameObject.Find("Main Camera");
@@ -60,6 +71,14 @@ public class GameManager : MonoBehaviour
     {
         cupCount++;
         cupCountTx.text = cupCount.ToString();
+    }
+
+    public void EnterToFinish()
+    {
+        isFinished = true;
+        SetController(false);
+        vacuumParticle.transform.parent.Find("MagicAuraBlue").GetComponent<ParticleSystem>().startSpeed *= -1;
+        vacuumParticle.transform.parent.Find("MagicAuraBlue").transform.localPosition += Vector3.forward * 0.5f;
     }
 
     public void SetController(bool value)
@@ -85,9 +104,15 @@ public class GameManager : MonoBehaviour
     public void RefillTank()
     {
         tankFillAmount = (0.25f - ((tankLevel-1) * tankVolumeMultiplier * 0.2f)) + (juiceAmount / (Mathf.Pow((1 + ((tankLevel - 1) * tankVolumeMultiplier)), 3)));
-        if(tankFillAmount <= (0.25f - (tankLevel * tankVolumeMultiplier * 0.2f)))
+        if(tankFillAmount <= (0.25f - ((tankLevel - 1) * tankVolumeMultiplier * 0.2f)))
         {
             tankFillAmount = 0;
+            isTankEmpty = true;
+            EmptyTankOnFinish();
+        }
+        else
+        {
+            isTankEmpty = false;
         }
         Debug.Log("Juice: " + juiceAmount + " || TankFill: " + tankFillAmount);
         InvokeRepeating("FillTankAnim", 0, Time.fixedDeltaTime);
@@ -113,6 +138,22 @@ public class GameManager : MonoBehaviour
             obj.transform.localPosition -= Vector3.up * tankVolumeMultiplier * factor;
         }
         RefillTank();
+    }
+
+    public void ChangeLiquidColor(Color clr)
+    {
+        if(isTankEmpty)
+        {
+            tankShader.GetComponent<Renderer>().material.color = clr;
+        }
+        else
+        {
+            tempLiquidColor = tankShader.GetComponent<Renderer>().material.color;
+            tempLiquidColor.a = 1;
+            tankShader.GetComponent<Renderer>().material.color = Color.Lerp(tempLiquidColor, clr, 0.5f);
+        }
+        liquidColor = tankShader.GetComponent<Renderer>().material.color;
+        cupInsideShader.color = liquidColor;
     }
 
     public void SetVacuum(int scaleFactor)
@@ -156,7 +197,7 @@ public class GameManager : MonoBehaviour
                 MovePlayer(false);
             }
         }
-        else
+        else if(!controller && !isEnded)
         {
             Vector3 directorTarget = new Vector3(0, director.transform.position.y, player.transform.position.z + directorOffsZ);
             director.transform.position = Vector3.MoveTowards(director.transform.position, directorTarget, playerRotateSens * 20 * Time.deltaTime);
@@ -164,10 +205,6 @@ public class GameManager : MonoBehaviour
             UpdatePlayerRotationY();
             MovePlayer(true);
         }
-
-
-
-
 
         // Restart the game when the "R" key is pressed
         if (Input.GetKeyDown(KeyCode.R))
@@ -186,22 +223,6 @@ public class GameManager : MonoBehaviour
             newPosX.z = player.transform.position.z + directorOffsZ;
             newPosX.y = player.transform.position.y;
             director.transform.position = newPosX;
-/*
-            if (Input.GetAxis("Mouse X") < -0.05 || Input.GetAxis("Mouse X") > 0.05)
-            {
-                float mouseX = Input.GetAxis("Mouse X");
-                float moveAmount = mouseX * playerRotateSens;
-                Vector3 newPosX = director.transform.position + director.transform.right * moveAmount;
-                newPosX.x = Mathf.Clamp(newPosX.x, playerXMin, playerXMax);
-                newPosX.z = player.transform.position.z + directorOffsZ;
-                newPosX.y = player.transform.position.y;
-                director.transform.position = newPosX;
-            }
-            else
-            {
-                director.transform.position = Vector3.Lerp(director.transform.position, player.transform.position + Vector3.forward * directorOffsZ, playerRotateSens * Time.deltaTime);
-                director.transform.position = new Vector3(director.transform.position.x, director.transform.position.y, player.transform.position.z + directorOffsZ);
-            }*/
         }
 
         else
@@ -213,14 +234,7 @@ public class GameManager : MonoBehaviour
 
     void UpdatePlayerRotationY()
     {
-        if (!isFinished)
-        {
-            player.transform.LookAt(director.transform.position);
-        }
-        else
-        {
-            player.transform.eulerAngles = Vector3.zero;
-        }
+        player.transform.LookAt(director.transform.position);
     }
 
     void MovePlayer(bool direction)
@@ -235,6 +249,12 @@ public class GameManager : MonoBehaviour
         }
         playerCurrentSpeed = Mathf.Clamp(playerCurrentSpeed, 0f, playerMaxSpeed);
         player.transform.position += player.transform.forward * playerCurrentSpeed * Time.deltaTime;
+    }
+
+    public void EmptyTankOnFinish()
+    {
+        finishPanel.SetActive(true);
+        isEnded = true;
     }
     
     // Reload the current scene to restart the game

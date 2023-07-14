@@ -77,6 +77,7 @@ public class CollectableSc : MonoBehaviour
         getEffect.GetComponent<ParticleSystem>().startColor = takeSplashColor;
         getEffect.transform.GetChild(0).GetComponent<ParticleSystem>().startColor = takeSplashColor;
         getEffect.transform.GetChild(1).GetComponent<ParticleSystem>().startColor = takeSplashColor;
+        gameManager.ChangeLiquidColor(takeSplashColor);
         Destroy(getEffect, 1f);
 
         gameManager.FillTank(effectFactor);
