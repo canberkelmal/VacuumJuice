@@ -5,14 +5,14 @@ using UnityEngine;
 public class Wobble : MonoBehaviour
 {
     Renderer rend;
-    Vector3 lastPos;
+    public Vector3 lastPos;
     Vector3 velocity;
     Vector3 lastRot;  
     Vector3 angularVelocity;
     public float MaxWobble = 0.03f;
     public float WobbleSpeed = 1f;
     public float Recovery = 1f;
-    float wobbleAmountX;
+    public float wobbleAmountX;
     float wobbleAmountToAddX;
     float wobbleAmountToAddZ;
     float pulse;
