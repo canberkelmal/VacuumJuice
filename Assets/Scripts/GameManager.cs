@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     public GameObject buffParticle;
     public GameObject debuffParticle;
     public GameObject getJuiceParticle;
-    public GameObject getCupParticle;
+    public GameObject buffTankParticle;
     public float getCupSens = 1;
     public float camSensivity = 1f;
     public float playerRotateSens = 1;
@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
     public float playerXMin, playerXMax;
     public float collectSens = 1f;
     public float fillTankSens = 1f;
+    public float rotateObjectsSens = 1f;
+    public float swingObjectsSens = 1f;
     public float fillMultiplier = 0.1f;
     public float vacuumRadiusMultiplier = 0.1f;
     public float vacuumLengthMultiplier = 0.5f;
@@ -161,6 +163,7 @@ public class GameManager : MonoBehaviour
     }
     public void SetTankCapacity(int factor)
     {
+        Destroy(Instantiate(buffTankParticle, tankShader.transform.position, Quaternion.Euler(-90, 0, 0), tankShader.transform.parent), 1f);
         tankLevel += factor;
         foreach(GameObject obj in tankObjs)
         {
