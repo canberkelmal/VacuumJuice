@@ -26,18 +26,47 @@ public class CollectableSc : MonoBehaviour
     private GameObject player;
     private GameManager gameManager;
     private bool triged = false;
+    public float timer = 0;
+    private bool collected = false;
+    private Vector3 movementUpperPoint;
 
     private void Awake()
     {
         player = GameObject.Find("Player");
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         effectFactor = increase ? level : -level;
+        movementUpperPoint = transform.localPosition + Vector3.up * 0.5f;
+    }
+
+    private void FixedUpdate()
+    {
+        if (!collected)
+        {
+            transform.Rotate(Vector3.up * gameManager.rotateObjectsSens * Time.deltaTime);
+            if(!IsJuice())
+            {
+                timer += Time.deltaTime;
+                if (timer <= 1)
+                {
+                    transform.localPosition = Vector3.Lerp(transform.localPosition, movementUpperPoint, gameManager.swingObjectsSens * Time.deltaTime);
+                }
+                else if (timer <= 2)
+                {
+                    transform.localPosition = Vector3.Lerp(transform.localPosition, movementUpperPoint - Vector3.up, gameManager.swingObjectsSens * Time.deltaTime);
+                }
+                else
+                {
+                    timer = 0;
+                }
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("VacuumArea"))
+        if(other.CompareTag("VacuumArea") && !collected)
         {
+            collected = true;
             Destroy(Instantiate(takeAnim, transform.position, Quaternion.identity), 1f);
             transform.parent = player.transform.Find("Collecteds");
             InvokeRepeating("MoveToPlayer", 0, Time.fixedDeltaTime);
