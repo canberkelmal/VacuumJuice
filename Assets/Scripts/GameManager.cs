@@ -170,8 +170,20 @@ public class GameManager : MonoBehaviour
     }
     public void SetTankCapacity(int factor)
     {
-        Destroy(Instantiate(buffTankParticle, tankShader.transform.position, Quaternion.Euler(-90, 0, 0), tankShader.transform.parent), 1f);
-        tankLevel += factor;
+        if(factor > 0)
+        {
+            audioManager.Play("Buff");
+
+            Destroy(Instantiate(buffTankParticle, tankShader.transform.position, Quaternion.Euler(-90, 0, 0), tankShader.transform.parent), 1f);
+            tankLevel += factor;
+        }
+
+        else
+        {
+
+        }
+
+
         foreach(GameObject obj in tankObjs)
         {
             obj.transform.localScale += Vector3.one * tankVolumeMultiplier * factor;
@@ -201,6 +213,8 @@ public class GameManager : MonoBehaviour
         //Vector3 radiusScale = (Vector3.right + Vector3.forward) * (scaleFactor * vacuumRadiusMultiplier);
         if(scaleFactor > 0)
         {
+            audioManager.Play("Buff");
+
             Destroy(Instantiate(buffParticle, vacuumParticle.transform.position + Vector3.up, Quaternion.identity, vacuumCollider.transform), 1f);
             vacuumParticle.GetComponent<ParticleSystem>().emissionRate += 2;
         }
