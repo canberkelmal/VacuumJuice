@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public GameObject debuffParticle;
     public GameObject getJuiceParticle;
     public GameObject buffTankParticle;
+    public GameObject finalTankBouy;
     public float getCupSens = 1;
     public float camSensivity = 1f;
     public float playerRotateSens = 1;
@@ -28,6 +29,9 @@ public class GameManager : MonoBehaviour
     public float playerXMin, playerXMax;
     public float collectSens = 1f;
     public float fillTankSens = 1f;
+    public float fillFinalTankSens = 1f;
+    public float bouySens = 1;
+    public float fillFinalTankDelay = 0.7f;
     public float rotateObjectsSens = 1f;
     public float swingObjectsSens = 1f;
     public float fillMultiplier = 0.1f;
@@ -44,6 +48,7 @@ public class GameManager : MonoBehaviour
 
     private GameObject mainCam;
     private Vector3 camOffset;
+    private Vector3 camTankOffset;
     private bool controller = true;
     private bool isFinished = false;
     private bool isFinalTankFilling = false;
@@ -129,22 +134,30 @@ public class GameManager : MonoBehaviour
             isTankEmpty = false;
         }
         Debug.Log("Juice: " + juiceAmount + " || TankFill: " + tankFillAmount);
-        InvokeRepeating("FillTankAnim", 0, Time.fixedDeltaTime);
+        InvokeRepeating("FillTankAnim", 0, Time.deltaTime);
     }
+    
+    public void ReachToFinalTank()
+    {
+        finalTankBouy.transform.localPosition = -Vector3.up;
+        camTankOffset = finalTankBouy.transform.position - mainCam.transform.position + Vector3.up*4 - Vector3.forward*4;
+        isFinalTankFilling = true;
+        FillFinalTank();
+    }
+
     public void FillFinalTank()
     {
         finalTankShader.GetComponent<Renderer>().material.color = liquidColor;
 
-        isFinalTankFilling = true;
         isEnded = true;
         finalTankFillAmount = (-50) + (juiceAmount * 16f);
-        InvokeRepeating("FillFinalTankAnim", 0, Time.fixedDeltaTime);
+        InvokeRepeating("FillFinalTankAnim", fillFinalTankDelay, Time.deltaTime);
+        Invoke("WobbleFinalTank", fillFinalTankDelay);
 
         isTankEmpty = true;
         tankFillAmount = 0;
         Debug.Log("Juice: " + juiceAmount + " || TankFill: " + tankFillAmount);
-        InvokeRepeating("FillTankAnim", 0, Time.fixedDeltaTime);
-        finalTankShader.GetComponent<Wobble>().lastPos.x = 300;
+        InvokeRepeating("FillTankAnim", fillFinalTankDelay, Time.deltaTime);
     }
 
 
@@ -158,10 +171,16 @@ public class GameManager : MonoBehaviour
             CancelInvoke("FillTankAnim");
         }
     }
+    private void WobbleFinalTank()
+    {
+        finalTankShader.GetComponent<Wobble>().lastPos.x = 300;
+    }
     private void FillFinalTankAnim()
     {
-        tempFinalTankFill = Mathf.MoveTowards(finalTankShader.GetComponent<Renderer>().material.GetFloat("_Fill"), finalTankFillAmount, fillTankSens * 30 * Time.deltaTime);
+        tempFinalTankFill = Mathf.MoveTowards(finalTankShader.GetComponent<Renderer>().material.GetFloat("_Fill"), finalTankFillAmount, fillFinalTankSens * Time.deltaTime);
         finalTankShader.GetComponent<Renderer>().material.SetFloat("_Fill", tempFinalTankFill);
+
+        finalTankBouy.transform.localPosition = Vector3.Lerp(finalTankBouy.transform.localPosition, Vector3.up * Remap(tempFinalTankFill, -50, 50, -1, 1), bouySens * Time.deltaTime) ;
 
         if (tempFinalTankFill == finalTankFillAmount)
         {
@@ -234,7 +253,15 @@ public class GameManager : MonoBehaviour
 
     void CameraController()
     {
-        mainCam.transform.position = Vector3.Lerp(mainCam.transform.position, player.transform.position - camOffset, camSensivity * Time.deltaTime);
+        if(!isFinalTankFilling)
+        {
+            mainCam.transform.position = Vector3.Lerp(mainCam.transform.position, player.transform.position - camOffset, camSensivity * Time.deltaTime);
+        }
+        else
+        {
+            mainCam.transform.LookAt(finalTankBouy.transform.position);
+            mainCam.transform.position = Vector3.Lerp(mainCam.transform.position, finalTankBouy.transform.position - camTankOffset, camSensivity * Time.deltaTime);
+        }
     }
 
     void InputController()
@@ -313,7 +340,14 @@ public class GameManager : MonoBehaviour
         finishPanel.SetActive(true);
         isEnded = true;
     }
-    
+
+    public static float Remap(float value, float fromMin, float fromMax, float toMin, float toMax)
+    {
+        float normalizedValue = Mathf.InverseLerp(fromMin, fromMax, value);
+
+        return Mathf.Lerp(toMin, toMax, normalizedValue);
+    }
+
     // Reload the current scene to restart the game
     public void Restart()
     {
