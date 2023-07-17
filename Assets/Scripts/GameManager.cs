@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
 
     [NonSerialized]
     public Color liquidColor, tempLiquidColor;
+    [NonSerialized]
+    public AudioManager audioManager;
 
     private GameObject mainCam;
     private Vector3 camOffset;
@@ -66,6 +68,10 @@ public class GameManager : MonoBehaviour
         controller = true;
     }
 
+    private void Start()
+    {
+        audioManager = FindObjectOfType<AudioManager>();
+    }
     // Update is called once per frame
     void Update()
     {
@@ -94,7 +100,8 @@ public class GameManager : MonoBehaviour
 
     public void FillTank(int fillFactor)
     {
-        if(tankShader.GetComponent<Renderer>().material.GetFloat("_Fill") < tankFillAmount)
+        audioManager.Play("AddJuice");
+        if (tankShader.GetComponent<Renderer>().material.GetFloat("_Fill") < tankFillAmount)
         {
             tankShader.GetComponent<Renderer>().material.SetFloat("_Fill", tankFillAmount);
         }
@@ -199,6 +206,8 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            audioManager.Play("Debuff");
+
             Destroy(Instantiate(debuffParticle, vacuumParticle.transform.position + Vector3.up * 2, Quaternion.Euler(180,0,0), vacuumCollider.transform), 1f);
             vacuumParticle.GetComponent<ParticleSystem>().emissionRate -= 2;
         }
