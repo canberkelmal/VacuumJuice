@@ -110,6 +110,7 @@ public class GameManager : MonoBehaviour
     }
     public void FillACup()
     {
+        audioManager.Play("FillCup");
         juiceAmount -= (fillMultiplier / 2);
         RefillTank();
     }
@@ -136,7 +137,7 @@ public class GameManager : MonoBehaviour
 
         isFinalTankFilling = true;
         isEnded = true;
-        finalTankFillAmount = (-5) + (juiceAmount * 1.6f);
+        finalTankFillAmount = (-50) + (juiceAmount * 16f);
         InvokeRepeating("FillFinalTankAnim", 0, Time.fixedDeltaTime);
 
         isTankEmpty = true;
@@ -159,7 +160,7 @@ public class GameManager : MonoBehaviour
     }
     private void FillFinalTankAnim()
     {
-        tempFinalTankFill = Mathf.MoveTowards(finalTankShader.GetComponent<Renderer>().material.GetFloat("_Fill"), finalTankFillAmount, fillTankSens * 3 * Time.deltaTime);
+        tempFinalTankFill = Mathf.MoveTowards(finalTankShader.GetComponent<Renderer>().material.GetFloat("_Fill"), finalTankFillAmount, fillTankSens * 30 * Time.deltaTime);
         finalTankShader.GetComponent<Renderer>().material.SetFloat("_Fill", tempFinalTankFill);
 
         if (tempFinalTankFill == finalTankFillAmount)
