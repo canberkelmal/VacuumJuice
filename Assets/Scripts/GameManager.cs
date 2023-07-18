@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public GameObject[] tankObjs;
     public GameObject cupIcon;
     public GameObject finishPanel;
+    public GameObject settingsPanel;
     public Text cupCountTx;
     public GameObject buffParticle;
     public GameObject debuffParticle;
@@ -354,6 +355,11 @@ public class GameManager : MonoBehaviour
         float normalizedValue = Mathf.InverseLerp(fromMin, fromMax, value);
 
         return Mathf.Lerp(toMin, toMax, normalizedValue);
+    }
+
+    public void SettingsPanel(bool v)
+    {
+        settingsPanel.SetActive(v);
     }
 
     // Reload the current scene to restart the game
