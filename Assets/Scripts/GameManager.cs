@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
     public float bouySens = 1;
     public float fillFinalTankDelay = 0.7f;
     public float rotateObjectsSens = 1f;
+    public float rotateFanSens = 1f;
     public float swingObjectsSens = 1f;
     public float fillMultiplier = 0.1f;
     public float vacuumRadiusMultiplier = 0.1f;
@@ -140,7 +141,10 @@ public class GameManager : MonoBehaviour
     public void ReachToFinalTank()
     {
         finalTankBouy.transform.localPosition = -Vector3.up;
-        camTankOffset = finalTankBouy.transform.position - mainCam.transform.position + Vector3.up*4 - Vector3.forward*4;
+
+        camTankOffset = finalTankBouy.transform.position - mainCam.transform.position - Vector3.forward*4;
+        camTankOffset.y = -3;
+
         isFinalTankFilling = true;
         FillFinalTank();
     }
@@ -171,22 +175,25 @@ public class GameManager : MonoBehaviour
             CancelInvoke("FillTankAnim");
         }
     }
-    private void WobbleFinalTank()
-    {
-        finalTankShader.GetComponent<Wobble>().lastPos.x = 300;
-    }
     private void FillFinalTankAnim()
     {
         tempFinalTankFill = Mathf.MoveTowards(finalTankShader.GetComponent<Renderer>().material.GetFloat("_Fill"), finalTankFillAmount, fillFinalTankSens * Time.deltaTime);
         finalTankShader.GetComponent<Renderer>().material.SetFloat("_Fill", tempFinalTankFill);
 
-        finalTankBouy.transform.localPosition = Vector3.Lerp(finalTankBouy.transform.localPosition, Vector3.up * Remap(tempFinalTankFill, -50, 50, -1, 1), bouySens * Time.deltaTime) ;
+        //finalTankBouy.transform.localPosition = Vector3.MoveTowards(finalTankBouy.transform.localPosition, Vector3.up * Remap(tempFinalTankFill, -50, 50, -1, 1), bouySens * Time.deltaTime) ;
+        finalTankBouy.transform.localPosition = Vector3.up * Remap(tempFinalTankFill, -50, 50, -1, 1);
 
         if (tempFinalTankFill == finalTankFillAmount)
         {
+            //finalTankBouy.transform.localPosition = Vector3.up * Remap(tempFinalTankFill, -50, 50, -1, 1);
+            Invoke("EmptyTankOnFinish", 1f);
             CancelInvoke("FillFinalTankAnim");
         }
 
+    }
+    private void WobbleFinalTank()
+    {
+        finalTankShader.GetComponent<Wobble>().lastPos.x = 300;
     }
     public void SetTankCapacity(int factor)
     {
@@ -337,6 +344,7 @@ public class GameManager : MonoBehaviour
 
     public void EmptyTankOnFinish()
     {
+        finishPanel.transform.Find("Count").GetComponent<Text>().text = cupCount.ToString(); 
         finishPanel.SetActive(true);
         isEnded = true;
     }
