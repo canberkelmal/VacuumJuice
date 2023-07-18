@@ -16,7 +16,6 @@ public class GameManager : MonoBehaviour
     public GameObject cupIcon;
     public GameObject finishPanel;
     public GameObject settingsPanel;
-    public Text cupCountTx;
     public GameObject buffParticle;
     public GameObject debuffParticle;
     public GameObject getJuiceParticle;
@@ -43,6 +42,10 @@ public class GameManager : MonoBehaviour
     public float getCupDelay = 0.25f;
     public bool isTankEmpty = true;
 
+    //UI Elements
+    public Text cupCountTx;
+    public Image soundBut, vibrationBut;
+
     [NonSerialized]
     public Color liquidColor, tempLiquidColor;
     [NonSerialized]
@@ -65,6 +68,8 @@ public class GameManager : MonoBehaviour
     private int cupCount = 0;
     private float juiceAmount = 0;
     private int tankLevel = 1;
+    private bool soundState = true;
+    private bool vibrationState = true;
     //private bool isFirstFruit
     void Awake()
     {
@@ -355,6 +360,12 @@ public class GameManager : MonoBehaviour
         float normalizedValue = Mathf.InverseLerp(fromMin, fromMax, value);
 
         return Mathf.Lerp(toMin, toMax, normalizedValue);
+    }
+
+    public void SetSound()
+    {
+        soundState = !soundState;
+        soundBut.color = soundState ? Color.white : Color.red;
     }
 
     public void SettingsPanel(bool v)
