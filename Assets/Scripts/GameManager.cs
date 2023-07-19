@@ -365,12 +365,25 @@ public class GameManager : MonoBehaviour
     public void SetSound()
     {
         soundState = !soundState;
+
         soundBut.color = soundState ? Color.white : Color.red;
+        soundBut.transform.parent.Find("Text").GetComponent<Text>().text = soundState ? "On" : "Off";
+
+        float soundLevel = soundState ? 0.5f : 0f;
+        audioManager.SetVolume(soundLevel);
+        vacuumCollider.GetComponent<AudioSource>().volume = soundLevel/5f;
+    }
+    public void SetVibration()
+    {
+        vibrationState = !vibrationState;
+        vibrationBut.color = vibrationState ? Color.white : Color.red;
+        vibrationBut.transform.parent.Find("Text").GetComponent<Text>().text = vibrationState ? "On" : "Off";
     }
 
     public void SettingsPanel(bool v)
     {
         settingsPanel.SetActive(v);
+        controller = !v;
     }
 
     // Reload the current scene to restart the game
