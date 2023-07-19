@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -279,7 +280,7 @@ public class GameManager : MonoBehaviour
 
     void InputController()
     {
-        if (controller)
+        if (controller && !EventSystem.current.IsPointerOverGameObject())
         {
             if (Input.GetMouseButton(0))
             {
@@ -383,7 +384,6 @@ public class GameManager : MonoBehaviour
     public void SettingsPanel(bool v)
     {
         settingsPanel.SetActive(v);
-        controller = !v;
     }
 
     // Reload the current scene to restart the game
