@@ -84,6 +84,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         audioManager = FindObjectOfType<AudioManager>();
+        InitializeScene();
     }
     // Update is called once per frame
     void Update()
@@ -366,17 +367,29 @@ public class GameManager : MonoBehaviour
     public void SetSound()
     {
         soundState = !soundState;
-
+        int a = soundState ? 1 : 0;
+        PlayerPrefs.SetInt("soundState", a);
+        SetVolumes();
+    }
+    public void SetVolumes()
+    {
         soundBut.color = soundState ? Color.white : Color.red;
         soundBut.transform.parent.Find("Text").GetComponent<Text>().text = soundState ? "On" : "Off";
 
         float soundLevel = soundState ? 0.5f : 0f;
         audioManager.SetVolume(soundLevel);
-        vacuumCollider.GetComponent<AudioSource>().volume = soundLevel/5f;
+        vacuumCollider.GetComponent<AudioSource>().volume = soundLevel / 5f;
     }
     public void SetVibration()
     {
         vibrationState = !vibrationState;
+        int a = vibrationState ? 1 : 0;
+        PlayerPrefs.SetInt("vibrationState", a);
+        SetVibrations();
+    }
+
+    public void SetVibrations()
+    {
         vibrationBut.color = vibrationState ? Color.white : Color.red;
         vibrationBut.transform.parent.Find("Text").GetComponent<Text>().text = vibrationState ? "On" : "Off";
     }
@@ -384,6 +397,15 @@ public class GameManager : MonoBehaviour
     public void SettingsPanel(bool v)
     {
         settingsPanel.SetActive(v);
+    }
+
+    private void InitializeScene()
+    {
+        soundState = PlayerPrefs.GetInt("soundState", 1) == 1 ? true : false;
+        SetVolumes();
+
+        vibrationState = PlayerPrefs.GetInt("vibrationState", 1) == 1 ? true : false;
+        SetVibrations();
     }
 
     // Reload the current scene to restart the game
