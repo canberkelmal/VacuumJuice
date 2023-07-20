@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Runtime.ConstrainedExecution;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
     public float getCupSens = 1;
     public float camSensivity = 1f;
     public float playerRotateSens = 1;
+    public float playerRotateLimit = 75;
     public float playerMoveSens = 1f;
     public float playerMaxSpeed = 1f;
     public float playerXMin, playerXMax;
@@ -61,8 +63,9 @@ public class GameManager : MonoBehaviour
     private bool isFinished = false;
     private bool isFinalTankFilling = false;
     private bool isEnded = false;
+    private float playerTempSpeed;
     private float playerCurrentSpeed = 0;
-    private float directorOffsZ = 1.5f;
+    private float directorOffsZ = 2.5f;
     private float directorOffsY = 1f;
     private float tankFillAmount = 0;
     private float finalTankFillAmount = -5;
@@ -83,6 +86,8 @@ public class GameManager : MonoBehaviour
         camOffset = player.transform.position - mainCam.transform.position;
         directorOffsY = player.transform.position.y - director.transform.position.y;
         controller = true;
+        playerTempSpeed = playerMaxSpeed;
+        playerMaxSpeed = 0;
     }
 
     private void Start()
@@ -292,19 +297,22 @@ public class GameManager : MonoBehaviour
     {
         if (controller && !EventSystem.current.IsPointerOverGameObject())
         {
+            // During touch
             if (Input.GetMouseButton(0))
             {
                 UpdatePlayerRotationY();
                 UpdateDirectorPositionX(true);
                 MovePlayer(true);
             }
+            // Release touch until player stop
             else if (director.transform.position.x != player.transform.position.x || playerCurrentSpeed > 0)
             {
                 UpdateDirectorPositionX(false);
                 UpdatePlayerRotationY();
-                MovePlayer(false);
+                MovePlayer(true);
             }
         }
+        // Final Run
         else if(!controller && !isEnded)
         {
             Vector3 directorTarget = new Vector3(0, director.transform.position.y, player.transform.position.z + directorOffsZ);
@@ -341,8 +349,24 @@ public class GameManager : MonoBehaviour
     }
 
     void UpdatePlayerRotationY()
-    {
-        player.transform.LookAt(director.transform.position);
+    {/*
+        float mouseX = Input.GetAxis("Mouse X");
+        float rotateAmount = mouseX * playerRotateSens;
+        player.transform.rotation = Quaternion.EulerRotation(0, player.transform.rotation.eulerAngles.y + rotateAmount, 0);*/
+
+        //player.transform.LookAt(director.transform.position);
+
+        float mouseX = Input.GetAxis("Mouse X");
+
+        float rotationAmount = mouseX * playerRotateSens;
+        if ((player.transform.rotation.eulerAngles.y < playerRotateLimit && player.transform.rotation.eulerAngles.y >= 0) || (player.transform.rotation.eulerAngles.y > -playerRotateLimit && player.transform.rotation.eulerAngles.y <= 0))
+        {
+            player.transform.Rotate(0f, rotationAmount, 0f);
+        }
+        else
+        {
+            player.transform.rotation = Quaternion.Lerp(player.transform.rotation, Quaternion.EulerRotation(0,0,0), playerRotateSens * Time.deltaTime);
+        }
     }
 
     void MovePlayer(bool direction)
@@ -427,6 +451,11 @@ public class GameManager : MonoBehaviour
 
         cupCount = PlayerPrefs.GetInt("cupCount", 0);
         cupCountTx.text = cupCount.ToString();
+    }
+
+    public void StartGame()
+    {
+        playerMaxSpeed = playerTempSpeed;
     }
 
     // Reload the current scene to restart the game

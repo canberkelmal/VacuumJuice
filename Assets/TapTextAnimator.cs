@@ -11,6 +11,13 @@ public class TapTextAnimator : MonoBehaviour
 
     private bool dir = false;
 
+    private GameManager gameManager;
+
+    private void Awake()
+    {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+    }
+
     private void Update()
     {
         Vector3 target = dir ? Vector3.up * (limits.x + offset) : Vector3.up * (limits.y - offset);
@@ -27,6 +34,7 @@ public class TapTextAnimator : MonoBehaviour
 
         if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
         {
+            gameManager.StartGame();
             transform.parent.gameObject.SetActive(false);
         }
     }
