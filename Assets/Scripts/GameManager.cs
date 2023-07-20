@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     public GameObject getJuiceParticle;
     public GameObject buffTankParticle;
     public GameObject finalTankBouy;
+    public Slider rotateSensSlider;
     public float getCupSens = 1;
     public float camSensivity = 1f;
     public float playerRotateSens = 1;
@@ -65,6 +66,7 @@ public class GameManager : MonoBehaviour
     private bool isEnded = false;
     private float playerTempSpeed;
     private float playerCurrentSpeed = 0;
+    //private float currentRotation = 0f;
     private float directorOffsZ = 2.5f;
     private float directorOffsY = 1f;
     private float tankFillAmount = 0;
@@ -300,7 +302,7 @@ public class GameManager : MonoBehaviour
             // During touch
             if (Input.GetMouseButton(0))
             {
-                UpdatePlayerRotationY();
+                UpdatePlayerRotationY(true);
                 UpdateDirectorPositionX(true);
                 MovePlayer(true);
             }
@@ -308,7 +310,7 @@ public class GameManager : MonoBehaviour
             else if (director.transform.position.x != player.transform.position.x || playerCurrentSpeed > 0)
             {
                 UpdateDirectorPositionX(false);
-                UpdatePlayerRotationY();
+                UpdatePlayerRotationY(false);
                 MovePlayer(true);
             }
         }
@@ -318,7 +320,7 @@ public class GameManager : MonoBehaviour
             Vector3 directorTarget = new Vector3(0, director.transform.position.y, player.transform.position.z + directorOffsZ);
             director.transform.position = Vector3.MoveTowards(director.transform.position, directorTarget, playerRotateSens * 20 * Time.deltaTime);
             director.transform.position = new Vector3(director.transform.position.x, director.transform.position.y, player.transform.position.z + directorOffsZ);
-            UpdatePlayerRotationY();
+            UpdatePlayerRotationY(false);
             MovePlayer(true);
         }
 
@@ -348,24 +350,42 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void UpdatePlayerRotationY()
-    {/*
-        float mouseX = Input.GetAxis("Mouse X");
-        float rotateAmount = mouseX * playerRotateSens;
-        player.transform.rotation = Quaternion.EulerRotation(0, player.transform.rotation.eulerAngles.y + rotateAmount, 0);*/
-
-        //player.transform.LookAt(director.transform.position);
-
-        float mouseX = Input.GetAxis("Mouse X");
-
-        float rotationAmount = mouseX * playerRotateSens;
-        if ((player.transform.rotation.eulerAngles.y < playerRotateLimit && player.transform.rotation.eulerAngles.y >= 0) || (player.transform.rotation.eulerAngles.y > -playerRotateLimit && player.transform.rotation.eulerAngles.y <= 0))
+    void UpdatePlayerRotationY(bool a)
+    {
+        if (a)
         {
-            player.transform.Rotate(0f, rotationAmount, 0f);
+            float mouseX = Input.GetAxis("Mouse X");
+
+            float rotationAmount = mouseX * playerRotateSens;
+
+            float currentRotation = player.transform.rotation.eulerAngles.y + rotationAmount;
+
+            if((currentRotation < playerRotateLimit && currentRotation >= 0) || (currentRotation > -playerRotateLimit && currentRotation <= 0) || (currentRotation > 360 - playerRotateLimit && currentRotation <= 360 + playerRotateLimit))
+            {
+                player.transform.rotation = Quaternion.Euler(0f, currentRotation, 0f);
+            }
+            else
+            {
+                player.transform.rotation = Quaternion.Lerp(player.transform.rotation, Quaternion.Euler(0, 0, 0), playerRotateSens * Time.deltaTime);
+            }
         }
         else
         {
-            player.transform.rotation = Quaternion.Lerp(player.transform.rotation, Quaternion.EulerRotation(0,0,0), playerRotateSens * Time.deltaTime);
+            if(isFinished)
+            {
+                Vector3 target = player.transform.position;
+                target.x = 0f;
+                target.z += 1;
+                //player.transform.LookAt(target);
+                Quaternion targetRotation = Quaternion.LookRotation(target - player.transform.position);
+
+                // Yavaþça dönüþü uygula
+                player.transform.rotation = Quaternion.Lerp(player.transform.rotation, targetRotation, playerRotateSens * Time.deltaTime);
+            }
+            else
+            {
+                player.transform.rotation = Quaternion.Lerp(player.transform.rotation, Quaternion.Euler(0, 0, 0), playerRotateSens * Time.deltaTime * 1.5f);
+            }
         }
     }
 
@@ -381,6 +401,7 @@ public class GameManager : MonoBehaviour
         }
         playerCurrentSpeed = Mathf.Clamp(playerCurrentSpeed, 0f, playerMaxSpeed);
         player.transform.position += player.transform.forward * playerCurrentSpeed * Time.deltaTime;
+        player.transform.position = new Vector3(Mathf.Clamp(player.transform.position.x, playerXMin, playerXMax), player.transform.position.y, player.transform.position.z);        
     }
 
     public void EmptyTankOnFinish()
@@ -434,6 +455,11 @@ public class GameManager : MonoBehaviour
     {
         vibrationBut.color = vibrationState ? Color.white : Color.red;
         vibrationBut.transform.parent.Find("Text").GetComponent<Text>().text = vibrationState ? "On" : "Off";
+    }
+
+    public void SetRotateSens()
+    {
+        playerRotateSens = rotateSensSlider.value;
     }
 
     public void SettingsPanel(bool v)
