@@ -394,7 +394,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: ce78dab4aa8c5da45868b34074a7488f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.04
+      value: -0.978
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ce78dab4aa8c5da45868b34074a7488f,
         type: 3}
@@ -404,27 +404,27 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: ce78dab4aa8c5da45868b34074a7488f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.2511749
+      value: 1.282196
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ce78dab4aa8c5da45868b34074a7488f,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.72144157
+      value: 0.7474427
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ce78dab4aa8c5da45868b34074a7488f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.17907144
+      value: -0.18552525
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ce78dab4aa8c5da45868b34074a7488f,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.6492208
+      value: -0.6191082
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ce78dab4aa8c5da45868b34074a7488f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.16114534
+      value: -0.15367092
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ce78dab4aa8c5da45868b34074a7488f,
         type: 3}
@@ -434,7 +434,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: ce78dab4aa8c5da45868b34074a7488f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -83.968
+      value: -79.27
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ce78dab4aa8c5da45868b34074a7488f,
         type: 3}
@@ -22341,7 +22341,7 @@ MonoBehaviour:
   finalTankBouy: {fileID: 1835347784}
   getCupSens: 4
   camSensivity: 6
-  playerRotateSens: 0.15
+  playerRotateSens: 0.05
   playerMoveSens: 20
   playerMaxSpeed: 11
   playerXMin: -4
@@ -23540,16 +23540,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1493313623}
     m_Modifications:
-    - target: {fileID: 548175831472852404, guid: d81a5c42b432891439e8dc476006a895,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -55.89
-      objectReference: {fileID: 0}
-    - target: {fileID: 2056613865549015234, guid: d81a5c42b432891439e8dc476006a895,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -61.03
-      objectReference: {fileID: 0}
     - target: {fileID: 5940333545673292177, guid: d81a5c42b432891439e8dc476006a895,
         type: 3}
       propertyPath: m_RootOrder
