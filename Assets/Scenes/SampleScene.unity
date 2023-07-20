@@ -970,7 +970,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 10
   m_WholeNumbers: 0
-  m_Value: 3
+  m_Value: 2
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -38107,7 +38107,7 @@ MonoBehaviour:
   rotateSensSlider: {fileID: 166057618}
   getCupSens: 4
   camSensivity: 6
-  playerRotateSens: 3
+  playerRotateSens: 2
   playerRotateLimit: 75
   playerMoveSens: 20
   playerMaxSpeed: 11

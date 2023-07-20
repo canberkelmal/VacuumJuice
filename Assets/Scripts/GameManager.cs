@@ -297,10 +297,17 @@ public class GameManager : MonoBehaviour
 
     void InputController()
     {
-        if (controller && !EventSystem.current.IsPointerOverGameObject())
+        if (controller)
         {
+            if(playerMaxSpeed > 0)
+            {
+                bool r = Input.GetMouseButton(0) ? true : false;
+                UpdatePlayerRotationY(r);
+                UpdateDirectorPositionX(true);
+                MovePlayer(true);
+            }
             // During touch
-            if (Input.GetMouseButton(0))
+            /*if (Input.GetMouseButton(0))
             {
                 UpdatePlayerRotationY(true);
                 UpdateDirectorPositionX(true);
@@ -312,7 +319,7 @@ public class GameManager : MonoBehaviour
                 UpdateDirectorPositionX(false);
                 UpdatePlayerRotationY(false);
                 MovePlayer(true);
-            }
+            }*/
         }
         // Final Run
         else if(!controller && !isEnded)
@@ -460,10 +467,12 @@ public class GameManager : MonoBehaviour
     public void SetRotateSens()
     {
         playerRotateSens = rotateSensSlider.value;
+        PlayerPrefs.SetFloat("RotateSens", playerRotateSens);
     }
 
     public void SettingsPanel(bool v)
     {
+        playerMaxSpeed = v ? 0 : playerTempSpeed;
         settingsPanel.SetActive(v);
     }
 
@@ -477,6 +486,9 @@ public class GameManager : MonoBehaviour
 
         cupCount = PlayerPrefs.GetInt("cupCount", 0);
         cupCountTx.text = cupCount.ToString();
+
+        playerRotateSens = PlayerPrefs.GetFloat("RotateSens", playerRotateSens);
+        rotateSensSlider.value = PlayerPrefs.GetFloat("RotateSens", playerRotateSens);
     }
 
     public void StartGame()
