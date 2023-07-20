@@ -235,6 +235,7 @@ public class GameManager : MonoBehaviour
         if(isTankEmpty)
         {
             tankShader.GetComponent<Renderer>().material.color = clr;
+            tankShader.GetComponent<Renderer>().material.SetColor("_TopColor", clr + Color.white/5);
         }
         else
         {
@@ -244,6 +245,7 @@ public class GameManager : MonoBehaviour
         }
         liquidColor = tankShader.GetComponent<Renderer>().material.color;
         cupInsideShader.color = liquidColor;
+        tankShader.GetComponent<Renderer>().material.SetColor("_TopColor", liquidColor + Color.white / 5);
     }
 
     public void SetVacuum(int scaleFactor)
