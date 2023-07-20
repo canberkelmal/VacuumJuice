@@ -155,7 +155,7 @@ public class GameManager : MonoBehaviour
         finalTankBouy.transform.localPosition = -Vector3.up;
 
         camTankOffset = finalTankBouy.transform.position - mainCam.transform.position - Vector3.forward*4;
-        camTankOffset.y = -3;
+        camTankOffset.y = -5;
 
         isFinalTankFilling = true;
         FillFinalTank();
@@ -281,8 +281,8 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            mainCam.transform.LookAt(finalTankBouy.transform.position);
-            mainCam.transform.position = Vector3.Lerp(mainCam.transform.position, finalTankBouy.transform.position - camTankOffset, camSensivity * Time.deltaTime);
+            mainCam.transform.position = Vector3.Lerp(mainCam.transform.position, finalTankBouy.transform.position - camTankOffset, camSensivity / 2 * Time.deltaTime);
+            //mainCam.transform.LookAt(finalTankBouy.transform.position);
         }
     }
 
