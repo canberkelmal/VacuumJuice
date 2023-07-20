@@ -132,7 +132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   increase: 1
-  level: 1
+  level: 3
   takeAnim: {fileID: 150944, guid: 3b9161edba9968c48bd058067ad18c84, type: 3}
   takeSplashColor: {r: 0.50507927, g: 1, b: 0, a: 1}
   timer: 0

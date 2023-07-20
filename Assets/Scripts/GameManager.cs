@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
 
     //UI Elements
     public Text cupCountTx;
+    public Text moneyCountTx;
     public Image soundBut, vibrationBut;
 
     [NonSerialized]
@@ -67,6 +68,7 @@ public class GameManager : MonoBehaviour
     private float tempTankFill = 1;
     private float tempFinalTankFill = -5;
     private int cupCount = 0;
+    private int moneyCount = 0;
     private float juiceAmount = 0;
     private int tankLevel = 1;
     private bool soundState = true;
@@ -96,6 +98,7 @@ public class GameManager : MonoBehaviour
     public void IncreaseCupCount()
     {
         cupCount++;
+        PlayerPrefs.SetInt("cupCount", cupCount);
         cupCountTx.text = cupCount.ToString();
     }
 
@@ -406,6 +409,9 @@ public class GameManager : MonoBehaviour
 
         vibrationState = PlayerPrefs.GetInt("vibrationState", 1) == 1 ? true : false;
         SetVibrations();
+
+        cupCount = PlayerPrefs.GetInt("cupCount", 0);
+        cupCountTx.text = cupCount.ToString();
     }
 
     // Reload the current scene to restart the game
