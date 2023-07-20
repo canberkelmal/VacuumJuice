@@ -367,6 +367,14 @@ public class GameManager : MonoBehaviour
         return Mathf.Lerp(toMin, toMax, normalizedValue);
     }
 
+    public void Vibrate()
+    {
+        if (vibrationState)
+        {
+            Handheld.Vibrate();
+        }
+    }
+
     public void SetSound()
     {
         soundState = !soundState;
@@ -386,6 +394,7 @@ public class GameManager : MonoBehaviour
     public void SetVibration()
     {
         vibrationState = !vibrationState;
+        Vibrate();
         int a = vibrationState ? 1 : 0;
         PlayerPrefs.SetInt("vibrationState", a);
         SetVibrations();

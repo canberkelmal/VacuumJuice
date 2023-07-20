@@ -67,6 +67,7 @@ public class CollectableSc : MonoBehaviour
         if(other.CompareTag("VacuumArea") && !collected)
         {
             gameManager.audioManager.Play("VacuumObj");
+            gameManager.Vibrate();
             collected = true;
             Destroy(Instantiate(takeAnim, transform.position, Quaternion.identity), 1f);
             transform.parent = player.transform.Find("Collecteds");
