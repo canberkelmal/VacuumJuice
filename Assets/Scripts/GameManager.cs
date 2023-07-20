@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -163,6 +164,7 @@ public class GameManager : MonoBehaviour
     public void FillFinalTank()
     {
         finalTankShader.GetComponent<Renderer>().material.color = liquidColor;
+        finalTankShader.GetComponent<Renderer>().material.SetColor("_TopColor", liquidColor + Color.white / 5);
 
         isEnded = true;
         finalTankFillAmount = (-50) + (juiceAmount * 16f);
