@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour
     private float tempTankFill = 1;
     private float tempFinalTankFill = -5;
     private int cupCount = 0;
+    private int tempCupCount = 0;
     private int moneyCount = 0;
     private float juiceAmount = 0;
     private int tankLevel = 1;
@@ -98,6 +99,7 @@ public class GameManager : MonoBehaviour
 
     public void IncreaseCupCount()
     {
+        tempCupCount++;
         cupCount++;
         PlayerPrefs.SetInt("cupCount", cupCount);
         cupCountTx.text = cupCount.ToString();
@@ -359,7 +361,7 @@ public class GameManager : MonoBehaviour
 
     public void EmptyTankOnFinish()
     {
-        finishPanel.transform.Find("Count").GetComponent<Text>().text = cupCount.ToString(); 
+        finishPanel.transform.Find("Count").GetComponent<Text>().text = tempCupCount.ToString(); 
         finishPanel.SetActive(true);
         isEnded = true;
     }

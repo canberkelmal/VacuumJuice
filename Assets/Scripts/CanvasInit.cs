@@ -17,10 +17,4 @@ public class CanvasInit : MonoBehaviour
             transform.GetChild(i).GetChild(0).GetComponent<Image>().color = randomColor;
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

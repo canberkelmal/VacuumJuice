@@ -5,6 +5,7 @@ using UnityEngine;
 public class IconScript : MonoBehaviour
 {
     GameManager gM;
+    bool coled = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,8 +16,9 @@ public class IconScript : MonoBehaviour
     void FixedUpdate()
     {
         transform.localPosition = Vector2.Lerp(transform.localPosition, Vector2.zero, gM.getCupSens * Time.deltaTime);
-        if(transform.localPosition.y < 15 && transform.localPosition.y > -15)
+        if(transform.localPosition.y < 15 && transform.localPosition.y > -15 && !coled)
         {
+            coled = true;
             gM.IncreaseCupCount();
             Destroy(gameObject);
         }
