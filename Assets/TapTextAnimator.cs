@@ -26,7 +26,7 @@ public class TapTextAnimator : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            Destroy(gameObject);
+            transform.parent.gameObject.SetActive(false);
         }
     }
 }
