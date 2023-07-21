@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     public GameObject debuffParticle;
     public GameObject getJuiceParticle;
     public GameObject buffTankParticle;
+    public GameObject debuffTankParticle;
     public GameObject finalTankBouy;
     public Slider rotateSensSlider;
     public float getCupSens = 1;
@@ -132,8 +133,16 @@ public class GameManager : MonoBehaviour
         {
             tankShader.GetComponent<Renderer>().material.SetFloat("_Fill", tankFillAmount);
         }
-        juiceAmount += (fillFactor * fillMultiplier);
-        RefillTank();
+
+        if (tankFillAmount >= (0.75f + ((tankLevel - 1) * tankVolumeMultiplier * 0.2f)))
+        {
+            Debug.Log("Tank is full!");
+        }
+        else
+        {
+            juiceAmount += (fillFactor * fillMultiplier);
+            RefillTank();
+        }
     }
     public void FillACup()
     {
@@ -229,7 +238,10 @@ public class GameManager : MonoBehaviour
 
         else
         {
+            audioManager.Play("Debuff");
 
+            Destroy(Instantiate(debuffTankParticle, tankShader.transform.position, Quaternion.Euler(90, 0, 0), tankShader.transform.parent), 1f);
+            tankLevel -= factor;
         }
 
 
