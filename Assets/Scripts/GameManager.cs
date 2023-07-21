@@ -468,6 +468,7 @@ public class GameManager : MonoBehaviour
     {
         playerRotateSens = rotateSensSlider.value;
         PlayerPrefs.SetFloat("RotateSens", playerRotateSens);
+        rotateSensSlider.transform.parent.Find("Amount").GetComponent<Text>().text = playerRotateSens.ToString();
     }
 
     public void SettingsPanel(bool v)
@@ -489,6 +490,7 @@ public class GameManager : MonoBehaviour
 
         playerRotateSens = PlayerPrefs.GetFloat("RotateSens", playerRotateSens);
         rotateSensSlider.value = PlayerPrefs.GetFloat("RotateSens", playerRotateSens);
+        rotateSensSlider.transform.parent.Find("Amount").GetComponent<Text>().text = playerRotateSens.ToString();
     }
 
     public void StartGame()
