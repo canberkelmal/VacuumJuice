@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
     public float tankVolumeMultiplier = 0.2f;
     public float getCupDelay = 0.25f;
     public bool isTankEmpty = true;
+    public bool isTankFull = false;
 
     //UI Elements
     public Text cupCountTx;
@@ -244,12 +245,14 @@ public class GameManager : MonoBehaviour
             tankLevel -= factor;
         }
 
+        tankObjs[0].transform.parent.localScale += Vector3.one * tankVolumeMultiplier * factor;
+        //tankObjs[0].transform.parent.localPosition += Vector3.up * tankVolumeMultiplier * factor - Vector3.forward * tankVolumeMultiplier * factor * 2;
 
-        foreach(GameObject obj in tankObjs)
+        /*foreach (GameObject obj in tankObjs)
         {
             obj.transform.localScale += Vector3.one * tankVolumeMultiplier * factor;
             obj.transform.localPosition -= Vector3.up * tankVolumeMultiplier * factor;
-        }
+        }*/
         RefillTank();
     }
 
@@ -399,7 +402,7 @@ public class GameManager : MonoBehaviour
                 Quaternion targetRotation = Quaternion.LookRotation(target - player.transform.position);
 
                 // Yavaþça dönüþü uygula
-                player.transform.rotation = Quaternion.Lerp(player.transform.rotation, targetRotation, playerRotateSens * Time.deltaTime);
+                player.transform.rotation = Quaternion.Lerp(player.transform.rotation, targetRotation, playerRotateSens * 2 * Time.deltaTime);
             }
             else
             {
@@ -441,7 +444,7 @@ public class GameManager : MonoBehaviour
     {
         if (vibrationState)
         {
-            Handheld.Vibrate();
+            //Handheld.Vibrate();
         }
     }
 
@@ -481,6 +484,13 @@ public class GameManager : MonoBehaviour
         playerRotateSens = rotateSensSlider.value;
         PlayerPrefs.SetFloat("RotateSens", playerRotateSens);
         rotateSensSlider.transform.parent.Find("Amount").GetComponent<Text>().text = playerRotateSens.ToString();
+    }
+
+    public void ResetCounts()
+    {
+        cupCount = 0;
+        PlayerPrefs.SetInt("cupCount", cupCount);
+        cupCountTx.text = cupCount.ToString();
     }
 
     public void SettingsPanel(bool v)

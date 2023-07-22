@@ -14,6 +14,6 @@ public class Rotator : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        transform.Rotate(-Vector3.up * gameManager.rotateFanSens * Time.deltaTime);
+        transform.Rotate(Vector3.right * gameManager.rotateFanSens * Time.deltaTime);
     }
 }

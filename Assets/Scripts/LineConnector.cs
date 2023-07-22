@@ -63,6 +63,7 @@ public class LineConnector : MonoBehaviour
         {
             MoveKeyFrame(1, animTPoints.x, 0.25f);
             currentCollectable.TakeTheFruit();
+            //_objs[_objs.Length - 1].transform.position = new Vector3(_objs[_objs.Length - 1].transform.position.x, 1.5f, _objs[_objs.Length - 1].transform.position.z);
             CancelInvoke("PipeGetAnim");
         }
     }
