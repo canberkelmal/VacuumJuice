@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     public GameObject debuffTankParticle;
     public GameObject finalTankBouy;
     public Slider rotateSensSlider;
+    public Animator playerAnimator;
     public float getCupSens = 1;
     public float camSensivity = 1f;
     public float playerRotateSens = 1;
@@ -159,7 +160,10 @@ public class GameManager : MonoBehaviour
         {
             tankFillAmount = 0;
             isTankEmpty = true;
-            EmptyTankOnFinish();
+            if (isFinished)
+            {
+                EmptyTankOnFinish();
+            }
         }
         else
         {
@@ -175,7 +179,7 @@ public class GameManager : MonoBehaviour
 
         camTankOffset = finalTankBouy.transform.position - mainCam.transform.position - Vector3.forward*4;
         camTankOffset.y = -5;
-
+        ChangePlayerSpeed(false);
         isFinalTankFilling = true;
         FillFinalTank();
     }
@@ -312,6 +316,7 @@ public class GameManager : MonoBehaviour
 
     void InputController()
     {
+        // During game
         if (controller)
         {
             if(playerMaxSpeed > 0)
@@ -321,23 +326,9 @@ public class GameManager : MonoBehaviour
                 UpdateDirectorPositionX(true);
                 MovePlayer(true);
             }
-            // During touch
-            /*if (Input.GetMouseButton(0))
-            {
-                UpdatePlayerRotationY(true);
-                UpdateDirectorPositionX(true);
-                MovePlayer(true);
-            }
-            // Release touch until player stop
-            else if (director.transform.position.x != player.transform.position.x || playerCurrentSpeed > 0)
-            {
-                UpdateDirectorPositionX(false);
-                UpdatePlayerRotationY(false);
-                MovePlayer(true);
-            }*/
         }
         // Final Run
-        else if(!controller && !isEnded)
+        else if(!isEnded)
         {
             Vector3 directorTarget = new Vector3(0, director.transform.position.y, player.transform.position.z + directorOffsZ);
             director.transform.position = Vector3.MoveTowards(director.transform.position, directorTarget, playerRotateSens * 20 * Time.deltaTime);
@@ -402,7 +393,7 @@ public class GameManager : MonoBehaviour
                 Quaternion targetRotation = Quaternion.LookRotation(target - player.transform.position);
 
                 // Yavaþça dönüþü uygula
-                player.transform.rotation = Quaternion.Lerp(player.transform.rotation, targetRotation, playerRotateSens * 2 * Time.deltaTime);
+                player.transform.rotation = Quaternion.Lerp(player.transform.rotation, targetRotation, playerRotateSens * 4 * Time.deltaTime);
             }
             else
             {
@@ -424,6 +415,12 @@ public class GameManager : MonoBehaviour
         playerCurrentSpeed = Mathf.Clamp(playerCurrentSpeed, 0f, playerMaxSpeed);
         player.transform.position += player.transform.forward * playerCurrentSpeed * Time.deltaTime;
         player.transform.position = new Vector3(Mathf.Clamp(player.transform.position.x, playerXMin, playerXMax), player.transform.position.y, player.transform.position.z);        
+    }
+
+    void ChangePlayerSpeed(bool fc)
+    {
+        playerAnimator.SetBool("IsRunning", fc);
+        playerMaxSpeed = fc ? playerTempSpeed : 0;
     }
 
     public void EmptyTankOnFinish()
@@ -495,7 +492,7 @@ public class GameManager : MonoBehaviour
 
     public void SettingsPanel(bool v)
     {
-        playerMaxSpeed = v ? 0 : playerTempSpeed;
+        ChangePlayerSpeed(!v);
         settingsPanel.SetActive(v);
     }
 
@@ -517,7 +514,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        playerMaxSpeed = playerTempSpeed;
+        ChangePlayerSpeed(true);
     }
 
     // Reload the current scene to restart the game
