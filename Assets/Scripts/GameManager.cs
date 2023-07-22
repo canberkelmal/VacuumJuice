@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour
     private Vector3 camOffset;
     private Vector3 camTankOffset;
     private bool controller = true;
+    private bool isStarted = false;
     private bool isFinished = false;
     private bool isFinalTankFilling = false;
     private bool isEnded = false;
@@ -285,14 +286,14 @@ public class GameManager : MonoBehaviour
         {
             audioManager.Play("Buff");
 
-            Destroy(Instantiate(buffParticle, vacuumParticle.transform.position + Vector3.up, Quaternion.identity, vacuumCollider.transform), 1f);
+            Destroy(Instantiate(buffParticle, vacuumParticle.transform.position + Vector3.up * 2, Quaternion.Euler(-90, 0, 0), vacuumCollider.transform), 1f);
             vacuumParticle.GetComponent<ParticleSystem>().emissionRate += 2;
         }
         else
         {
             audioManager.Play("Debuff");
 
-            Destroy(Instantiate(debuffParticle, vacuumParticle.transform.position + Vector3.up * 2, Quaternion.Euler(180,0,0), vacuumCollider.transform), 1f);
+            Destroy(Instantiate(debuffParticle, vacuumParticle.transform.position + Vector3.up * 3, Quaternion.Euler(90,0,0), vacuumCollider.transform), 1f);
             vacuumParticle.GetComponent<ParticleSystem>().emissionRate -= 2;
         }
         Vector3 radiusScale = Vector3.one * (scaleFactor * vacuumRadiusMultiplier);
@@ -427,6 +428,7 @@ public class GameManager : MonoBehaviour
     {
         finishPanel.transform.Find("Count").GetComponent<Text>().text = tempCupCount.ToString(); 
         finishPanel.SetActive(true);
+        ChangePlayerSpeed(false);
         isEnded = true;
     }
 
@@ -441,7 +443,7 @@ public class GameManager : MonoBehaviour
     {
         if (vibrationState)
         {
-            //Handheld.Vibrate();
+            Handheld.Vibrate();
         }
     }
 
@@ -459,7 +461,6 @@ public class GameManager : MonoBehaviour
 
         float soundLevel = soundState ? 0.5f : 0f;
         audioManager.SetVolume(soundLevel);
-        vacuumCollider.GetComponent<AudioSource>().volume = soundLevel / 5f;
     }
     public void SetVibration()
     {
@@ -492,7 +493,10 @@ public class GameManager : MonoBehaviour
 
     public void SettingsPanel(bool v)
     {
-        ChangePlayerSpeed(!v);
+        if(isStarted)
+        {
+            ChangePlayerSpeed(!v);
+        }
         settingsPanel.SetActive(v);
     }
 
@@ -514,6 +518,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        isStarted = true;
         ChangePlayerSpeed(true);
     }
 
