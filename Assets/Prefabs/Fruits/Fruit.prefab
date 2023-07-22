@@ -51,6 +51,8 @@ MonoBehaviour:
   increase: 1
   level: 1
   takeAnim: {fileID: 150944, guid: 3b9161edba9968c48bd058067ad18c84, type: 3}
+  takeSplashColor: {r: 0, g: 0, b: 0, a: 0}
+  timer: 0
 --- !u!33 &2726824811321321005
 MeshFilter:
   m_ObjectHideFlags: 0
