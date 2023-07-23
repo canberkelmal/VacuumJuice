@@ -4630,7 +4630,9 @@ MonoBehaviour:
   MaxWobble: 1.3
   WobbleSpeed: 0.45
   Recovery: 0.4
+  zConst: 0.1
   wobbleAmountX: 0
+  wobbleAmountZ: 0
 --- !u!1001 &65675267136177792
 PrefabInstance:
   m_ObjectHideFlags: 0

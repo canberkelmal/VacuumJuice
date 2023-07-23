@@ -293,7 +293,7 @@ public class GameManager : MonoBehaviour
         {
             audioManager.Play("Debuff");
 
-            Destroy(Instantiate(debuffParticle, vacuumParticle.transform.position + Vector3.up * 3, Quaternion.Euler(90,0,0), vacuumCollider.transform), 1f);
+            Destroy(Instantiate(debuffParticle, vacuumParticle.transform.position + Vector3.up * 3.5f, Quaternion.Euler(90,0,0), vacuumCollider.transform), 1f);
             vacuumParticle.GetComponent<ParticleSystem>().emissionRate -= 2;
         }
         Vector3 radiusScale = Vector3.one * (scaleFactor * vacuumRadiusMultiplier);
@@ -443,7 +443,7 @@ public class GameManager : MonoBehaviour
     {
         if (vibrationState)
         {
-            Handheld.Vibrate();
+            //Handheld.Vibrate();
         }
     }
 
