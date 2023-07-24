@@ -265,18 +265,22 @@ public class GameManager : MonoBehaviour
     {
         if(isTankEmpty)
         {
-            tankShader.GetComponent<Renderer>().material.color = clr;
-            tankShader.GetComponent<Renderer>().material.SetColor("_TopColor", clr + Color.white/5);
+            // tankShader.GetComponent<Renderer>().material.color = clr;
+            // tankShader.GetComponent<Renderer>().material.SetColor("_TopColor", clr + Color.white/5);
+
+            tankShader.GetComponent<Renderer>().material.SetColor("_BaseColor", clr);
         }
         else
         {
-            tempLiquidColor = tankShader.GetComponent<Renderer>().material.color;
+            tempLiquidColor = tankShader.GetComponent<Renderer>().material.GetColor("_BaseColor");
             tempLiquidColor.a = 1;
-            tankShader.GetComponent<Renderer>().material.color = Color.Lerp(tempLiquidColor, clr, 0.5f);
+            Color setColor = Color.Lerp(tempLiquidColor, clr, 0.5f);
+            setColor.a = 1;
+            tankShader.GetComponent<Renderer>().material.SetColor("_BaseColor", setColor);
         }
-        liquidColor = tankShader.GetComponent<Renderer>().material.color;
+        liquidColor = tankShader.GetComponent<Renderer>().material.GetColor("_BaseColor");
         cupInsideShader.color = liquidColor;
-        tankShader.GetComponent<Renderer>().material.SetColor("_TopColor", liquidColor + Color.white / 5);
+        //tankShader.GetComponent<Renderer>().material.SetColor("_TopColor", liquidColor + Color.white / 5);
     }
 
     public void SetVacuum(int scaleFactor)
@@ -394,7 +398,7 @@ public class GameManager : MonoBehaviour
                 Quaternion targetRotation = Quaternion.LookRotation(target - player.transform.position);
 
                 // Yavaþça dönüþü uygula
-                player.transform.rotation = Quaternion.Lerp(player.transform.rotation, targetRotation, playerRotateSens * 4 * Time.deltaTime);
+                player.transform.rotation = Quaternion.Lerp(player.transform.rotation, targetRotation, playerRotateSens * 7 * Time.deltaTime);
             }
             else
             {
