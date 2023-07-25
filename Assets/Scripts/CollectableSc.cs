@@ -21,6 +21,7 @@ public class CollectableSc : MonoBehaviour
     public int level = 1;
     public GameObject takeAnim;
     public Color takeSplashColor;
+    public Vector3 rotateDirection = Vector3.zero;
 
     private int effectFactor;
     private GameObject player;
@@ -42,7 +43,7 @@ public class CollectableSc : MonoBehaviour
     {
         if (!collected)
         {
-            transform.Rotate(Vector3.up * gameManager.rotateObjectsSens * Time.deltaTime);
+            transform.Rotate(rotateDirection * gameManager.rotateObjectsSens * Time.deltaTime);
             if(!IsJuice())
             {
                 timer += Time.deltaTime;
