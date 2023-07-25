@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MachineSc : MonoBehaviour
 {
-    // 0 No fruid, 1 Preparing, 2 Ready
+    // 0 No resource, 1 Preparing, 2 Ready
     public int status = 0;
     public float prepareDuration = 1;
 
@@ -25,6 +25,20 @@ public class MachineSc : MonoBehaviour
     public void SetStatus(int stat)
     {
         status = stat;
+        switch (status)
+        {
+            case 0:
+                // No resource
+                break;
+
+            case 1:
+                // Preparing
+                break;
+
+            case 2:
+                // Ready
+                break;
+        }
     }
 
 

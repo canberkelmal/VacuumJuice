@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
     public GameObject finalTankBouy;
     public Slider rotateSensSlider;
     public Animator playerAnimator;
+    public int cupPerFruid = 4;
+    public float finalTankLiquidMultiplier = 24;
     public float getCupSens = 1;
     public float camSensivity = 1f;
     public float playerRotateSens = 1;
@@ -150,7 +152,7 @@ public class GameManager : MonoBehaviour
     public void FillACup()
     {
         audioManager.Play("FillCup");
-        juiceAmount -= (fillMultiplier / 2);
+        juiceAmount -= (fillMultiplier / cupPerFruid);
         RefillTank();
     }
 
@@ -191,7 +193,7 @@ public class GameManager : MonoBehaviour
         finalTankShader.GetComponent<Renderer>().material.SetColor("_TopColor", liquidColor + Color.white / 5);
 
         isEnded = true;
-        finalTankFillAmount = (-50) + (juiceAmount * 16f);
+        finalTankFillAmount = (-50) + (juiceAmount * finalTankLiquidMultiplier);
         InvokeRepeating("FillFinalTankAnim", fillFinalTankDelay, Time.deltaTime);
         Invoke("WobbleFinalTank", fillFinalTankDelay);
 
