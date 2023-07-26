@@ -8,16 +8,10 @@ public class MachineSc : MonoBehaviour
     public int status = 0;
     public float prepareDuration = 1;
 
-
+    private float timer = 0;
 
     // Start is called before the first frame update
     void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
     {
         
     }
@@ -31,14 +25,31 @@ public class MachineSc : MonoBehaviour
                 // No resource
                 break;
 
-            case 1:
-                // Preparing
+            case 1: // Preparing
+                timer = 0;
+                InvokeRepeating("PrepareProduct", 0, Time.deltaTime);
+                
                 break;
 
             case 2:
                 // Ready
                 break;
         }
+    }
+
+    private void PrepareProduct()
+    {
+        timer += Time.deltaTime;
+        if(timer >= prepareDuration && status == 1)
+        {
+            ProductPrepared();
+            CancelInvoke("PrepareProduct");
+        }
+    }
+
+    private void ProductPrepared()
+    {
+        SetStatus(2);
     }
 
 
