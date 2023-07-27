@@ -7,6 +7,7 @@ public class CostumerSc : MonoBehaviour
     public string askFor = "apple";
     public float movementSpeed = 1f;
     public bool isWaiting = false;
+    public bool isHandled = false;
     
 
     private IdleManager idleManager;
