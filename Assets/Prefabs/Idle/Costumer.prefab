@@ -330,7 +330,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f46b47aa67dc9144ab99716fd2e1c80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  askFor: apple
   movementSpeed: 5
+  isWaiting: 0
 --- !u!1 &8570534848959944195
 GameObject:
   m_ObjectHideFlags: 0

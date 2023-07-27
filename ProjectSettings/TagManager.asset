@@ -9,6 +9,8 @@ TagManager:
   - Bouy
   - FinalCanvasObj
   - IdleMachine
+  - Busy
+  - NotBusy
   layers:
   - Default
   - TransparentFX
