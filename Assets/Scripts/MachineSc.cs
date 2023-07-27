@@ -20,7 +20,7 @@ public class MachineSc : MonoBehaviour
     {
         fillImage = transform.Find("MachineCanvas").Find("BG").GetComponent<Image>();
         statuIcon = transform.Find("MachineCanvas").Find("Statu").gameObject;
-        SetStatus(2);
+        PrepareTest();
     }
 
     public void PrepareTest()
