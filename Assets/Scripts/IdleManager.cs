@@ -14,7 +14,7 @@ public class IdleManager : MonoBehaviour
     public Transform costumerExitPoint;
 
     private int costumerCount = 0;
-    private GameObject[] machines;
+    private GameObject[] machines, appleMachines;
     private GameObject[] workers = new GameObject[0];
     private GameObject[] costumers = new GameObject[0];
     // Start is called before the first frame update
@@ -42,6 +42,11 @@ public class IdleManager : MonoBehaviour
         for(int i = 0; i< machines.Length; i++)
         {
             machines[i] = machinesParent.transform.GetChild(i).gameObject;
+
+            if (machines[i].CompareTag("appleMachine"))
+            {
+                appleMachines = AddToCustomArray(appleMachines, machines[i]);
+            }
         }
     }
     private void FillWorkersArray()
@@ -60,7 +65,7 @@ public class IdleManager : MonoBehaviour
         costumerCount++;
         GameObject newCostumer = Instantiate(costumer, costumerSpawnPoint.position, Quaternion.identity, costumersParent.transform);
         newCostumer.GetComponent<CostumerSc>().SendTo(costumerLastPoint.position - (Vector3.right * 1.5f * (costumerCount-1) ));
-        AddToCostumersArray(newCostumer);
+        costumers = AddToCustomArray(costumers, newCostumer);
     }
 
     public void CostumerAsksFor(string productName, GameObject costumer)
@@ -68,7 +73,7 @@ public class IdleManager : MonoBehaviour
         switch (productName)
         {
             case "apple":
-                AvailableWorker().GetComponent<WorkerSc>().ServeToCostumer(costumer, machines[0]);
+                AvailableWorker().GetComponent<WorkerSc>().ServeToCostumer(costumer, AvailableMachine(productName));
                 break;
         }
     }
@@ -76,7 +81,6 @@ public class IdleManager : MonoBehaviour
     private GameObject AvailableWorker()
     {
         GameObject availableWorker = new GameObject();
-        Debug.Log("AvailableWorker method 1");
         
         foreach (GameObject worker in workers)
         {
@@ -92,29 +96,50 @@ public class IdleManager : MonoBehaviour
 
         return availableWorker;
     }
+    private GameObject AvailableMachine(string machineProduct)
+    {
+        GameObject availableMachine = new GameObject();
+
+        foreach (GameObject machine in machines)
+        {
+            if (machine.CompareTag(machineProduct + "Machine") && machine.GetComponent<MachineSc>().status == 2)
+            {
+                availableMachine = machine;
+                return availableMachine;
+            }
+            else
+            {
+                Debug.Log("Next machine.");
+            }
+        }
+
+        return availableMachine;
+    }
 
     private void DeleteFromCostumersArray(GameObject deletedObj)
     {
         //X array inden deletedObj isimli objeyi bulup sil
     }
-    private void AddToCostumersArray(GameObject addedObj)
+
+    private GameObject[] AddToCustomArray(GameObject[] originalArray, GameObject addedObj)
     {
         if (addedObj == null)
         {
-            Debug.Log("Null obj is tried to add costumers array");
-            return;
+            Debug.Log("Null obj is tried to add to the array");
+            return originalArray;
         }
 
-        GameObject[] newArray = new GameObject[costumers.Length + 1];
-        for (int i = 0; i < costumers.Length; i++)
+        GameObject[] newArray = new GameObject[originalArray.Length + 1];
+        for (int i = 0; i < originalArray.Length; i++)
         {
-            newArray[i] = costumers[i];
+            newArray[i] = originalArray[i];
         }
 
-        newArray[costumers.Length] = addedObj;
-        costumers = newArray;
+        newArray[originalArray.Length] = addedObj;
 
-        Debug.Log("Costumers is added to costumers array");
+        Debug.Log("Object is added to the array");
+
+        return newArray;
     }
 
     // Reload the current scene to restart the game

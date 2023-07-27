@@ -11,6 +11,7 @@ TagManager:
   - IdleMachine
   - Busy
   - NotBusy
+  - appleMachine
   layers:
   - Default
   - TransparentFX
