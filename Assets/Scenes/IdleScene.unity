@@ -389,6 +389,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1565266409}
     m_Modifications:
+    - target: {fileID: 1049230766558108874, guid: a7fd894ba79b18c4490941eab266ff15,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3092989550554613510, guid: a7fd894ba79b18c4490941eab266ff15,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -463,6 +468,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Machine (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8771716159159549014, guid: a7fd894ba79b18c4490941eab266ff15,
+        type: 3}
+      propertyPath: m_TagString
+      value: appleMachine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2337,16 +2347,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1565266409}
     m_Modifications:
-    - target: {fileID: 1049230766558108874, guid: a7fd894ba79b18c4490941eab266ff15,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1049230766558108874, guid: a7fd894ba79b18c4490941eab266ff15,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8372168015248475827, guid: a7fd894ba79b18c4490941eab266ff15,
         type: 3}
       propertyPath: m_RootOrder
