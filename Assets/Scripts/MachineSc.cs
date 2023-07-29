@@ -14,10 +14,12 @@ public class MachineSc : MonoBehaviour
     private float timer = 0;
     private Image fillImage;
     private GameObject statuIcon;
+    private IdleManager idleManager;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
+        idleManager = GameObject.Find("IdleManager").GetComponent<IdleManager>();
         fillImage = transform.Find("MachineCanvas").Find("BG").GetComponent<Image>();
         statuIcon = transform.Find("MachineCanvas").Find("Statu").gameObject;
         PrepareTest();
@@ -54,10 +56,11 @@ public class MachineSc : MonoBehaviour
 
             case 2: // Ready
                 statuIcon.SetActive(true);
-
                 fillImage.color = readyColor;
                 break;
         }
+        Debug.Log("before SetReadyMachines");
+        idleManager.SetReadyMachines();
     }
 
     private void PrepareProductLoop()
