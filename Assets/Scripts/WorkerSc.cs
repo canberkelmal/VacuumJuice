@@ -36,6 +36,7 @@ public class WorkerSc : MonoBehaviour
         this.costumer = costumer;
         this.machine = machine;
         StartDuty();
+        idleManager.SetAvailableWorkers();
     }
 
     private void StartDuty()
@@ -65,6 +66,7 @@ public class WorkerSc : MonoBehaviour
         CancelInvoke("GoToCostumer");
         gameObject.tag = "NotBusy";
         costumer.GetComponent<CostumerSc>().TakeAndGo();
+        idleManager.SetAvailableWorkers();
     }
 
 

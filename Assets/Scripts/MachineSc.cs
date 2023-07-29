@@ -50,7 +50,7 @@ public class MachineSc : MonoBehaviour
 
                 timer = 0;
                 resourceCount--;
-                InvokeRepeating("PrepareProductLoop", 0, Time.deltaTime);
+                InvokeRepeating("PrepareProductLoop", 0, Time.fixedDeltaTime);
                 
                 break;
 

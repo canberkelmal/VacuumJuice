@@ -16,7 +16,7 @@ public class IdleManager : MonoBehaviour
     private int costumerCount = 0;
     public GameObject[] machines = new GameObject[0];
     public GameObject[] readyMachines = new GameObject[0];
-    private GameObject[] availableWorkers = new GameObject[0];
+    public GameObject[] availableWorkers = new GameObject[0];
     private GameObject[] appleMachines = new GameObject[0];
     private GameObject[] workers = new GameObject[0];
     private GameObject[] costumers = new GameObject[0];
@@ -124,14 +124,11 @@ public class IdleManager : MonoBehaviour
 
     public void SetReadyMachines()
     {
-        Debug.Log("SetReadyMachines triged");
         readyMachines = new GameObject[0];
         foreach (GameObject machine in machines)
         {
-            Debug.Log("SetReadyMachines forlooping");
             if (machine.GetComponent<MachineSc>().status == 2)
             {
-                Debug.Log(machine + "is ready");
                 readyMachines = AddToCustomArray(readyMachines, machine);
             }
         }
@@ -145,6 +142,11 @@ public class IdleManager : MonoBehaviour
             {
                 availableWorkers = AddToCustomArray(availableWorkers, worker);
             }
+        }
+        if(waitingCostumers.Length > 0 && availableWorkers.Length > 0)
+        {
+            CostumerAsksFor(waitingCostumers[0].GetComponent<CostumerSc>().askFor, waitingCostumers[0]);
+            waitingCostumers = RemoveFromCustomArray(waitingCostumers, waitingCostumers[0]);
         }
     }
     private GameObject[] AddToCustomArray(GameObject[] originalArray, GameObject addedObj)
