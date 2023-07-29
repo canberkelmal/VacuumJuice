@@ -32,6 +32,7 @@ public class WorkerSc : MonoBehaviour
 
     public void ServeToCostumer(GameObject costumer, GameObject machine)
     {
+        gameObject.tag = "Busy";
         this.costumer = costumer;
         this.machine = machine;
         StartDuty();
@@ -55,9 +56,15 @@ public class WorkerSc : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, costumer.transform.position - Vector3.forward*3.5f, speed * Time.deltaTime);
         if (transform.position == costumer.transform.position - Vector3.forward * 3.5f)
         {
-            costumer.GetComponent<CostumerSc>().TakeAndGo();
-            CancelInvoke("GoToCostumer");
+            DeliverToCostumer();
         }
+    }
+
+    private void DeliverToCostumer()
+    {
+        CancelInvoke("GoToCostumer");
+        gameObject.tag = "NotBusy";
+        costumer.GetComponent<CostumerSc>().TakeAndGo();
     }
 
 

@@ -471,6 +471,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8771716159159549014, guid: a7fd894ba79b18c4490941eab266ff15,
         type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8771716159159549014, guid: a7fd894ba79b18c4490941eab266ff15,
+        type: 3}
       propertyPath: m_TagString
       value: appleMachine
       objectReference: {fileID: 0}
@@ -2309,6 +2314,8 @@ MonoBehaviour:
   costumerSpawnPoint: {fileID: 1207322021825301580}
   costumerLastPoint: {fileID: 2152486482134111980}
   costumerExitPoint: {fileID: 1307863662}
+  machines: []
+  readyMachines: []
 --- !u!4 &2074078272
 Transform:
   m_ObjectHideFlags: 0
