@@ -21,7 +21,7 @@ public class CostumerSc : MonoBehaviour
     public void SendTo(Vector3 finalPoint)
     {
         destination = finalPoint;
-        InvokeRepeating("GoToDestination", 0, Time.deltaTime);
+        InvokeRepeating("GoToDestination", 0, Time.fixedDeltaTime);
     }
 
     private void GoToDestination()
@@ -37,7 +37,7 @@ public class CostumerSc : MonoBehaviour
 
     public void TakeAndGo()
     {
-        InvokeRepeating("GoToExit", 0, Time.deltaTime);
+        InvokeRepeating("GoToExit", 0, Time.fixedDeltaTime);
     }
 
     private void GoToExit()
