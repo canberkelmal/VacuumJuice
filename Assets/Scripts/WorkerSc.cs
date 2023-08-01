@@ -26,7 +26,7 @@ public class WorkerSc : MonoBehaviour
         {
             CancelInvoke("GoToMachine");
             machine.GetComponent<MachineSc>().TakeProduct();
-            InvokeRepeating("GoToCostumer", 0, Time.deltaTime);
+            InvokeRepeating("GoToCostumer", 0, Time.fixedDeltaTime);
         }
     }
 
@@ -43,7 +43,7 @@ public class WorkerSc : MonoBehaviour
     {
         if(machine.GetComponent<MachineSc>().status == 2)
         {
-            InvokeRepeating("GoToMachine", 0, Time.deltaTime);
+            InvokeRepeating("GoToMachine", 0, Time.fixedDeltaTime);
         }
     }
 

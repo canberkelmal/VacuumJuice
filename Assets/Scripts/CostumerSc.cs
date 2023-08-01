@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CostumerSc : MonoBehaviour
 {
@@ -8,14 +9,16 @@ public class CostumerSc : MonoBehaviour
     public float movementSpeed = 1f;
     public bool isWaiting = false;
     public bool isHandled = false;
-    
 
     private IdleManager idleManager;
     private Vector3 destination = Vector3.zero;
+    private RawImage statuUI;
 
     void Awake()
     {
         idleManager = GameObject.Find("IdleManager").GetComponent<IdleManager>();
+        statuUI = transform.Find("Canvas").Find("Statu").GetComponent<RawImage>();
+        statuUI.texture = idleManager.SetTexture(askFor);
     }
 
     public void SendTo(Vector3 finalPoint)
@@ -38,6 +41,8 @@ public class CostumerSc : MonoBehaviour
     public void TakeAndGo()
     {
         InvokeRepeating("GoToExit", 0, Time.fixedDeltaTime);
+        statuUI.texture = idleManager.SetTexture("happy");
+        idleManager.SentCostumer(gameObject);
     }
 
     private void GoToExit()
