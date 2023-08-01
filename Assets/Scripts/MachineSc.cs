@@ -59,6 +59,7 @@ public class MachineSc : MonoBehaviour
                 fillImage.color = readyColor;
                 break;
         }
+
         Debug.Log("before SetReadyMachines");
         idleManager.SetReadyMachines();
     }

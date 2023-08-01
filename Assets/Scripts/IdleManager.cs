@@ -12,6 +12,7 @@ public class IdleManager : MonoBehaviour
     public Transform costumerSpawnPoint;
     public Transform costumerLastPoint;
     public Transform costumerExitPoint;
+    public Texture appleIcon, warningIcon, happyIcon;
 
     private int costumerCount = 0;
     public GameObject[] machines = new GameObject[0];
@@ -50,6 +51,11 @@ public class IdleManager : MonoBehaviour
         costumers = AddToCustomArray(costumers, newCostumer);
     }
 
+    public void SentCostumer(GameObject sentCostumer)
+    {
+        costumers = RemoveFromCustomArray(costumers, sentCostumer);
+    }
+
     public void CostumerAsksFor(string productName, GameObject costumer)
     {
         // Ready machine && available worker
@@ -58,6 +64,7 @@ public class IdleManager : MonoBehaviour
             switch (productName)
             {
                 case "apple":
+                    costumer.GetComponent<CostumerSc>().isWaiting = false;
                     costumer.GetComponent<CostumerSc>().isHandled = true;
                     handledCostumers = AddToCustomArray(handledCostumers, costumer);
 
@@ -68,10 +75,20 @@ public class IdleManager : MonoBehaviour
         // Ready machine && NO available worker
         else if (CheckForReadyMachine(productName) && !(availableWorkers.Length > 0))
         {
+            costumer.GetComponent<CostumerSc>().isWaiting = true;
             waitingCostumers = AddToCustomArray(waitingCostumers, costumer);
         }
-        // else if -> !readyMachine && availableWorker
-        // else if -> ! && !
+        // NO ready machine && available worker
+        else if (!CheckForReadyMachine(productName) && (availableWorkers.Length > 0))
+        {
+            costumer.GetComponent<CostumerSc>().isWaiting = true;
+            waitingCostumers = AddToCustomArray(waitingCostumers, costumer);
+        }
+        // NO ready machine && NO available worker
+        else if (!CheckForReadyMachine(productName) && !(availableWorkers.Length > 0))
+        {
+
+        }
     }
 
     private bool CheckForReadyMachine(string obj)
@@ -131,6 +148,11 @@ public class IdleManager : MonoBehaviour
             {
                 readyMachines = AddToCustomArray(readyMachines, machine);
             }
+        }
+        if (waitingCostumers.Length > 0 && readyMachines.Length > 0)
+        {
+            CostumerAsksFor(waitingCostumers[0].GetComponent<CostumerSc>().askFor, waitingCostumers[0]);
+            waitingCostumers = RemoveFromCustomArray(waitingCostumers, waitingCostumers[0]);
         }
     }
     public void SetAvailableWorkers()
@@ -236,6 +258,18 @@ public class IdleManager : MonoBehaviour
             Debug.Log(workersParent.transform.GetChild(i).gameObject + " is added.");
             workers[i] = workersParent.transform.GetChild(i).gameObject;
         }
+    }
+
+    public Texture SetTexture(string product)
+    {
+        switch (product)
+        {
+            case "apple":
+                return appleIcon;
+            case "happy":
+                return happyIcon;
+        }
+        return warningIcon;
     }
 
     // Reload the current scene to restart the game
