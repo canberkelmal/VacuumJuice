@@ -10,6 +10,7 @@ public class MachineSc : MonoBehaviour
     public float prepareDuration = 1;
     public float resourceCount = 0;
     public Color readyColor, unreadyColor;
+    public int machineLevel = 1;
 
     private float timer = 0;
     private Image fillImage;
@@ -23,6 +24,22 @@ public class MachineSc : MonoBehaviour
         fillImage = transform.Find("MachineCanvas").Find("BG").GetComponent<Image>();
         statuIcon = transform.Find("MachineCanvas").Find("Statu").gameObject;
         PrepareTest();
+    }
+
+    public void OpenMachinePanel(bool open)
+    {
+        if (open)
+        {
+            idleManager.machinePanel.SetActive(true);
+            Button lvButton = idleManager.machinePanel.transform.Find("LevelButton").GetComponent<Button>();
+            lvButton.onClick.AddListener(() => IncreaseMachineLevel(1));
+        }
+    }
+
+    public void IncreaseMachineLevel(int addLevel)
+    {
+        Debug.Log("Increased");
+        machineLevel += addLevel;
     }
 
     public void PrepareTest()
