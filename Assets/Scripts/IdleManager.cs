@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class IdleManager : MonoBehaviour
 {
@@ -46,13 +47,11 @@ public class IdleManager : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Mouse down");
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             // Open machine panel
             if (Physics.Raycast(ray, out hit, 100, machinesLayerMask))
             {
-                Debug.Log("Mouse down");
                 hit.collider.gameObject.GetComponent<MachineSc>().OpenMachinePanel(true);
             }
         }
@@ -62,6 +61,12 @@ public class IdleManager : MonoBehaviour
         {
             Restart();
         }
+    }
+    public void CloseMachinePanel()
+    {
+        Button lvButton = machinePanel.transform.Find("LevelButton").GetComponent<Button>();
+        lvButton.onClick.RemoveAllListeners();
+        machinePanel.SetActive(false);
     }
     public void SpawnCostumer()
     {

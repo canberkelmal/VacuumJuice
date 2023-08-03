@@ -498,8 +498,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   status: 0
+  product: Apple Juice
+  icon: {fileID: 2800000, guid: 896378b9346c33545852418783b9aad4, type: 3}
   prepareDuration: 1
-  resourceCount: 0
+  resourceCount: 1
   readyColor: {r: 0, g: 1, b: 0, a: 1}
   unreadyColor: {r: 1, g: 0, b: 0, a: 1}
   machineLevel: 1
