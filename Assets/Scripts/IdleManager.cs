@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,9 +10,11 @@ public class IdleManager : MonoBehaviour
     public GameObject workersParent;
     public GameObject costumersParent;
     public GameObject costumer;
+    public GameObject machinePanel;
     public Transform costumerSpawnPoint;
     public Transform costumerLastPoint;
     public Transform costumerExitPoint;
+    public LayerMask machinesLayerMask;
     public Texture appleIcon, warningIcon, happyIcon;
 
     private bool anyAvailableWorker = true;
@@ -36,14 +39,30 @@ public class IdleManager : MonoBehaviour
 
     private void Update()
     {
+        InputController();
+    }
+
+    void InputController()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("Mouse down");
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            // Open machine panel
+            if (Physics.Raycast(ray, out hit, 100, machinesLayerMask))
+            {
+                Debug.Log("Mouse down");
+                hit.collider.gameObject.GetComponent<MachineSc>().OpenMachinePanel(true);
+            }
+        }
+
         // Restart the game when the "R" key is pressed
         if (Input.GetKeyDown(KeyCode.R))
         {
             Restart();
         }
     }
-
-
     public void SpawnCostumer()
     {
         costumerCount++;

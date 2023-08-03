@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1811351088744938986}
   - component: {fileID: 245360154346720737}
   - component: {fileID: 4449210288792150666}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Obj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 786582028074632976}
   - component: {fileID: 3222011696347461046}
   - component: {fileID: 4631008558216137312}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MachineCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 1971439132922226784}
   - component: {fileID: 1563191283895030278}
   - component: {fileID: 916585878866237151}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BGStroke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -276,7 +276,7 @@ GameObject:
   - component: {fileID: 2199416960232420583}
   - component: {fileID: 8190076697750741511}
   - component: {fileID: 3253818807716123640}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -352,7 +352,7 @@ GameObject:
   - component: {fileID: 5070827810887364905}
   - component: {fileID: 871226693014512413}
   - component: {fileID: 868976404063847550}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ConstanBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -426,7 +426,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6337713054224744265}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TakeProductPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -459,7 +459,8 @@ GameObject:
   - component: {fileID: 8372168015248475827}
   - component: {fileID: 4093894166661391894}
   - component: {fileID: 1049230766558108874}
-  m_Layer: 0
+  - component: {fileID: -8243296104149754911}
+  m_Layer: 6
   m_Name: Machine
   m_TagString: appleMachine
   m_Icon: {fileID: 0}
@@ -501,6 +502,7 @@ MonoBehaviour:
   resourceCount: 0
   readyColor: {r: 0, g: 1, b: 0, a: 1}
   unreadyColor: {r: 1, g: 0, b: 0, a: 1}
+  machineLevel: 1
 --- !u!65 &1049230766558108874
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -522,6 +524,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.1, y: 0.1, z: 0.1}
   m_Center: {x: 0, y: 0, z: 0.7}
+--- !u!65 &-8243296104149754911
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8771716159159549014}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8934454001679915103
 GameObject:
   m_ObjectHideFlags: 0
@@ -533,7 +556,7 @@ GameObject:
   - component: {fileID: 954465959990246710}
   - component: {fileID: 6374066123179810863}
   - component: {fileID: 6643511363155196639}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Statu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
