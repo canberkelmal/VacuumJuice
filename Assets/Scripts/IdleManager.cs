@@ -14,15 +14,17 @@ public class IdleManager : MonoBehaviour
     public Transform costumerExitPoint;
     public Texture appleIcon, warningIcon, happyIcon;
 
+    private bool anyAvailableWorker = true;
     private int costumerCount = 0;
     public GameObject[] machines = new GameObject[0];
     public GameObject[] readyMachines = new GameObject[0];
     public GameObject[] availableWorkers = new GameObject[0];
+    public GameObject[] onQueueCostumers = new GameObject[0];
     private GameObject[] appleMachines = new GameObject[0];
     private GameObject[] workers = new GameObject[0];
     private GameObject[] costumers = new GameObject[0];
     private GameObject[] handledCostumers = new GameObject[0];
-    private GameObject[] waitingCostumers = new GameObject[0];
+    public GameObject[] waitingCostumers = new GameObject[0];
     // Start is called before the first frame update
     void Awake()
     {
@@ -34,7 +36,6 @@ public class IdleManager : MonoBehaviour
 
     private void Update()
     {
-
         // Restart the game when the "R" key is pressed
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -51,44 +52,122 @@ public class IdleManager : MonoBehaviour
         costumers = AddToCustomArray(costumers, newCostumer);
     }
 
-    public void SentCostumer(GameObject sentCostumer)
+    public void SentCostumer(GameObject sentCostumer, bool withProduct)
     {
         costumers = RemoveFromCustomArray(costumers, sentCostumer);
+        RemoveFromQueue(sentCostumer);
+        if (withProduct)
+        {
+            EditOrder();
+        }
+    }
+
+    public void EditOrder()
+    {
+        int i = 0;
+        foreach(GameObject obj in onQueueCostumers)
+        {
+            if (!obj.GetComponent<CostumerSc>().noResource)
+            {
+                obj.GetComponent<CostumerSc>().SendTo(costumerLastPoint.position - (Vector3.right * 1.5f * i));
+            }
+            i++;
+        }
+    }
+
+    public void AddToQueue(GameObject addedCostumer)
+    {
+        onQueueCostumers = AddToCustomArray(onQueueCostumers, addedCostumer);
+    }
+    public void RemoveFromQueue(GameObject addedCostumer)
+    {
+        onQueueCostumers = RemoveFromCustomArray(onQueueCostumers, addedCostumer);
     }
 
     public void CostumerAsksFor(string productName, GameObject costumer)
     {
-        // Ready machine && available worker
-        if(CheckForReadyMachine(productName) && availableWorkers.Length > 0)
+        if(!CheckForNoResourceMachine(productName))
         {
-            switch (productName)
+            // Ready machine && available worker
+            if (CheckForReadyMachine(productName) && anyAvailableWorker)
             {
-                case "apple":
-                    costumer.GetComponent<CostumerSc>().isWaiting = false;
-                    costumer.GetComponent<CostumerSc>().isHandled = true;
-                    handledCostumers = AddToCustomArray(handledCostumers, costumer);
+                switch (productName)
+                {
+                    case "apple":
+                        CostumerHandled(costumer);
 
-                    AvailableWorker().GetComponent<WorkerSc>().ServeToCostumer(costumer, AvailableMachine(productName));
-                    break;
+                        AvailableWorker().GetComponent<WorkerSc>().ServeToCostumer(costumer, AvailableMachine(productName));
+                        break;
+                }
             }
-        }
-        // Ready machine && NO available worker
-        else if (CheckForReadyMachine(productName) && !(availableWorkers.Length > 0))
-        {
-            costumer.GetComponent<CostumerSc>().isWaiting = true;
-            waitingCostumers = AddToCustomArray(waitingCostumers, costumer);
-        }
-        // NO ready machine && available worker
-        else if (!CheckForReadyMachine(productName) && (availableWorkers.Length > 0))
-        {
-            costumer.GetComponent<CostumerSc>().isWaiting = true;
-            waitingCostumers = AddToCustomArray(waitingCostumers, costumer);
-        }
-        // NO ready machine && NO available worker
-        else if (!CheckForReadyMachine(productName) && !(availableWorkers.Length > 0))
-        {
+            else
+            {
+                if (!costumer.GetComponent<CostumerSc>().isWaiting)
+                {
+                    costumer.GetComponent<CostumerSc>().isWaiting = true;
+                    waitingCostumers = AddToCustomArray(waitingCostumers, costumer);
+                }
+            }
+            /*
+            // Ready machine && NO available worker
+            else if (CheckForReadyMachine(productName) && !(availableWorkers.Length > 0))
+            {
+                Debug.Log(costumer + " is waiting for worker.");
 
+                if (costumer.GetComponent<CostumerSc>().isWaiting == false)
+                {
+                    costumer.GetComponent<CostumerSc>().isWaiting = true;
+                    waitingCostumers = AddToCustomArray(waitingCostumers, costumer);
+                }
+            }
+            // NO ready machine && available worker
+            else if (!CheckForReadyMachine(productName) && (availableWorkers.Length > 0))
+            {
+                Debug.Log(costumer + " is waiting for machine.");
+
+                if (costumer.GetComponent<CostumerSc>().isWaiting == false)
+                {
+                    costumer.GetComponent<CostumerSc>().isWaiting = true;
+                    waitingCostumers = AddToCustomArray(waitingCostumers, costumer);
+                }
+            }
+            // NO ready machine && NO available worker
+            else if (!CheckForReadyMachine(productName) && !(availableWorkers.Length > 0))
+            {
+
+            }
+            */
         }
+        else
+        {
+            NoResource(productName);
+        }
+    }
+
+    private void CostumerHandled(GameObject handled)
+    {
+        handled.GetComponent<CostumerSc>().isWaiting = false;
+        handled.GetComponent<CostumerSc>().isHandled = true;
+        waitingCostumers = RemoveFromCustomArray(waitingCostumers, handled);
+        handledCostumers = AddToCustomArray(handledCostumers, handled);
+    }
+
+    private void NoResource(string productName)
+    {
+        switch (productName)
+        {
+            case "apple":
+                foreach (var waiting in waitingCostumers)
+                {
+                    if (waiting.GetComponent<CostumerSc>().askFor == productName)
+                    {
+                        waitingCostumers = RemoveFromCustomArray(waitingCostumers, waiting);
+                        waiting.GetComponent<CostumerSc>().TakeAndGo(false);
+                    }
+                }
+                break;
+        }
+        EditOrder();
     }
 
     private bool CheckForReadyMachine(string obj)
@@ -99,6 +178,15 @@ public class IdleManager : MonoBehaviour
                 return true;
         }
         return false;
+    }
+    private bool CheckForNoResourceMachine(string obj)
+    {
+        foreach (GameObject machine in machines)
+        {
+            if (machine.CompareTag(obj + "Machine") && machine.GetComponent<MachineSc>().status != 0)
+                return false;
+        }
+        return true;
     }
 
     private GameObject AvailableWorker()
@@ -113,7 +201,7 @@ public class IdleManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("No available worker.");
+                Debug.Log("____No available worker.___");
             }
         }
 
@@ -152,23 +240,23 @@ public class IdleManager : MonoBehaviour
         if (waitingCostumers.Length > 0 && readyMachines.Length > 0)
         {
             CostumerAsksFor(waitingCostumers[0].GetComponent<CostumerSc>().askFor, waitingCostumers[0]);
-            waitingCostumers = RemoveFromCustomArray(waitingCostumers, waitingCostumers[0]);
         }
     }
     public void SetAvailableWorkers()
     {
-        availableWorkers = new GameObject[0];
+        bool av = false;
         foreach (GameObject worker in workers)
         {
             if (worker.CompareTag("NotBusy"))
             {
                 availableWorkers = AddToCustomArray(availableWorkers, worker);
+                av = true;
             }
         }
-        if(waitingCostumers.Length > 0 && availableWorkers.Length > 0)
+        anyAvailableWorker = av;
+        if (waitingCostumers.Length > 0 && anyAvailableWorker)
         {
             CostumerAsksFor(waitingCostumers[0].GetComponent<CostumerSc>().askFor, waitingCostumers[0]);
-            waitingCostumers = RemoveFromCustomArray(waitingCostumers, waitingCostumers[0]);
         }
     }
     private GameObject[] AddToCustomArray(GameObject[] originalArray, GameObject addedObj)
@@ -179,11 +267,22 @@ public class IdleManager : MonoBehaviour
             return originalArray;
         }
 
+        // Do not add if addedObj is member of original array
+        foreach (GameObject obj in originalArray)
+        {
+            if(obj == addedObj)
+            {
+                return originalArray;
+            }
+        }
+
         GameObject[] newArray = new GameObject[originalArray.Length + 1];
         for (int i = 0; i < originalArray.Length; i++)
         {
             newArray[i] = originalArray[i];
         }
+
+
 
         newArray[originalArray.Length] = addedObj;
 
@@ -235,6 +334,7 @@ public class IdleManager : MonoBehaviour
 
         return newArray;
     }
+    
     private void FillMachinesArray()
     {
         machines = new GameObject[machinesParent.transform.childCount];
@@ -268,6 +368,8 @@ public class IdleManager : MonoBehaviour
                 return appleIcon;
             case "happy":
                 return happyIcon;
+            case "unHappy":
+                return warningIcon;
         }
         return warningIcon;
     }

@@ -22,8 +22,10 @@ public class WorkerSc : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject == machine)
+        Debug.Log("worker hit to" + other.gameObject);
+        if (gameObject.CompareTag("Busy") && goingMachine)
         {
+            goingMachine = false;
             CancelInvoke("GoToMachine");
             machine.GetComponent<MachineSc>().TakeProduct();
             InvokeRepeating("GoToCostumer", 0, Time.fixedDeltaTime);
@@ -33,16 +35,17 @@ public class WorkerSc : MonoBehaviour
     public void ServeToCostumer(GameObject costumer, GameObject machine)
     {
         gameObject.tag = "Busy";
+        idleManager.SetAvailableWorkers();
         this.costumer = costumer;
         this.machine = machine;
         StartDuty();
-        idleManager.SetAvailableWorkers();
     }
 
     private void StartDuty()
     {
         if(machine.GetComponent<MachineSc>().status == 2)
         {
+            goingMachine = true;
             InvokeRepeating("GoToMachine", 0, Time.fixedDeltaTime);
         }
     }
@@ -65,7 +68,7 @@ public class WorkerSc : MonoBehaviour
     {
         CancelInvoke("GoToCostumer");
         gameObject.tag = "NotBusy";
-        costumer.GetComponent<CostumerSc>().TakeAndGo();
+        costumer.GetComponent<CostumerSc>().TakeAndGo(true);
         idleManager.SetAvailableWorkers();
     }
 
