@@ -78,6 +78,7 @@ public class IdleManager : MonoBehaviour
 
     public void SentCostumer(GameObject sentCostumer, bool withProduct)
     {
+        costumerCount--;
         costumers = RemoveFromCustomArray(costumers, sentCostumer);
         RemoveFromQueue(sentCostumer);
         if (withProduct)
@@ -164,6 +165,11 @@ public class IdleManager : MonoBehaviour
         }
         else
         {
+            if (!costumer.GetComponent<CostumerSc>().isWaiting)
+            {
+                costumer.GetComponent<CostumerSc>().isWaiting = true;
+                waitingCostumers = AddToCustomArray(waitingCostumers, costumer);
+            }
             NoResource(productName);
         }
     }
@@ -225,7 +231,7 @@ public class IdleManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("____No available worker.___");
+                //Debug.Log("____No available worker.___");
             }
         }
 
@@ -244,7 +250,7 @@ public class IdleManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("Next machine.");
+                //Debug.Log("Next machine.");
             }
         }
 
@@ -287,7 +293,7 @@ public class IdleManager : MonoBehaviour
     {
         if (addedObj == null)
         {
-            Debug.Log("Null obj is tried to add to the array");
+            //Debug.Log("Null obj is tried to add to the array");
             return originalArray;
         }
 
@@ -310,7 +316,7 @@ public class IdleManager : MonoBehaviour
 
         newArray[originalArray.Length] = addedObj;
 
-        Debug.Log("Object is added to the array");
+        //Debug.Log("Object is added to the array");
 
         return newArray;
     }
@@ -318,7 +324,7 @@ public class IdleManager : MonoBehaviour
     {
         if (removedObj == null)
         {
-            Debug.Log("Null obj is tried to remove from the array");
+            //Debug.Log("Null obj is tried to remove from the array");
             return originalArray;
         }
 
@@ -336,7 +342,7 @@ public class IdleManager : MonoBehaviour
 
         if (removedIndex == -1)
         {
-            Debug.Log("Object not found in the array");
+            //Debug.Log("Object not found in the array");
             return originalArray;
         }
 
@@ -354,7 +360,7 @@ public class IdleManager : MonoBehaviour
             newArray[i - 1] = originalArray[i];
         }
 
-        Debug.Log("Object is removed from the array");
+        //Debug.Log("Object is removed from the array");
 
         return newArray;
     }
@@ -379,7 +385,7 @@ public class IdleManager : MonoBehaviour
 
         for (int i = 0; i < workers.Length; i++)
         {
-            Debug.Log(workersParent.transform.GetChild(i).gameObject + " is added.");
+            //Debug.Log(workersParent.transform.GetChild(i).gameObject + " is added.");
             workers[i] = workersParent.transform.GetChild(i).gameObject;
         }
     }
@@ -397,7 +403,10 @@ public class IdleManager : MonoBehaviour
         }
         return warningIcon;
     }
-
+    public void LoadScene(int sceneIndex)
+    {
+        SceneManager.LoadScene(sceneIndex);
+    }
     // Reload the current scene to restart the game
     public void Restart()
     {

@@ -86,7 +86,7 @@ public class MachineSc : MonoBehaviour
                 break;
         }
 
-        Debug.Log("before SetReadyMachines");
+        //Debug.Log("before SetReadyMachines");
         idleManager.SetReadyMachines();
     }
 
@@ -126,17 +126,17 @@ public class MachineSc : MonoBehaviour
             // No more resources
             else if (resourceCount == 0)
             {
-                Debug.Log("Taken and no more resources.");
+                //Debug.Log("Taken and no more resources.");
                 SetStatus(0);
             }
         }
         else if(status == 1)
         {
-            Debug.Log("Product is being prepared.");
+            //Debug.Log("Product is being prepared.");
         }
         else if(status == 0)
         {
-            Debug.Log("No resource.");
+            //Debug.Log("No resource.");
         }
     }
 

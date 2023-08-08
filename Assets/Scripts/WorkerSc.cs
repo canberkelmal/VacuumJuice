@@ -22,7 +22,7 @@ public class WorkerSc : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("worker hit to" + other.gameObject);
+        //Debug.Log("worker hit to" + other.gameObject);
         if (gameObject.CompareTag("Busy") && goingMachine)
         {
             goingMachine = false;
