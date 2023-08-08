@@ -16,3 +16,10 @@ Buff Vacuum Particles
 -----------------------
 - StunExplosion
 - MagicBuffBlue
+
+IDLE
+----
+1- 1 çeşit meyve suyu, 2 makine, her makine X level
+2- 2 çeşit meyve suyu, 2'şer makine, her makine 2X level
+2- 2 çeşit meyve suyu, 1 çeşit frozen, 
+           3'er mak.(3x lv.)   2 mak.(2x lv.) 

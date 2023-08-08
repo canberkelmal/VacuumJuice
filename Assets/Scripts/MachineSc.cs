@@ -8,12 +8,12 @@ public class MachineSc : MonoBehaviour
     // 0 No resource, 1 Preparing, 2 Ready
     public int status = 0;
     public string product = "Apple Juice";
-    public Texture icon;
     public float prepareDuration = 1;
     public float resourceCount = 0;
     public Color readyColor, unreadyColor;
     public int machineLevel = 1;
 
+    private Texture icon;
     private float timer = 0;
     private Image fillImage;
     private GameObject statuIcon;
@@ -35,6 +35,17 @@ public class MachineSc : MonoBehaviour
         {
             panel.Find("NameTX").GetComponent<Text>().text = product + " Machine";
             panel.Find("LevelTX").GetComponent<Text>().text = "Level " + machineLevel.ToString();
+
+            switch (gameObject.tag)
+            {
+                case "appleMachine":
+                    icon = idleManager.appleIcon;
+                    break;
+                case "orangeMachine":
+                    icon = idleManager.orangeIcon;
+                    break;
+
+            }
             panel.Find("ProductIcon").GetComponent<RawImage>().texture = icon;
 
             Button lvButton = panel.Find("LevelButton").GetComponent<Button>();
@@ -42,7 +53,6 @@ public class MachineSc : MonoBehaviour
 
             idleManager.machinePanel.SetActive(true);
         }
-
     }
 
     public void IncreaseMachineLevel(int addLevel)

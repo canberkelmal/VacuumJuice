@@ -16,7 +16,7 @@ public class IdleManager : MonoBehaviour
     public Transform costumerLastPoint;
     public Transform costumerExitPoint;
     public LayerMask machinesLayerMask;
-    public Texture appleIcon, warningIcon, happyIcon;
+    public Texture appleIcon, orangeIcon, warningIcon, happyIcon;
 
     private bool anyAvailableWorker = true;
     private int costumerCount = 0;
@@ -25,6 +25,7 @@ public class IdleManager : MonoBehaviour
     public GameObject[] availableWorkers = new GameObject[0];
     public GameObject[] onQueueCostumers = new GameObject[0];
     private GameObject[] appleMachines = new GameObject[0];
+    private GameObject[] orangeMachines = new GameObject[0];
     private GameObject[] workers = new GameObject[0];
     private GameObject[] costumers = new GameObject[0];
     private GameObject[] handledCostumers = new GameObject[0];
@@ -116,6 +117,11 @@ public class IdleManager : MonoBehaviour
             // Ready machine && available worker
             if (CheckForReadyMachine(productName) && anyAvailableWorker)
             {
+                CostumerHandled(costumer);
+
+                AvailableWorker().GetComponent<WorkerSc>().ServeToCostumer(costumer, AvailableMachine(productName));
+
+                /*
                 switch (productName)
                 {
                     case "apple":
@@ -123,7 +129,13 @@ public class IdleManager : MonoBehaviour
 
                         AvailableWorker().GetComponent<WorkerSc>().ServeToCostumer(costumer, AvailableMachine(productName));
                         break;
-                }
+
+                    case "orange":
+                        CostumerHandled(costumer);
+
+                        AvailableWorker().GetComponent<WorkerSc>().ServeToCostumer(costumer, AvailableMachine(productName));
+                        break;
+                }*/
             }
             else
             {
@@ -184,7 +196,15 @@ public class IdleManager : MonoBehaviour
 
     private void NoResource(string productName)
     {
-        switch (productName)
+        foreach (var waiting in waitingCostumers)
+        {
+            if (waiting.GetComponent<CostumerSc>().askFor == productName)
+            {
+                waitingCostumers = RemoveFromCustomArray(waitingCostumers, waiting);
+                waiting.GetComponent<CostumerSc>().TakeAndGo(false);
+            }
+        }
+        /*switch (productName)
         {
             case "apple":
                 foreach (var waiting in waitingCostumers)
@@ -196,7 +216,7 @@ public class IdleManager : MonoBehaviour
                     }
                 }
                 break;
-        }
+        }*/
         EditOrder();
     }
 
@@ -373,9 +393,14 @@ public class IdleManager : MonoBehaviour
         {
             machines[i] = machinesParent.transform.GetChild(i).gameObject;
 
-            if (machines[i].CompareTag("appleMachine"))
+            switch (machines[i].tag)
             {
-                appleMachines = AddToCustomArray(appleMachines, machines[i]);
+                case "appleMachine":
+                    appleMachines = AddToCustomArray(appleMachines, machines[i]);
+                    break;
+                case "orangeMachine":
+                    orangeMachines = AddToCustomArray(orangeMachines, machines[i]);
+                    break;
             }
         }
     }
@@ -396,6 +421,9 @@ public class IdleManager : MonoBehaviour
         {
             case "apple":
                 return appleIcon;
+            case "orange":
+                return orangeIcon;
+
             case "happy":
                 return happyIcon;
             case "unHappy":
