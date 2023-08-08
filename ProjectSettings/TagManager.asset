@@ -12,6 +12,7 @@ TagManager:
   - Busy
   - NotBusy
   - appleMachine
+  - orangeMachine
   layers:
   - Default
   - TransparentFX

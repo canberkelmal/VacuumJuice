@@ -461,7 +461,7 @@ GameObject:
   - component: {fileID: 1049230766558108874}
   - component: {fileID: -8243296104149754911}
   m_Layer: 6
-  m_Name: Machine
+  m_Name: AppleMachine
   m_TagString: appleMachine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

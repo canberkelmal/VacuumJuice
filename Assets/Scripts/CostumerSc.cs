@@ -19,6 +19,7 @@ public class CostumerSc : MonoBehaviour
 
     void Awake()
     {
+        askFor = Random.Range(1, 100) < 50 ? "apple" : "orange";
         idleManager = GameObject.Find("IdleManager").GetComponent<IdleManager>();
         statuUI = transform.Find("Canvas").Find("Statu").GetComponent<RawImage>();
         statuUI.texture = idleManager.SetTexture(askFor);
