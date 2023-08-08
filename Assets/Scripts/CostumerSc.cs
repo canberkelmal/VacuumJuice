@@ -69,7 +69,7 @@ public class CostumerSc : MonoBehaviour
 
         if (transform.position == idleManager.costumerExitPoint.position)
         {
-            Debug.Log("Costumer went.");
+            //Debug.Log("Costumer went.");
             CancelInvoke("GoToExit");
         }
     }

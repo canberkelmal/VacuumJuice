@@ -528,6 +528,11 @@ public class GameManager : MonoBehaviour
         ChangePlayerSpeed(true);
     }
 
+    public void LoadScene(int sceneIndex)
+    {
+        SceneManager.LoadScene(sceneIndex);
+    }
+
     // Reload the current scene to restart the game
     public void Restart()
     {
