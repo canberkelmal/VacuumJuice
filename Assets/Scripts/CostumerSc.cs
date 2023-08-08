@@ -71,6 +71,7 @@ public class CostumerSc : MonoBehaviour
         {
             //Debug.Log("Costumer went.");
             CancelInvoke("GoToExit");
+            Destroy(gameObject);
         }
     }
 }
