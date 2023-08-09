@@ -94,6 +94,7 @@ public class IdleManager : MonoBehaviour
     public void SentCostumer(GameObject sentCostumer, bool withProduct)
     {
         costumerCount--;
+        sentCostumer.transform.parent = null;
         costumers = RemoveFromCustomArray(costumers, sentCostumer);
         RemoveFromQueue(sentCostumer);
         if (withProduct)
@@ -255,13 +256,14 @@ public class IdleManager : MonoBehaviour
 
     private GameObject AvailableWorker()
     {
-        GameObject availableWorker = new GameObject();
+        //GameObject availableWorker = new GameObject();
         
         foreach (GameObject worker in workers)
         {
             if (worker.CompareTag("NotBusy"))
             {
-                availableWorker = worker;
+                //availableWorker = worker;
+                return worker;
             }
             else
             {
@@ -269,18 +271,18 @@ public class IdleManager : MonoBehaviour
             }
         }
 
-        return availableWorker;
+        return null;
     }
     private GameObject AvailableMachine(string machineProduct)
     {
-        GameObject availableMachine = new GameObject();
+        //GameObject availableMachine = new GameObject();
 
         foreach (GameObject machine in readyMachines)
         {
             if (machine.CompareTag(machineProduct + "Machine"))
             {
-                availableMachine = machine;
-                return availableMachine;
+                //availableMachine = machine;
+                return machine;
             }
             else
             {
@@ -288,7 +290,7 @@ public class IdleManager : MonoBehaviour
             }
         }
 
-        return availableMachine;
+        return null;
     }
 
     public void SetReadyMachines()

@@ -25,6 +25,7 @@ public class MachineSc : MonoBehaviour
         idleManager = GameObject.Find("IdleManager").GetComponent<IdleManager>();
         fillImage = transform.Find("MachineCanvas").Find("BG").GetComponent<Image>();
         statuIcon = transform.Find("MachineCanvas").Find("Statu").gameObject;
+        machineLevel = idleManager.GetMachineLevel(gameObject);
         PrepareTest();
     }
 
