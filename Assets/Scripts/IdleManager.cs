@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.HighDefinition.ScalableSettingLevelParameter;
 
 public class IdleManager : MonoBehaviour
 {
+    public int startLevel = 0;
     public GameObject machinesParent;
     public GameObject workersParent;
     public GameObject costumersParent;
@@ -16,6 +18,7 @@ public class IdleManager : MonoBehaviour
     public Transform costumerExitPoint;
     public LayerMask machinesLayerMask;
     public Texture appleIcon, orangeIcon, warningIcon, happyIcon;
+    public GameObject[] levels;
 
     private bool anyAvailableWorker = true;
     private int costumerCount = 0;
@@ -32,16 +35,25 @@ public class IdleManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        InitIdleScene();
         FillMachinesArray();
         FillWorkersArray();
         costumerCount = costumersParent.transform.childCount;
         SetAvailableWorkers();
+        //InvokeRepeating("SpawnCostumer", 1, 1);
+    }
+
+    void InitIdleScene()
+    {
+        PlayerPrefs.SetInt("IdleLevel", startLevel);
+        GameObject scene = Instantiate(levels[PlayerPrefs.GetInt("IdleLevel", 0)], GameObject.Find("Levels").transform);
+        machinesParent = scene.transform.GetChild(0).gameObject;
     }
 
     private void Update()
     {
         InputController();
-    }
+    } 
 
     void InputController()
     {
@@ -70,10 +82,13 @@ public class IdleManager : MonoBehaviour
     }
     public void SpawnCostumer()
     {
-        costumerCount++;
-        GameObject newCostumer = Instantiate(costumer, costumerSpawnPoint.position, Quaternion.identity, costumersParent.transform);
-        newCostumer.GetComponent<CostumerSc>().SendTo(costumerLastPoint.position - (Vector3.right * 1.5f * (costumerCount-1) ));
-        costumers = AddToCustomArray(costumers, newCostumer);
+        if(costumerCount < 6)
+        {
+            costumerCount++;
+            GameObject newCostumer = Instantiate(costumer, costumerSpawnPoint.position, Quaternion.identity, costumersParent.transform);
+            newCostumer.GetComponent<CostumerSc>().SendTo(costumerLastPoint.position - (Vector3.right * 1.5f * (costumerCount - 1)));
+            costumers = AddToCustomArray(costumers, newCostumer);
+        }
     }
 
     public void SentCostumer(GameObject sentCostumer, bool withProduct)
@@ -403,6 +418,43 @@ public class IdleManager : MonoBehaviour
             }
         }
     }
+
+    public int GetMachineLevel(GameObject machine)
+    {
+        int count = 0;
+        int level = -1;
+        foreach (GameObject machineObj in machines)
+        {
+            if(machine.tag == machineObj.tag)
+            {
+                count++;
+                if(machine == machineObj)
+                {
+                    level = PlayerPrefs.GetInt((machine.tag + count + "Level"), 1);
+                }
+            }
+        }
+        return level;
+    }
+
+    public void IncreaseMachineLevel(GameObject machine)
+    {
+        int count = 0;
+        int level = -1;
+        foreach (GameObject machineObj in machines)
+        {
+            if (machine.tag == machineObj.tag)
+            {
+                count++;
+                if (machine == machineObj)
+                {
+                    level = PlayerPrefs.GetInt((machine.tag + count + "Level"), 1) + 1;
+                    PlayerPrefs.SetInt((machine.tag + count + "Level"), level);
+                }
+            }
+        }
+    }
+
     private void FillWorkersArray()
     {
         workers = new GameObject[workersParent.transform.childCount];

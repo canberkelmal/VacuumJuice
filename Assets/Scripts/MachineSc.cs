@@ -7,7 +7,7 @@ public class MachineSc : MonoBehaviour
 {
     // 0 No resource, 1 Preparing, 2 Ready
     public int status = 0;
-    public string product = "Apple Juice";
+    public string product = "apple";
     public float prepareDuration = 1;
     public float resourceCount = 0;
     public Color readyColor, unreadyColor;
@@ -34,6 +34,7 @@ public class MachineSc : MonoBehaviour
         if (open)
         {
             panel.Find("NameTX").GetComponent<Text>().text = product + " Machine";
+            machineLevel = idleManager.GetMachineLevel(gameObject);
             panel.Find("LevelTX").GetComponent<Text>().text = "Level " + machineLevel.ToString();
 
             switch (gameObject.tag)
@@ -57,7 +58,9 @@ public class MachineSc : MonoBehaviour
 
     public void IncreaseMachineLevel(int addLevel)
     {
-        machineLevel += addLevel;
+        idleManager.IncreaseMachineLevel(gameObject);
+        machineLevel = idleManager.GetMachineLevel(gameObject);
+
         idleManager.machinePanel.transform.Find("LevelTX").GetComponent<Text>().text = "Level " + machineLevel.ToString();
     }
 

@@ -312,7 +312,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   status: 0
-  product: Orange Juice
+  product: orange
   prepareDuration: 1
   resourceCount: 1
   readyColor: {r: 0, g: 1, b: 0, a: 1}
