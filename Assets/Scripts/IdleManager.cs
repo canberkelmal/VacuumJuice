@@ -4,7 +4,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.HighDefinition.ScalableSettingLevelParameter;
 
 public class IdleManager : MonoBehaviour
 {
@@ -23,6 +22,7 @@ public class IdleManager : MonoBehaviour
     public int resourceCount = 0;
     public int[] maxMachineLevels = new int[0];
     public int currentMaxMachineLevel = -1;
+    public Material appleMachineMat, orangeMachineMat, defMachineMat;
 
     private bool anyAvailableWorker = true;
     private int costumerCount = 0;
@@ -36,6 +36,7 @@ public class IdleManager : MonoBehaviour
     private GameObject[] costumers = new GameObject[0];
     private GameObject[] handledCostumers = new GameObject[0];
     public GameObject[] waitingCostumers = new GameObject[0];
+
     // Start is called before the first frame update
     void Awake()
     {

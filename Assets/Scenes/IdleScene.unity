@@ -2713,52 +2713,52 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: ce78dab4aa8c5da45868b34074a7488f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.9506295
+      value: 2.1955442
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ce78dab4aa8c5da45868b34074a7488f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.796
+      value: 0.81002235
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ce78dab4aa8c5da45868b34074a7488f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -14.683754
+      value: -16.977932
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ce78dab4aa8c5da45868b34074a7488f,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.84041023
+      value: 0.8597905
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ce78dab4aa8c5da45868b34074a7488f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.15873778
+      value: 0.2495461
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ce78dab4aa8c5da45868b34074a7488f,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.34519356
+      value: -0.013223631
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ce78dab4aa8c5da45868b34074a7488f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.386464
+      value: 0.44532257
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ce78dab4aa8c5da45868b34074a7488f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: 26.161
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ce78dab4aa8c5da45868b34074a7488f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 44.66
+      value: 12.844
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ce78dab4aa8c5da45868b34074a7488f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 49.391
+      value: 57.759
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ce78dab4aa8c5da45868b34074a7488f,
         type: 3}
@@ -3464,7 +3464,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 337e42f663a32424cba4f4566ebf608a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.7436293
+      value: 1.382121
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 337e42f663a32424cba4f4566ebf608a,
         type: 3}
@@ -3474,12 +3474,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 337e42f663a32424cba4f4566ebf608a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -14.322754
+      value: -17.887405
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 337e42f663a32424cba4f4566ebf608a,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.4731275
+      value: 0.8798393
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 337e42f663a32424cba4f4566ebf608a,
         type: 3}
@@ -3489,7 +3489,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 337e42f663a32424cba4f4566ebf608a,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.88099396
+      value: 0.47527122
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 337e42f663a32424cba4f4566ebf608a,
         type: 3}
@@ -3504,7 +3504,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 337e42f663a32424cba4f4566ebf608a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 123.525
+      value: 56.754
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 337e42f663a32424cba4f4566ebf608a,
         type: 3}
@@ -4697,6 +4697,9 @@ MonoBehaviour:
   resourceCount: 15
   maxMachineLevels: 19000000320000004b000000
   currentMaxMachineLevel: -1
+  appleMachineMat: {fileID: 2100000, guid: 928d9625a5032164bbea3166efa9501e, type: 2}
+  orangeMachineMat: {fileID: 2100000, guid: 5047f64e978f7ca4982eecc97b946401, type: 2}
+  defMachineMat: {fileID: 2100000, guid: d7cf1d79bfa8f0644ace6285973542c0, type: 2}
   machines: []
   readyMachines: []
   availableWorkers: []

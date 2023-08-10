@@ -27,20 +27,30 @@ public class MachineSc : MonoBehaviour
         statuIcon = transform.Find("MachineCanvas").Find("Statu").gameObject;
         InitMachine();
         PrepareTest();
-    }
+    } 
 
     public void InitMachine()
     {
         machineLevel = idleManager.GetMachineLevel(gameObject);
-        if(machineLevel == 0 )
+        Transform obj = transform.Find("Obj");
+        if (machineLevel == 0 )
         {
-            transform.Find("Obj").localPosition = Vector3.up * (-0.25f);
-            transform.Find("Obj").localScale = Vector3.one - Vector3.up * (0.5f);
+            obj.localPosition = Vector3.up * (-0.25f);
+            obj.localScale = Vector3.one - Vector3.up * (0.5f);
+            obj.GetComponent<Renderer>().material = idleManager.defMachineMat;
         }
         else
         {
-            transform.Find("Obj").localPosition = Vector3.zero;
-            transform.Find("Obj").localScale = Vector3.one;
+            obj.localPosition = Vector3.zero;
+            obj.localScale = Vector3.one;
+            if(gameObject.tag == "appleMachine")
+            {
+                obj.GetComponent<Renderer>().material = idleManager.appleMachineMat;
+            }
+            else if (gameObject.tag == "orangeMachine")
+            {
+                obj.GetComponent<Renderer>().material = idleManager.orangeMachineMat;
+            }
         }
         PrepareTest();
     }
