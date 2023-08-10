@@ -25,8 +25,23 @@ public class MachineSc : MonoBehaviour
         idleManager = GameObject.Find("IdleManager").GetComponent<IdleManager>();
         fillImage = transform.Find("MachineCanvas").Find("BG").GetComponent<Image>();
         statuIcon = transform.Find("MachineCanvas").Find("Statu").gameObject;
-        machineLevel = idleManager.GetMachineLevel(gameObject);
+        InitMachine();
         PrepareTest();
+    }
+
+    public void InitMachine()
+    {
+        machineLevel = idleManager.GetMachineLevel(gameObject);
+        if(machineLevel == 0 )
+        {
+            transform.Find("Obj").localPosition = Vector3.up * (-0.25f);
+            transform.Find("Obj").localScale = Vector3.one - Vector3.up * (0.5f);
+        }
+        else
+        {
+            transform.Find("Obj").localPosition = Vector3.zero;
+            transform.Find("Obj").localScale = Vector3.one;
+        }
     }
 
     public void OpenMachinePanel(bool open)
@@ -63,6 +78,7 @@ public class MachineSc : MonoBehaviour
         machineLevel = idleManager.GetMachineLevel(gameObject);
 
         idleManager.machinePanel.transform.Find("LevelTX").GetComponent<Text>().text = "Level " + machineLevel.ToString();
+        InitMachine();
     }
 
     public void PrepareTest()

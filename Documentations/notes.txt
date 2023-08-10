@@ -1,8 +1,3 @@
-level end: coffe stack gibi bardaklar dolacak, kalan ise finaldeki bir tüpe dolacak
-
-runner
-
-
 5 Temmuz trend analizi notları
 * Slow mo run - Supersonic (runner, puzzle, hyperCasual)
 * Dreamdale
@@ -19,9 +14,13 @@ Buff Vacuum Particles
 
 IDLE
 ----
-1- 1 çeşit meyve suyu, 2 makine, her makine X level
-2- 2 çeşit meyve suyu, 2'şer makine, her makine 2X level
-3- 2 çeşit meyve suyu, 1 çeşit frozen, 
-           3'er mak.(3x lv.)   2 mak.(2x lv.) 
+Lv.1-> 1 çeşit meyve suyu, 2 makine, her makine X level
+Lv.2-> 2 çeşit meyve suyu, 2'şer makine, her makine 2X level
+Lv.3-> 2 çeşit meyve suyu, 1 çeşit frozen, 
+               3'er mak.(3x lv.)   2 mak.(2x lv.) 
 
 - Sıra zikzak şeklinde olacak.
+- Lv atlayınca sıfırlancak.
+- makinalar ayrı ayrı upgrade olcak
+- her tur sadece "ilk makina, lv1" unlock
+- makine lvl arttıkça prepare duration kısalcak, ürün ücreti artacak
