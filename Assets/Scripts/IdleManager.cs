@@ -20,6 +20,9 @@ public class IdleManager : MonoBehaviour
     public LayerMask machinesLayerMask;
     public Texture appleIcon, orangeIcon, warningIcon, happyIcon;
     public GameObject[] levels;
+    public int resourceCount = 0;
+    public int[] maxMachineLevels = new int[0];
+    public int currentMaxMachineLevel = -1;
 
     private bool anyAvailableWorker = true;
     private int costumerCount = 0;
@@ -36,17 +39,19 @@ public class IdleManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        resourceCount = PlayerPrefs.GetInt("cupCount", 0);
         InitIdleScene();
         FillMachinesArray();
         FillWorkersArray();
         costumerCount = costumersParent.transform.childCount;
         SetAvailableWorkers();
-        //InvokeRepeating("SpawnCostumer", 1, 1);
+        InvokeRepeating("SpawnCostumer", 1, 1);
     }
 
     void InitIdleScene()
     {
         PlayerPrefs.SetInt("IdleLevel", startLevel);
+        currentMaxMachineLevel = maxMachineLevels[PlayerPrefs.GetInt("IdleLevel", startLevel)];
         GameObject scene = Instantiate(levels[PlayerPrefs.GetInt("IdleLevel", 0)], GameObject.Find("Levels").transform);
         machinesParent = scene.transform.GetChild(0).gameObject;
     }
@@ -83,12 +88,16 @@ public class IdleManager : MonoBehaviour
     }
     public void SpawnCostumer()
     {
-        if(costumerCount < 6)
+        if(costumerCount < 6 && resourceCount > 0)
         {
             costumerCount++;
             GameObject newCostumer = Instantiate(costumer, costumerSpawnPoint.position, Quaternion.identity, costumersParent.transform);
             newCostumer.GetComponent<CostumerSc>().SendTo(costumerLastPoint.position - (Vector3.right * 1.5f * (costumerCount - 1)));
             costumers = AddToCustomArray(costumers, newCostumer);
+        }
+        else if(resourceCount <= 0)
+        {
+            CancelInvoke("SpawnCostumer");
         }
     }
 
@@ -249,7 +258,7 @@ public class IdleManager : MonoBehaviour
     {
         foreach (GameObject machine in machines)
         {
-            if (machine.CompareTag(obj + "Machine") && machine.GetComponent<MachineSc>().status != 0)
+            if (machine.CompareTag(obj + "Machine") && machine.GetComponent<MachineSc>().status > 0)
                 return false;
         }
         return true;

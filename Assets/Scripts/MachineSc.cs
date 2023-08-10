@@ -42,6 +42,7 @@ public class MachineSc : MonoBehaviour
             transform.Find("Obj").localPosition = Vector3.zero;
             transform.Find("Obj").localScale = Vector3.one;
         }
+        PrepareTest();
     }
 
     public void OpenMachinePanel(bool open)
@@ -92,28 +93,38 @@ public class MachineSc : MonoBehaviour
 
     public void SetStatus(int stat)
     {
-        status = stat;
-        switch (status)
+        if(machineLevel <= 0)
         {
-            case 0: // No resource
-                statuIcon.SetActive(false);
+            status = -1;
+            
+            statuIcon.SetActive(false);
+            fillImage.color = Color.gray;
+        }
+        else
+        {
+            status = stat;
+            switch (status)
+            {
+                case 0: // No resource
+                    statuIcon.SetActive(false);
 
-                fillImage.color = unreadyColor;
-                break;
+                    fillImage.color = unreadyColor;
+                    break;
 
-            case 1: // Preparing
-                statuIcon.SetActive(false);
+                case 1: // Preparing
+                    statuIcon.SetActive(false);
 
-                timer = 0;
-                resourceCount--;
-                InvokeRepeating("PrepareProductLoop", 0, Time.fixedDeltaTime);
-                
-                break;
+                    timer = 0;
+                    idleManager.resourceCount--;
+                    InvokeRepeating("PrepareProductLoop", 0, Time.fixedDeltaTime);
 
-            case 2: // Ready
-                statuIcon.SetActive(true);
-                fillImage.color = readyColor;
-                break;
+                    break;
+
+                case 2: // Ready
+                    statuIcon.SetActive(true);
+                    fillImage.color = readyColor;
+                    break;
+            }
         }
 
         //Debug.Log("before SetReadyMachines");
@@ -130,9 +141,9 @@ public class MachineSc : MonoBehaviour
 
         if(x >= 1 && status == 1)
         {
-            if(resourceCount <= 0)
+            if(idleManager.resourceCount <= 0)
             {
-                resourceCount = 0;
+                idleManager.resourceCount = 0;
             }
             ProductPrepared();
             CancelInvoke("PrepareProductLoop");
@@ -149,12 +160,12 @@ public class MachineSc : MonoBehaviour
         if (status == 2)
         {
             // Prepare new one
-            if (resourceCount > 0)
+            if (idleManager.resourceCount > 0)
             {
                 SetStatus(1);
             }
             // No more resources
-            else if (resourceCount == 0)
+            else if (idleManager.resourceCount == 0)
             {
                 //Debug.Log("Taken and no more resources.");
                 SetStatus(0);
