@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -454,6 +455,23 @@ public class IdleManager : MonoBehaviour
                     PlayerPrefs.SetInt((machine.tag + count + "Level"), level);
                 }
             }
+        }
+    }
+
+    public void ResetMachineLevels(string machineTag)
+    {
+        for (int i = 1; i < 4; i++)
+        {
+            if (machineTag == "appleMachine" && i == 1)
+            {
+                PlayerPrefs.SetInt((machineTag + i + "Level"), 1);
+                i++;
+            }
+            PlayerPrefs.SetInt((machineTag + i + "Level"), 0);
+        }
+        foreach (GameObject machineObj in machines)
+        {
+            machineObj.GetComponent<MachineSc>().InitMachine();
         }
     }
 
