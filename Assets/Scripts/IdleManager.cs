@@ -23,6 +23,7 @@ public class IdleManager : MonoBehaviour
     public int[] maxMachineLevels = new int[0];
     public int currentMaxMachineLevel = -1;
     public Material appleMachineMat, orangeMachineMat, defMachineMat;
+    public Dictionary<Vector3, bool> costumerPlaces = new Dictionary<Vector3, bool>();
 
     private bool anyAvailableWorker = true;
     private int costumerCount = 0;
@@ -81,6 +82,13 @@ public class IdleManager : MonoBehaviour
             Restart();
         }
     }
+
+    public void SetCupCount(int count)
+    {
+        resourceCount += count;
+        PlayerPrefs.SetInt("cupCount", resourceCount);
+    }
+
     public void CloseMachinePanel()
     {
         Button lvButton = machinePanel.transform.Find("LevelButton").GetComponent<Button>();
