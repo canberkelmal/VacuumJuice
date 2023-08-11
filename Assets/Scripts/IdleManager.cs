@@ -13,6 +13,7 @@ public class IdleManager : MonoBehaviour
     public GameObject costumersParent;
     public GameObject costumer;
     public GameObject machinePanel;
+    public GameObject cashAnimUI;
     public Transform costumerSpawnPoint;
     public Transform costumerLastPoint;
     public Transform costumerExitPoint;
@@ -173,6 +174,13 @@ public class IdleManager : MonoBehaviour
         {
             EditOrder();
         }
+    }
+
+    public void CashAnimation(GameObject costumer, float inc)
+    {
+        Vector3 costumerScreenPosition = Camera.main.WorldToScreenPoint(costumer.transform.position);
+        GameObject animCash = Instantiate(cashAnimUI, costumerScreenPosition, Quaternion.identity, cupCountTx.transform.parent.parent);
+        animCash.GetComponent<CashAnimUI>().SpawnCashAnim(inc);
     }
 
     public void EditOrder()

@@ -68,6 +68,7 @@ public class WorkerSc : MonoBehaviour
         CancelInvoke("GoToCostumer");
         gameObject.tag = "NotBusy";
         costumer.GetComponent<CostumerSc>().TakeAndGo(true);
+        idleManager.CashAnimation(costumer, income);
         idleManager.SetMoneyCount(income);
         income = 0;
         idleManager.SetAvailableWorkers();
