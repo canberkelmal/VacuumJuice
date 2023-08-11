@@ -19,17 +19,17 @@ public class WorkerSc : MonoBehaviour
         idleManager = GameObject.Find("IdleManager").GetComponent<IdleManager>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    /*private void OnTriggerEnter(Collider other)
     {
         //Debug.Log("worker hit to" + other.gameObject);
-        if (gameObject.CompareTag("Busy") && goingMachine)
+        if (gameObject.CompareTag("Busy") && goingMachine && other.gameObject == machine)
         {
             goingMachine = false;
             CancelInvoke("GoToMachine");
             income = machine.GetComponent<MachineSc>().TakeProduct();
             InvokeRepeating("GoToCostumer", 0, Time.fixedDeltaTime);
         }
-    }
+    }*/
 
     public void ServeToCostumer(GameObject costumer, GameObject machine)
     {
@@ -42,16 +42,31 @@ public class WorkerSc : MonoBehaviour
 
     private void StartDuty()
     {
-        if(machine.GetComponent<MachineSc>().status == 2)
+        if(machine != null && machine.GetComponent<MachineSc>().status == 2)
         {
             goingMachine = true;
             InvokeRepeating("GoToMachine", 0, Time.fixedDeltaTime);
+        }
+        else
+        {
+            CancelInvoke("GoToCostumer");
+            machine = null;
+            gameObject.tag = "NotBusy";
+            income = 0;
+            idleManager.SetAvailableWorkers();
         }
     }
 
     private void GoToMachine()
     {
         transform.position = Vector3.MoveTowards(transform.position, machine.transform.Find("TakeProductPoint").position, speed * Time.deltaTime);
+        if (transform.position == machine.transform.Find("TakeProductPoint").position)
+        {
+            goingMachine = false;
+            CancelInvoke("GoToMachine");
+            income = machine.GetComponent<MachineSc>().TakeProduct();
+            InvokeRepeating("GoToCostumer", 0, Time.fixedDeltaTime);
+        }
     }
 
     private void GoToCostumer()
@@ -66,6 +81,7 @@ public class WorkerSc : MonoBehaviour
     private void DeliverToCostumer()
     {
         CancelInvoke("GoToCostumer");
+        machine = null;
         gameObject.tag = "NotBusy";
         costumer.GetComponent<CostumerSc>().TakeAndGo(true);
         idleManager.CashAnimation(costumer, income);
