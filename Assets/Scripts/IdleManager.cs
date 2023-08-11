@@ -41,6 +41,7 @@ public class IdleManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        SetCostumerPlaces();
         resourceCount = PlayerPrefs.GetInt("cupCount", 0);
         InitIdleScene();
         FillMachinesArray();
@@ -48,6 +49,7 @@ public class IdleManager : MonoBehaviour
         costumerCount = costumersParent.transform.childCount;
         SetAvailableWorkers();
         InvokeRepeating("SpawnCostumer", 1, 1);
+
     }
 
     void InitIdleScene()
@@ -83,6 +85,41 @@ public class IdleManager : MonoBehaviour
         }
     }
 
+    public void SetCostumerPlaces()
+    {
+        for(int i = 0; i < 6; i++)
+        {
+            costumerPlaces.Add(costumerLastPoint.position - (Vector3.right * 1.5f * i), false);
+        }
+    }
+
+    public Vector3 AvailableCostumerPlace()
+    {
+        Vector3 sendVector = Vector3.zero;
+        foreach(var place in costumerPlaces)
+        {
+            if (!place.Value)
+            {
+                sendVector = place.Key;
+                costumerPlaces[sendVector] = true;
+                break;
+            }
+        }
+        return sendVector;
+    }
+
+    public void SetCostumerPlaceAvailable(Vector3 emptyPlace)
+    {
+        foreach (var place in costumerPlaces)
+        {
+            if (place.Key == emptyPlace)
+            {
+                costumerPlaces[emptyPlace] = false;
+                break;
+            }
+        }
+    }
+
     public void SetCupCount(int count)
     {
         resourceCount += count;
@@ -101,7 +138,8 @@ public class IdleManager : MonoBehaviour
         {
             costumerCount++;
             GameObject newCostumer = Instantiate(costumer, costumerSpawnPoint.position, Quaternion.identity, costumersParent.transform);
-            newCostumer.GetComponent<CostumerSc>().SendTo(costumerLastPoint.position - (Vector3.right * 1.5f * (costumerCount - 1)));
+            //newCostumer.GetComponent<CostumerSc>().SendTo(costumerLastPoint.position - (Vector3.right * 1.5f * (costumerCount - 1)));
+            newCostumer.GetComponent<CostumerSc>().SendTo(AvailableCostumerPlace());
             costumers = AddToCustomArray(costumers, newCostumer);
         }
         else if(resourceCount <= 0)
@@ -129,7 +167,7 @@ public class IdleManager : MonoBehaviour
         {
             if (!obj.GetComponent<CostumerSc>().noResource)
             {
-                obj.GetComponent<CostumerSc>().SendTo(costumerLastPoint.position - (Vector3.right * 1.5f * i));
+                //obj.GetComponent<CostumerSc>().SendTo(costumerLastPoint.position - (Vector3.right * 1.5f * i));
             }
             i++;
         }
