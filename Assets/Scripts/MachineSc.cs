@@ -96,7 +96,8 @@ public class MachineSc : MonoBehaviour
     {
         if(status != 1)
         {
-            resourceCount++;
+            idleManager.SetCupCount(+1);
+            //resourceCount++;
             SetStatus(1);
         }
     }
@@ -125,7 +126,8 @@ public class MachineSc : MonoBehaviour
                     statuIcon.SetActive(false);
 
                     timer = 0;
-                    idleManager.resourceCount--;
+                    idleManager.SetCupCount(-1);
+                    //idleManager.resourceCount--;
                     InvokeRepeating("PrepareProductLoop", 0, Time.fixedDeltaTime);
 
                     break;
@@ -153,7 +155,7 @@ public class MachineSc : MonoBehaviour
         {
             if(idleManager.resourceCount <= 0)
             {
-                idleManager.resourceCount = 0;
+                //idleManager.resourceCount = 0;
             }
             ProductPrepared();
             CancelInvoke("PrepareProductLoop");
