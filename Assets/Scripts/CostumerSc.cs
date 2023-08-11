@@ -61,6 +61,7 @@ public class CostumerSc : MonoBehaviour
             noResource = true;
             statuUI.texture = idleManager.SetTexture("unHappy");
         }
+        idleManager.SetCostumerPlaceAvailable(transform.position);
         idleManager.SentCostumer(gameObject, taken);
         InvokeRepeating("GoToExit", 0, Time.fixedDeltaTime);
     }
