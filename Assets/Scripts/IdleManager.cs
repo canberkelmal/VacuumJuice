@@ -95,7 +95,7 @@ public class IdleManager : MonoBehaviour
 
     public void SetCostumerPlaces()
     {
-        for(int i = 0; i < 6; i++)
+        for(int i = 0; i < 5; i++)
         {
             costumerPlaces.Add(costumerLastPoint.position - (Vector3.right * 1.5f * i), false);
         }
@@ -150,7 +150,7 @@ public class IdleManager : MonoBehaviour
     }
     public void SpawnCostumer()
     {
-        if(costumerCount < 6 && resourceCount > 0)
+        if(costumerCount < 5 && resourceCount > 0)
         {
             costumerCount++;
             GameObject newCostumer = Instantiate(costumer, costumerSpawnPoint.position, Quaternion.identity, costumersParent.transform);
@@ -319,7 +319,7 @@ public class IdleManager : MonoBehaviour
     {
         foreach (GameObject machine in readyMachines)
         {
-            if (machine.CompareTag(obj + "Machine"))
+            if (machine.CompareTag(obj + "Machine") && !machine.GetComponent<MachineSc>().hasOwner)
                 return true;
         }
         return false;
@@ -359,9 +359,10 @@ public class IdleManager : MonoBehaviour
 
         foreach (GameObject machine in readyMachines)
         {
-            if (machine.CompareTag(machineProduct + "Machine"))
+            if (machine.CompareTag(machineProduct + "Machine") && !machine.GetComponent<MachineSc>().hasOwner)
             {
                 //availableMachine = machine;
+                machine.GetComponent<MachineSc>().hasOwner = true;
                 return machine;
             }
             else

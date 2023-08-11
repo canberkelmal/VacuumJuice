@@ -313,12 +313,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   status: 0
   product: orange
-  prepareDuration: 1
+  prepareDuration: 4
   resourceCount: 1
   readyColor: {r: 0, g: 1, b: 0, a: 1}
   unreadyColor: {r: 1, g: 0, b: 0, a: 1}
   machineLevel: 1
   productPrice: 1.5
+  hasOwner: 0
 --- !u!65 &1400404811839857558
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ public class MachineSc : MonoBehaviour
     public Color readyColor, unreadyColor;
     public int machineLevel = 1;
     public float productPrice = 1;
+    public bool hasOwner = false;
 
     private Texture icon;
     private float timer = 0;
@@ -169,6 +170,7 @@ public class MachineSc : MonoBehaviour
     }
     public float TakeProduct()
     {
+        hasOwner = false;
         // Take product
         if (status == 2)
         {
