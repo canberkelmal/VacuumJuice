@@ -12,6 +12,7 @@ public class MachineSc : MonoBehaviour
     public float resourceCount = 0;
     public Color readyColor, unreadyColor;
     public int machineLevel = 1;
+    public float productPrice = 1;
 
     private Texture icon;
     private float timer = 0;
@@ -166,7 +167,7 @@ public class MachineSc : MonoBehaviour
     {
         SetStatus(2);
     }
-    public void TakeProduct()
+    public float TakeProduct()
     {
         // Take product
         if (status == 2)
@@ -191,6 +192,7 @@ public class MachineSc : MonoBehaviour
         {
             //Debug.Log("No resource.");
         }
+        return productPrice;
     }
 
 

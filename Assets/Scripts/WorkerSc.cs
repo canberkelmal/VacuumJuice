@@ -9,7 +9,7 @@ public class WorkerSc : MonoBehaviour
 
     private IdleManager idleManager;
     private GameObject machine, costumer;
-
+    private float income = 0;
     private bool waitingCostumer = true;
     private bool waitingForMachine = false;
     private bool serving = false;
@@ -26,7 +26,7 @@ public class WorkerSc : MonoBehaviour
         {
             goingMachine = false;
             CancelInvoke("GoToMachine");
-            machine.GetComponent<MachineSc>().TakeProduct();
+            income = machine.GetComponent<MachineSc>().TakeProduct();
             InvokeRepeating("GoToCostumer", 0, Time.fixedDeltaTime);
         }
     }
@@ -68,6 +68,8 @@ public class WorkerSc : MonoBehaviour
         CancelInvoke("GoToCostumer");
         gameObject.tag = "NotBusy";
         costumer.GetComponent<CostumerSc>().TakeAndGo(true);
+        idleManager.SetMoneyCount(income);
+        income = 0;
         idleManager.SetAvailableWorkers();
     }
 

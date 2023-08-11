@@ -20,10 +20,14 @@ public class IdleManager : MonoBehaviour
     public Texture appleIcon, orangeIcon, warningIcon, happyIcon;
     public GameObject[] levels;
     public int resourceCount = 0;
+    public float moneyCount = 0;
     public int[] maxMachineLevels = new int[0];
     public int currentMaxMachineLevel = -1;
     public Material appleMachineMat, orangeMachineMat, defMachineMat;
     public Dictionary<Vector3, bool> costumerPlaces = new Dictionary<Vector3, bool>();
+    //UI Elements
+    public Text cupCountTx;
+    public Text moneyCountTx;
 
     private bool anyAvailableWorker = true;
     private int costumerCount = 0;
@@ -43,6 +47,7 @@ public class IdleManager : MonoBehaviour
     {
         SetCostumerPlaces();
         resourceCount = PlayerPrefs.GetInt("cupCount", 0);
+        moneyCount = PlayerPrefs.GetFloat("moneyCount", 0);
         InitIdleScene();
         FillMachinesArray();
         FillWorkersArray();
@@ -58,6 +63,8 @@ public class IdleManager : MonoBehaviour
         currentMaxMachineLevel = maxMachineLevels[PlayerPrefs.GetInt("IdleLevel", startLevel)];
         GameObject scene = Instantiate(levels[PlayerPrefs.GetInt("IdleLevel", 0)], GameObject.Find("Levels").transform);
         machinesParent = scene.transform.GetChild(0).gameObject;
+        SetCupCount(0);
+        SetMoneyCount(0);
     }
 
     private void Update()
@@ -124,6 +131,14 @@ public class IdleManager : MonoBehaviour
     {
         resourceCount += count;
         PlayerPrefs.SetInt("cupCount", resourceCount);
+        cupCountTx.text = resourceCount.ToString();
+    }
+
+    public void SetMoneyCount(float count)
+    {
+        moneyCount += count;
+        PlayerPrefs.SetFloat("moneyCount", moneyCount);
+        moneyCountTx.text = ((int)moneyCount).ToString();
     }
 
     public void CloseMachinePanel()
