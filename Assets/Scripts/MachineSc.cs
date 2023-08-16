@@ -128,6 +128,7 @@ public class MachineSc : MonoBehaviour
 
             Button lvButton = panel.Find("LevelButton").GetComponent<Button>();
             lvButton.onClick.AddListener(() => IncreaseMachineLevel(1));
+            panel.Find("UpgradeCostTx").GetComponent<Text>().text = "Cost: " + ((int)UpgradeCost()).ToString() + "$";
 
             idleManager.machinePanel.SetActive(true);
         }
@@ -136,12 +137,19 @@ public class MachineSc : MonoBehaviour
     public void IncreaseMachineLevel(int addLevel)
     {
         idleManager.IncreaseMachineLevel(gameObject);
-        idleManager.SetMoneyCount(-firstLevelCost * MathF.Pow(levelCostConstan , (machineLevel + 1)));
+        idleManager.SetMoneyCount(-UpgradeCost());
         SetProductPrice();
         machineLevel = idleManager.GetMachineLevel(gameObject);
 
         idleManager.machinePanel.transform.Find("LevelTX").GetComponent<Text>().text = "Level " + machineLevel.ToString();
+
+        idleManager.machinePanel.transform.Find("UpgradeCostTx").GetComponent<Text>().text = "Cost: " + ((int)UpgradeCost()).ToString() + "$";
         InitMachine();
+    }
+
+    float UpgradeCost()
+    {
+        return firstLevelCost * MathF.Pow(levelCostConstan, (machineLevel + 1));
     }
 
     void SetProductPrice()
