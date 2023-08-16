@@ -319,6 +319,8 @@ MonoBehaviour:
   unreadyColor: {r: 1, g: 0, b: 0, a: 1}
   machineLevel: 1
   productPrice: 1.5
+  firstLevelCost: 2
+  levelCostConstan: 1.2011
   hasOwner: 0
 --- !u!65 &1400404811839857558
 BoxCollider:
