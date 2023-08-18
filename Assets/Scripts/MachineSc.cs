@@ -40,6 +40,7 @@ public class MachineSc : MonoBehaviour
     public void InitMachine(bool exist)
     {
         machineLevel = idleManager.GetMachineLevel(gameObject);
+        CheckMaxLevel();
         SetProductPrice();
         Transform obj = transform.Find("Obj");
         if (machineLevel == 0 )
@@ -61,7 +62,7 @@ public class MachineSc : MonoBehaviour
                 obj.GetComponent<Renderer>().material = idleManager.orangeMachineMat;
             }
         }
-        if(!exist)
+        if(!exist || machineLevel == 1)
         {
             PrepareTest();
         }
