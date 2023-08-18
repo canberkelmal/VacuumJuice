@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class IdleManager : MonoBehaviour
 {
     public int startLevel = 0;
+    public int currentLevel = 0;
     public GameObject machinesParent;
     public GameObject workersParent;
     public GameObject costumersParent;
@@ -61,8 +62,9 @@ public class IdleManager : MonoBehaviour
     void InitIdleScene()
     {
         PlayerPrefs.SetInt("IdleLevel", startLevel);
-        currentMaxMachineLevel = maxMachineLevels[PlayerPrefs.GetInt("IdleLevel", startLevel)];
-        GameObject scene = Instantiate(levels[PlayerPrefs.GetInt("IdleLevel", 0)], GameObject.Find("Levels").transform);
+        currentLevel = PlayerPrefs.GetInt("IdleLevel", startLevel);
+        currentMaxMachineLevel = maxMachineLevels[currentLevel];
+        GameObject scene = Instantiate(levels[currentLevel], GameObject.Find("Levels").transform);
         machinesParent = scene.transform.GetChild(0).gameObject;
         SetCupCount(0);
         SetMoneyCount(0);
@@ -82,6 +84,7 @@ public class IdleManager : MonoBehaviour
             // Open machine panel
             if (Physics.Raycast(ray, out hit, 100, machinesLayerMask))
             {
+                CloseMachinePanel();
                 hit.collider.gameObject.GetComponent<MachineSc>().OpenMachinePanel(true);
             }
         }
@@ -91,6 +94,16 @@ public class IdleManager : MonoBehaviour
         {
             Restart();
         }
+    }
+
+    public void CheckForNextLevel()
+    {
+        bool available = true;
+        foreach (GameObject machineObj in machines)
+        {
+            available = machineObj.GetComponent<MachineSc>().isMaxLevel ? true : false;
+        }
+        Debug.Log("Next level is " + available);
     }
 
     public void SetCostumerPlaces()
@@ -502,6 +515,16 @@ public class IdleManager : MonoBehaviour
         }
     }
 
+    public int GetMachineCount(string tag)
+    {
+        int count = 0;
+        foreach (GameObject machineObj in machines)
+        {
+            count += machineObj.CompareTag(tag) ? 1 : 0;
+        }
+        return count;
+    }
+
     public int GetMachineLevel(GameObject machine)
     {
         int count = 0;
@@ -551,7 +574,7 @@ public class IdleManager : MonoBehaviour
         }
         foreach (GameObject machineObj in machines)
         {
-            machineObj.GetComponent<MachineSc>().InitMachine();
+            machineObj.GetComponent<MachineSc>().InitMachine(false);
         }
     }
 
