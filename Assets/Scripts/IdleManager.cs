@@ -30,6 +30,7 @@ public class IdleManager : MonoBehaviour
     //UI Elements
     public Text cupCountTx;
     public Text moneyCountTx;
+    public Transform nextLevelButton;
 
     private bool anyAvailableWorker = true;
     private int costumerCount = 0;
@@ -56,18 +57,16 @@ public class IdleManager : MonoBehaviour
         costumerCount = costumersParent.transform.childCount;
         SetAvailableWorkers();
         InvokeRepeating("SpawnCostumer", 1, 1);
-
     }
-
+     
     void InitIdleScene()
     {
-        PlayerPrefs.SetInt("IdleLevel", startLevel);
         currentLevel = PlayerPrefs.GetInt("IdleLevel", startLevel);
         currentMaxMachineLevel = maxMachineLevels[currentLevel];
         GameObject scene = Instantiate(levels[currentLevel], GameObject.Find("Levels").transform);
         machinesParent = scene.transform.GetChild(0).gameObject;
         SetCupCount(0);
-        SetMoneyCount(0);
+        SetMoneyCount(0);        
     }
 
     private void Update()
@@ -101,9 +100,41 @@ public class IdleManager : MonoBehaviour
         bool available = true;
         foreach (GameObject machineObj in machines)
         {
-            available = machineObj.GetComponent<MachineSc>().isMaxLevel ? true : false;
+            available = machineObj.GetComponent<MachineSc>().isMaxLevel ? true : false; 
+            if (!available)
+            {
+                break; 
+            }
         }
-        Debug.Log("Next level is " + available);
+        //Debug.Log("Next level is " + available);
+
+        if (available)
+        { 
+            nextLevelButton.GetComponent<Button>().interactable = true;
+            nextLevelButton.Find("Icon").gameObject.SetActive(false);
+            nextLevelButton.GetComponent<Image>().color = Color.green;
+        }
+        else
+        {
+            nextLevelButton.GetComponent<Button>().interactable = false;
+            nextLevelButton.Find("Icon").gameObject.SetActive(true);
+            nextLevelButton.GetComponent<Image>().color = Color.red;
+        }
+    }
+
+    public void GoNextLevel()
+    {
+        currentLevel = PlayerPrefs.GetInt("IdleLevel", startLevel) + 1;
+        PlayerPrefs.SetInt("IdleLevel", currentLevel);
+        ResetMachineLevels("all");
+        Restart();
+    } 
+
+    public void StartFromFirstLevel()
+    {
+        PlayerPrefs.SetInt("IdleLevel", startLevel);
+        ResetMachineLevels("all");
+        Restart();
     }
 
     public void SetCostumerPlaces()
@@ -153,6 +184,11 @@ public class IdleManager : MonoBehaviour
         moneyCount += count;
         PlayerPrefs.SetFloat("moneyCount", moneyCount);
         moneyCountTx.text = ((int)moneyCount).ToString();
+    }
+
+    public void AddCredit(float a)
+    {
+        SetMoneyCount(a);
     }
 
     public void CloseMachinePanel()
@@ -563,14 +599,40 @@ public class IdleManager : MonoBehaviour
 
     public void ResetMachineLevels(string machineTag)
     {
-        for (int i = 1; i < 4; i++)
+        if(machineTag != "all")
         {
-            if (machineTag == "appleMachine" && i == 1)
+            for (int i = 1; i < 4; i++)
             {
-                PlayerPrefs.SetInt((machineTag + i + "Level"), 1);
-                i++;
+                if (machineTag == "appleMachine" && i == 1)
+                {
+                    PlayerPrefs.SetInt((machineTag + i + "Level"), 1);
+                    i++;
+                }
+                PlayerPrefs.SetInt((machineTag + i + "Level"), 0);
             }
-            PlayerPrefs.SetInt((machineTag + i + "Level"), 0);
+        }
+        else
+        {
+            machineTag = "appleMachine";
+            for (int i = 1; i < 4; i++)
+            {
+                if (machineTag == "appleMachine" && i == 1)
+                {
+                    PlayerPrefs.SetInt((machineTag + i + "Level"), 1);
+                    i++;
+                }
+                PlayerPrefs.SetInt((machineTag + i + "Level"), 0);
+            }
+            machineTag = "orangeMachine";
+            for (int i = 1; i < 4; i++)
+            {
+                if (machineTag == "appleMachine" && i == 1)
+                {
+                    PlayerPrefs.SetInt((machineTag + i + "Level"), 1);
+                    i++;
+                }
+                PlayerPrefs.SetInt((machineTag + i + "Level"), 0);
+            }
         }
         foreach (GameObject machineObj in machines)
         {

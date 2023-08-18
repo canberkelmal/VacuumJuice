@@ -19,7 +19,7 @@ public class CostumerSc : MonoBehaviour
     void Awake()
     {
         idleManager = GameObject.Find("IdleManager").GetComponent<IdleManager>();
-        if (idleManager.startLevel > 0)
+        if (idleManager.currentLevel > 0)
         {
             askFor = Random.Range(1, 100) < 50 ? "apple" : "orange";
         }
