@@ -9,6 +9,7 @@ public class IdleManager : MonoBehaviour
 {
     public int startLevel = 0;
     public int currentLevel = 0;
+    public int maxCostumerCount = 4;
     public GameObject machinesParent;
     public GameObject workersParent;
     public GameObject costumersParent;
@@ -139,7 +140,7 @@ public class IdleManager : MonoBehaviour
 
     public void SetCostumerPlaces()
     {
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < maxCostumerCount; i++)
         {
             costumerPlaces.Add(costumerLastPoint.position - (Vector3.right * 1.5f * i), false);
         }
@@ -199,7 +200,7 @@ public class IdleManager : MonoBehaviour
     }
     public void SpawnCostumer()
     {
-        if(costumerCount < 5 && resourceCount > 0)
+        if(costumerCount < maxCostumerCount && resourceCount > 0)
         {
             costumerCount++;
             GameObject newCostumer = Instantiate(costumer, costumerSpawnPoint.position, Quaternion.identity, costumersParent.transform);
@@ -361,7 +362,7 @@ public class IdleManager : MonoBehaviour
                 }
                 break;
         }*/
-        EditOrder();
+        //EditOrder();
     }
 
     private bool CheckForReadyMachine(string obj)
@@ -404,8 +405,6 @@ public class IdleManager : MonoBehaviour
     }
     private GameObject AvailableMachine(string machineProduct)
     {
-        //GameObject availableMachine = new GameObject();
-
         foreach (GameObject machine in readyMachines)
         {
             if (machine.CompareTag(machineProduct + "Machine") && !machine.GetComponent<MachineSc>().hasOwner)
