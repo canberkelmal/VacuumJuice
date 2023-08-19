@@ -8,6 +8,8 @@ public class MachineSc : MonoBehaviour
 {
     // 0 No resource, 1 Preparing, 2 Ready
     public int status = 0;
+    public float shakePower = 8;
+    public float shakeSpeed = 10;
     public string product = "apple";
     public float prepareDuration = 1;
     public float resourceCount = 0;
@@ -161,7 +163,11 @@ public class MachineSc : MonoBehaviour
 
     public void SetStatus(int stat)
     {
-        if(machineLevel <= 0)
+        Vector3 tempRot = transform.Find("BLENDER").eulerAngles;
+        tempRot.x = 0; 
+        transform.Find("BLENDER").eulerAngles = tempRot;
+
+        if (machineLevel <= 0)
         {
             status = -1;
             
@@ -204,6 +210,11 @@ public class MachineSc : MonoBehaviour
     {
         timer += Time.deltaTime;
         float x = timer / prepareDuration;
+
+        Vector3 tempRot = transform.Find("BLENDER").eulerAngles;
+        tempRot.x = Mathf.PingPong(timer * shakeSpeed, shakePower) - shakePower/2;
+        transform.Find("BLENDER").eulerAngles = tempRot;
+
 
         fillImage.fillAmount = x;
         fillImage.color = Color.Lerp(unreadyColor, readyColor, x);
