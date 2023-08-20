@@ -574,6 +574,8 @@ MonoBehaviour:
   shakePower: 6
   shakeSpeed: 70
   product: frozen
+  productObject: {fileID: 3952800613320815003, guid: b9db3ed96cffe8e449a77d298ae129d2,
+    type: 3}
   prepareDuration: 4
   resourceCount: 1
   readyColor: {r: 0, g: 1, b: 0, a: 1}

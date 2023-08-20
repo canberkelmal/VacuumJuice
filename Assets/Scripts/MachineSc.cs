@@ -11,6 +11,7 @@ public class MachineSc : MonoBehaviour
     public float shakePower = 8;
     public float shakeSpeed = 10;
     public string product = "apple";
+    public GameObject productObject;
     public float prepareDuration = 1;
     public float resourceCount = 0;
     public Color readyColor, unreadyColor;
@@ -64,7 +65,7 @@ public class MachineSc : MonoBehaviour
                 obj.GetComponent<Renderer>().material = idleManager.orangeMachineMat;
             }
         }*/
-        if(!exist || machineLevel = 1)
+        if(!exist || machineLevel == 1)
         {
             PrepareTest();
         }
@@ -269,5 +270,9 @@ public class MachineSc : MonoBehaviour
             //Debug.Log("No resource.");
         }
         return productPrice;
+    }
+    public GameObject HandleProduct()
+    {
+        return productObject;
     }
 }

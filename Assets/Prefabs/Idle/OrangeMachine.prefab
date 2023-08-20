@@ -316,6 +316,8 @@ MonoBehaviour:
   shakePower: 6
   shakeSpeed: 70
   product: orange
+  productObject: {fileID: 5463798781865484974, guid: 353480cae56724f4891557ada7a97de4,
+    type: 3}
   prepareDuration: 4
   resourceCount: 1
   readyColor: {r: 0, g: 1, b: 0, a: 1}
