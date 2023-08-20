@@ -20,7 +20,7 @@ public class IdleManager : MonoBehaviour
     public Transform costumerLastPoint;
     public Transform costumerExitPoint;
     public LayerMask machinesLayerMask;
-    public Texture appleIcon, orangeIcon, warningIcon, happyIcon;
+    public Texture appleIcon, orangeIcon, frozenIcon, warningIcon, happyIcon;
     public GameObject[] levels;
     public int resourceCount = 0;
     public float moneyCount = 0;
@@ -41,6 +41,7 @@ public class IdleManager : MonoBehaviour
     public GameObject[] onQueueCostumers = new GameObject[0];
     private GameObject[] appleMachines = new GameObject[0];
     private GameObject[] orangeMachines = new GameObject[0];
+    private GameObject[] frozenMachines = new GameObject[0];
     private GameObject[] workers = new GameObject[0];
     private GameObject[] costumers = new GameObject[0];
     private GameObject[] handledCostumers = new GameObject[0];
@@ -220,10 +221,6 @@ public class IdleManager : MonoBehaviour
         sentCostumer.transform.parent = null;
         costumers = RemoveFromCustomArray(costumers, sentCostumer);
         RemoveFromQueue(sentCostumer);
-        if (withProduct)
-        {
-            EditOrder();
-        }
     }
 
     public void CashAnimation(GameObject costumer, float inc)
@@ -233,7 +230,7 @@ public class IdleManager : MonoBehaviour
         animCash.GetComponent<CashAnimUI>().SpawnCashAnim(inc);
     }
 
-    public void EditOrder()
+    /*public void EditOrder()
     {
         int i = 0;
         foreach(GameObject obj in onQueueCostumers)
@@ -244,7 +241,7 @@ public class IdleManager : MonoBehaviour
             }
             i++;
         }
-    }
+    }*/
 
     public void AddToQueue(GameObject addedCostumer)
     {
@@ -546,6 +543,9 @@ public class IdleManager : MonoBehaviour
                 case "orangeMachine":
                     orangeMachines = AddToCustomArray(orangeMachines, machines[i]);
                     break;
+                case "frozenMachine":
+                    frozenMachines = AddToCustomArray(frozenMachines, machines[i]);
+                    break;
             }
         }
     }
@@ -625,11 +625,11 @@ public class IdleManager : MonoBehaviour
             machineTag = "orangeMachine";
             for (int i = 1; i < 4; i++)
             {
-                if (machineTag == "appleMachine" && i == 1)
-                {
-                    PlayerPrefs.SetInt((machineTag + i + "Level"), 1);
-                    i++;
-                }
+                PlayerPrefs.SetInt((machineTag + i + "Level"), 0);
+            }
+            machineTag = "frozenMachine";
+            for (int i = 1; i < 4; i++)
+            {
                 PlayerPrefs.SetInt((machineTag + i + "Level"), 0);
             }
         }
@@ -658,6 +658,8 @@ public class IdleManager : MonoBehaviour
                 return appleIcon;
             case "orange":
                 return orangeIcon;
+            case "frozen":
+                return frozenIcon;
 
             case "happy":
                 return happyIcon;

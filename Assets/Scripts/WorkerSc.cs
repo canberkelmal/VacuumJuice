@@ -45,6 +45,7 @@ public class WorkerSc : MonoBehaviour
         if(machine != null && machine.GetComponent<MachineSc>().status == 2)
         {
             goingMachine = true;
+            transform.LookAt(machine.transform.Find("TakeProductPoint").position);
             InvokeRepeating("GoToMachine", 0, Time.fixedDeltaTime);
         }
         else
@@ -65,6 +66,7 @@ public class WorkerSc : MonoBehaviour
             goingMachine = false;
             CancelInvoke("GoToMachine");
             income = machine.GetComponent<MachineSc>().TakeProduct();
+            transform.LookAt(costumer.transform.position);
             InvokeRepeating("GoToCostumer", 0, Time.fixedDeltaTime);
         }
     }

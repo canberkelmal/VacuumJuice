@@ -19,9 +19,21 @@ public class CostumerSc : MonoBehaviour
     void Awake()
     {
         idleManager = GameObject.Find("IdleManager").GetComponent<IdleManager>();
-        if (idleManager.currentLevel > 0)
+        switch (idleManager.currentLevel)
         {
-            askFor = Random.Range(1, 100) < 50 ? "apple" : "orange";
+            case 1:
+                askFor = Random.Range(1, 100) < 50 ? "apple" : "orange";
+                break;
+            case 2:
+                int a = Random.Range(1, 150);
+                if (a <= 50)
+                    askFor = "apple";
+                else if (a > 50 && a <= 100)
+                    askFor = "orange";
+                else
+                    askFor = "frozen";
+
+                break;
         }
         statuUI = transform.Find("Canvas").Find("Statu").GetComponent<RawImage>();
         statuUI.texture = idleManager.SetTexture(askFor);
