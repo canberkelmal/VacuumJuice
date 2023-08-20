@@ -44,7 +44,7 @@ public class MachineSc : MonoBehaviour
         machineLevel = idleManager.GetMachineLevel(gameObject);
         CheckMaxLevel();
         SetProductPrice();
-        Transform obj = transform.Find("Obj");
+        /*Transform obj = transform.Find("Obj");
         if (machineLevel == 0 )
         {
             obj.localPosition = Vector3.up * (-0.25f);
@@ -63,8 +63,8 @@ public class MachineSc : MonoBehaviour
             {
                 obj.GetComponent<Renderer>().material = idleManager.orangeMachineMat;
             }
-        }
-        if(!exist || machineLevel == 1)
+        }*/
+        if(!exist || machineLevel = 1)
         {
             PrepareTest();
         }
@@ -86,6 +86,9 @@ public class MachineSc : MonoBehaviour
                     break;
                 case "orangeMachine":
                     icon = idleManager.orangeIcon;
+                    break;
+                case "frozenMachine":
+                    icon = idleManager.frozenIcon;
                     break;
 
             }
@@ -155,7 +158,7 @@ public class MachineSc : MonoBehaviour
     {
         if(status != 1)
         {
-            idleManager.SetCupCount(+1);
+            //idleManager.SetCupCount(1);
             //resourceCount++;
             SetStatus(1);
         }
@@ -163,9 +166,12 @@ public class MachineSc : MonoBehaviour
 
     public void SetStatus(int stat)
     {
-        Vector3 tempRot = transform.Find("BLENDER").eulerAngles;
-        tempRot.x = 0; 
-        transform.Find("BLENDER").eulerAngles = tempRot;
+        if(product != "frozen")
+        {
+            Vector3 tempRot = transform.Find("BLENDER").eulerAngles;
+            tempRot.x = 0;
+            transform.Find("BLENDER").eulerAngles = tempRot;
+        }
 
         if (machineLevel <= 0)
         {
@@ -211,10 +217,12 @@ public class MachineSc : MonoBehaviour
         timer += Time.deltaTime;
         float x = timer / prepareDuration;
 
-        Vector3 tempRot = transform.Find("BLENDER").eulerAngles;
-        tempRot.x = Mathf.PingPong(timer * shakeSpeed, shakePower) - shakePower/2;
-        transform.Find("BLENDER").eulerAngles = tempRot;
-
+        if (product != "frozen")
+        {
+            Vector3 tempRot = transform.Find("BLENDER").eulerAngles;
+            tempRot.x = Mathf.PingPong(timer * shakeSpeed, shakePower) - shakePower / 2;
+            transform.Find("BLENDER").eulerAngles = tempRot;
+        }
 
         fillImage.fillAmount = x;
         fillImage.color = Color.Lerp(unreadyColor, readyColor, x);
@@ -226,12 +234,12 @@ public class MachineSc : MonoBehaviour
                 //idleManager.resourceCount = 0;
             }
             ProductPrepared();
-            CancelInvoke("PrepareProductLoop");
         }
     }
 
     private void ProductPrepared()
     {
+        CancelInvoke("PrepareProductLoop");
         SetStatus(2);
     }
     public float TakeProduct()
@@ -262,6 +270,4 @@ public class MachineSc : MonoBehaviour
         }
         return productPrice;
     }
-
-
 }
