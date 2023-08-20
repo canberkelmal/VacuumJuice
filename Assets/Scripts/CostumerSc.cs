@@ -12,6 +12,7 @@ public class CostumerSc : MonoBehaviour
     public bool onQueue = false;
     public bool noResource = false;
 
+    private Transform productPlace;
     private IdleManager idleManager;
     private Vector3 destination = Vector3.zero;
     private RawImage statuUI;
@@ -37,6 +38,7 @@ public class CostumerSc : MonoBehaviour
         }
         statuUI = transform.Find("Canvas").Find("Statu").GetComponent<RawImage>();
         statuUI.texture = idleManager.SetTexture(askFor);
+        productPlace = transform.Find("ProductPlace");
     }
 
     public void SendTo(Vector3 finalPoint)
@@ -62,20 +64,25 @@ public class CostumerSc : MonoBehaviour
     }
 
 
-    public void TakeAndGo(bool taken)
+    public void TakeAndGo(bool taken, GameObject handledProduct)
     {
         if(taken)
         {
             statuUI.texture = idleManager.SetTexture("happy");
         }
         else
-        {
+        { 
             noResource = true;
             statuUI.texture = idleManager.SetTexture("unHappy");
         }
+        if(handledProduct != null)
+        {
+            handledProduct.transform.parent = productPlace;
+            handledProduct.transform.localPosition = Vector3.zero;
+        }
         idleManager.SetCostumerPlaceAvailable(transform.position);
         idleManager.SentCostumer(gameObject, taken);
-        InvokeRepeating("GoToExit", 0, Time.fixedDeltaTime);
+        InvokeRepeating("GoToExit", 0, Time.fixedDeltaTime); 
     }
 
     private void GoToExit()

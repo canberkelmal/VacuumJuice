@@ -6,9 +6,10 @@ public class WorkerSc : MonoBehaviour
 {
     public float speed = 5f;
 
-
+    private Transform productPlace;
     private IdleManager idleManager;
     private GameObject machine, costumer;
+    private GameObject handledProduct;
     private float income = 0;
     private bool waitingCostumer = true;
     private bool waitingForMachine = false;
@@ -17,6 +18,7 @@ public class WorkerSc : MonoBehaviour
     void Awake()
     {
         idleManager = GameObject.Find("IdleManager").GetComponent<IdleManager>();
+        productPlace = transform.Find("ProductPlace");
     }
 
     /*private void OnTriggerEnter(Collider other)
@@ -66,6 +68,8 @@ public class WorkerSc : MonoBehaviour
             goingMachine = false;
             CancelInvoke("GoToMachine");
             income = machine.GetComponent<MachineSc>().TakeProduct();
+            handledProduct = Instantiate(machine.GetComponent<MachineSc>().HandleProduct(), productPlace);
+            handledProduct.transform.localPosition = Vector3.zero;
             transform.LookAt(costumer.transform.position);
             InvokeRepeating("GoToCostumer", 0, Time.fixedDeltaTime);
         }
@@ -85,7 +89,7 @@ public class WorkerSc : MonoBehaviour
         CancelInvoke("GoToCostumer");
         machine = null;
         gameObject.tag = "NotBusy";
-        costumer.GetComponent<CostumerSc>().TakeAndGo(true);
+        costumer.GetComponent<CostumerSc>().TakeAndGo(true, handledProduct);
         idleManager.CashAnimation(costumer, income);
         idleManager.SetMoneyCount(income);
         income = 0;

@@ -32,7 +32,7 @@ public class IdleManager : MonoBehaviour
     public Text cupCountTx;
     public Text moneyCountTx;
     public Transform nextLevelButton;
-
+     
     private bool anyAvailableWorker = true;
     private int costumerCount = 0;
     public GameObject[] machines = new GameObject[0];
@@ -192,6 +192,10 @@ public class IdleManager : MonoBehaviour
     {
         SetMoneyCount(a);
     }
+    public void AddCup(int a)
+    {
+        SetCupCount(a);
+    }
 
     public void CloseMachinePanel()
     {
@@ -343,7 +347,7 @@ public class IdleManager : MonoBehaviour
             if (waiting.GetComponent<CostumerSc>().askFor == productName)
             {
                 waitingCostumers = RemoveFromCustomArray(waitingCostumers, waiting);
-                waiting.GetComponent<CostumerSc>().TakeAndGo(false);
+                waiting.GetComponent<CostumerSc>().TakeAndGo(false, null);
             }
         }
         /*switch (productName)
