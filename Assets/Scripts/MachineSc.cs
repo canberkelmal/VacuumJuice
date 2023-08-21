@@ -106,6 +106,7 @@ public class MachineSc : MonoBehaviour
 
     public void IncreaseMachineLevel(int addLevel)
     {
+        Destroy(Instantiate(idleManager.upgradeMachineParticle, transform.position + Vector3.up, Quaternion.identity), 1);
         idleManager.IncreaseMachineLevel(gameObject);
         idleManager.SetMoneyCount(-UpgradeCost());
         SetProductPrice();

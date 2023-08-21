@@ -324,7 +324,7 @@ public class GameManager : MonoBehaviour
     void InputController()
     {
         // During game
-        if (controller)
+        if (controller && !EventSystem.current.IsPointerOverGameObject())
         {
             if(playerMaxSpeed > 0)
             {
