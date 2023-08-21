@@ -16,6 +16,7 @@ public class IdleManager : MonoBehaviour
     public GameObject costumer;
     public GameObject machinePanel;
     public GameObject cashAnimUI;
+    public GameObject upgradeMachineParticle;
     public Transform costumerSpawnPoint;
     public Transform costumerLastPoint;
     public Transform costumerExitPoint;
