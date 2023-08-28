@@ -48,11 +48,13 @@ public class WorkerSc : MonoBehaviour
         {
             goingMachine = true;
             transform.LookAt(machine.transform.Find("TakeProductPoint").position);
+            transform.Find("WorkerObj").GetComponent<Animator>().SetBool("Walk", true);
             InvokeRepeating("GoToMachine", 0, Time.fixedDeltaTime);
         }
         else
         {
             CancelInvoke("GoToCostumer");
+            transform.Find("WorkerObj").GetComponent<Animator>().SetBool("Walk", false);
             machine = null;
             gameObject.tag = "NotBusy";
             income = 0;
@@ -86,6 +88,7 @@ public class WorkerSc : MonoBehaviour
 
     private void DeliverToCostumer()
     {
+        transform.Find("WorkerObj").GetComponent<Animator>().SetBool("Walk", false);
         CancelInvoke("GoToCostumer");
         machine = null;
         gameObject.tag = "NotBusy";

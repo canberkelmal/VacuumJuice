@@ -46,6 +46,7 @@ public class CostumerSc : MonoBehaviour
         destination = finalPoint;
         transform.LookAt(destination);
         transform.Find("Canvas").rotation = Quaternion.Euler(-45f, 180f, 0f);
+        transform.Find("CostumerObj").GetComponent<Animator>().SetBool("Walk", true);
         InvokeRepeating("GoToDestination", 0, Time.fixedDeltaTime);
     }
 
@@ -61,6 +62,7 @@ public class CostumerSc : MonoBehaviour
                 //Debug.Log("Reached to destination.");
                 idleManager.CostumerAsksFor(askFor, gameObject);
             }
+            transform.Find("CostumerObj").GetComponent<Animator>().SetBool("Walk", false);
             transform.rotation= Quaternion.Euler(0f, 180f, 0f);
             transform.Find("Canvas").rotation = Quaternion.Euler(-45f, 180f, 0f);
             CancelInvoke("GoToDestination");
@@ -89,6 +91,7 @@ public class CostumerSc : MonoBehaviour
         idleManager.SentCostumer(gameObject, taken);
         transform.LookAt(idleManager.costumerExitPoint.position);
         transform.Find("Canvas").rotation = Quaternion.Euler(-45f, 180f, 0f);
+        transform.Find("CostumerObj").GetComponent<Animator>().SetBool("Walk", true);
         InvokeRepeating("GoToExit", 0, Time.fixedDeltaTime); 
     }
 
