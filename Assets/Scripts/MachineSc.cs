@@ -37,6 +37,7 @@ public class MachineSc : MonoBehaviour
         fillImage = transform.Find("MachineCanvas").Find("BG").GetComponent<Image>();
         statuIcon = transform.Find("MachineCanvas").Find("Statu").gameObject;
         InitMachine(false);
+        SetMachineObjAtStart();
         PrepareTest();
     } 
 
@@ -45,29 +46,83 @@ public class MachineSc : MonoBehaviour
         machineLevel = idleManager.GetMachineLevel(gameObject);
         CheckMaxLevel();
         SetProductPrice();
-        /*Transform obj = transform.Find("Obj");
-        if (machineLevel == 0 )
+        SetMachineObject();
+            /*Transform obj = transform.Find("Obj");
+            if (machineLevel == 0 )
+            {
+                obj.localPosition = Vector3.up * (-0.25f);
+                obj.localScale = Vector3.one - Vector3.up * (0.5f);
+                obj.GetComponent<Renderer>().material = idleManager.defMachineMat;
+            }
+            else
+            {
+                obj.localPosition = Vector3.zero;
+                obj.localScale = Vector3.one;
+                if(gameObject.tag == "appleMachine")
+                {
+                    obj.GetComponent<Renderer>().material = idleManager.appleMachineMat;
+                }
+                else if (gameObject.tag == "orangeMachine")
+                {
+                    obj.GetComponent<Renderer>().material = idleManager.orangeMachineMat;
+                }
+            }*/
+        if (!exist || machineLevel == 1)
         {
-            obj.localPosition = Vector3.up * (-0.25f);
-            obj.localScale = Vector3.one - Vector3.up * (0.5f);
-            obj.GetComponent<Renderer>().material = idleManager.defMachineMat;
+            PrepareTest();
+        }
+    }
+
+    public void SetMachineObject()
+    {
+        if(machineLevel < idleManager.firstMachineUpgradeLevel && !transform.Find("MachineObj").Find("V0").gameObject.active)
+        {
+            foreach (Transform mc in transform.Find("MachineObj"))
+            {
+                mc.gameObject.SetActive(false);
+            }
+            transform.Find("MachineObj").Find("V0").gameObject.SetActive(true);
+        }
+        else if(machineLevel == idleManager.firstMachineUpgradeLevel)
+        {
+            foreach(Transform mc in transform.Find("MachineObj"))
+            {
+                mc.gameObject.SetActive(false);
+            }
+            transform.Find("MachineObj").Find("V1").gameObject.SetActive(true);
+        }
+        else if (machineLevel == idleManager.secondMachineUpgradeLevel)
+        {
+            foreach (Transform mc in transform.Find("MachineObj"))
+            {
+                mc.gameObject.SetActive(false);
+            }
+            transform.Find("MachineObj").Find("V2").gameObject.SetActive(true);
+        }
+    }
+
+    public void SetMachineObjAtStart()
+    {
+        foreach (Transform mc in transform.Find("MachineObj"))
+        {
+            mc.gameObject.SetActive(false);
+        }
+
+        if(machineLevel < idleManager.firstMachineUpgradeLevel)
+        {
+            transform.Find("MachineObj").Find("V0").gameObject.SetActive(true);
+        }
+        else if (machineLevel >= idleManager.firstMachineUpgradeLevel && machineLevel<idleManager.secondMachineUpgradeLevel)
+        {
+            transform.Find("MachineObj").Find("V1").gameObject.SetActive(true);
+        }
+        else if (machineLevel >= idleManager.secondMachineUpgradeLevel && machineLevel < idleManager.thirdMachineUpgradeLevel)
+        {
+            transform.Find("MachineObj").Find("V2").gameObject.SetActive(true);
         }
         else
         {
-            obj.localPosition = Vector3.zero;
-            obj.localScale = Vector3.one;
-            if(gameObject.tag == "appleMachine")
-            {
-                obj.GetComponent<Renderer>().material = idleManager.appleMachineMat;
-            }
-            else if (gameObject.tag == "orangeMachine")
-            {
-                obj.GetComponent<Renderer>().material = idleManager.orangeMachineMat;
-            }
-        }*/
-        if(!exist || machineLevel == 1)
-        {
-            PrepareTest();
+            transform.Find("MachineObj").Find("V2").gameObject.SetActive(true);
         }
     }
 
@@ -106,7 +161,7 @@ public class MachineSc : MonoBehaviour
 
     public void IncreaseMachineLevel(int addLevel)
     {
-        Destroy(Instantiate(idleManager.upgradeMachineParticle, transform.position + Vector3.up, Quaternion.identity), 1);
+        Destroy(Instantiate(idleManager.upgradeMachineParticle, transform.position + Vector3.up, Quaternion.Euler(Vector3.right*-90)), 1);
         idleManager.IncreaseMachineLevel(gameObject);
         idleManager.SetMoneyCount(-UpgradeCost());
         SetProductPrice();
@@ -170,9 +225,9 @@ public class MachineSc : MonoBehaviour
     {
         if(product != "frozen")
         {
-            Vector3 tempRot = transform.Find("BLENDER").eulerAngles;
+            Vector3 tempRot = transform.Find("MachineObj").eulerAngles;
             tempRot.x = 0;
-            transform.Find("BLENDER").eulerAngles = tempRot;
+            transform.Find("MachineObj").eulerAngles = tempRot;
         }
 
         if (machineLevel <= 0)
@@ -221,9 +276,9 @@ public class MachineSc : MonoBehaviour
 
         if (product != "frozen")
         {
-            Vector3 tempRot = transform.Find("BLENDER").eulerAngles;
+            Vector3 tempRot = transform.Find("MachineObj").eulerAngles;
             tempRot.x = Mathf.PingPong(timer * shakeSpeed, shakePower) - shakePower / 2;
-            transform.Find("BLENDER").eulerAngles = tempRot;
+            transform.Find("MachineObj").eulerAngles = tempRot;
         }
 
         fillImage.fillAmount = x;

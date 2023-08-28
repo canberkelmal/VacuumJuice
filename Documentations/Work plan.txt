@@ -1,0 +1,16 @@
+CANBERK
+-Sadece runner bittiğinde idle'a geçilecek.
+-Sadece resourceCount=0 olduğunda runner'a geçilecek.
+-Makinelerin level arttıkça modelleri upgrade olacak.
+-Feeling ler tamamlanacak.(particle, fizik, kontroller)
+
+Ozan
+-UI lar belirlenecek.
+-Renkler.
+-Farklı müşteri ve worker modelleri.
+-Runner juice eksiltme matematiği belirlenmesi.
+-Runner level design(Coffee stack'i kopyalayabiliriz.)
+-Modellerin birbirlerine göre boyut oranları belirlenecek.
+-LTV?
+-Idle makinelerinin upgrade modelleri ve model değişim levellarının belirlenmesi(10-25-50)
+-Game play time hesaplaması(kaç runner level'ı idle'ın X seviyesine gelmesini sağlıyor)(Total test gameplay min. 20dk, ne kadar uzun olursa o kadar iyi)

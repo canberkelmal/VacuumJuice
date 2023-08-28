@@ -96,6 +96,10 @@ public class GameManager : MonoBehaviour
         controller = true;
         playerTempSpeed = playerMaxSpeed;
         playerMaxSpeed = 0;
+        cupCount = PlayerPrefs.GetInt("cupCount", 0);
+        cupCountTx.text = cupCount.ToString();
+        moneyCount = PlayerPrefs.GetInt("moneyCount", 0);
+        moneyCountTx.text = moneyCount.ToString();
     }
 
     private void Start()
@@ -323,7 +327,7 @@ public class GameManager : MonoBehaviour
 
     void InputController()
     {
-        // During game
+        // During game(if UI elements are not touched.)
         if (controller && !EventSystem.current.IsPointerOverGameObject())
         {
             if(playerMaxSpeed > 0)
