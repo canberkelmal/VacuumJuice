@@ -10,13 +10,15 @@ public class IdleManager : MonoBehaviour
     public int startLevel = 0;
     public int currentLevel = 0;
     public int maxCostumerCount = 4;
+    public GameObject mainCam;
+    public GameObject outOfResourcePanel;
     public GameObject machinesParent;
     public GameObject workersParent;
     public GameObject costumersParent;
     public GameObject costumer;
     public GameObject machinePanel;
     public GameObject cashAnimUI;
-    public GameObject upgradeMachineParticle;
+    public GameObject upgradeMachineParticle, takeProductParticle;
     public Transform costumerSpawnPoint;
     public Transform costumerLastPoint;
     public Transform costumerExitPoint;
@@ -33,7 +35,9 @@ public class IdleManager : MonoBehaviour
     public Text cupCountTx;
     public Text moneyCountTx;
     public Transform nextLevelButton;
-     
+    public int firstMachineUpgradeLevel, secondMachineUpgradeLevel, thirdMachineUpgradeLevel;
+
+
     private bool anyAvailableWorker = true;
     private int costumerCount = 0;
     public GameObject[] machines = new GameObject[0];
@@ -51,6 +55,7 @@ public class IdleManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        mainCam = GameObject.Find("Main Camera");
         SetCostumerPlaces();
         resourceCount = PlayerPrefs.GetInt("cupCount", 0);
         moneyCount = PlayerPrefs.GetFloat("moneyCount", 0);
@@ -213,6 +218,11 @@ public class IdleManager : MonoBehaviour
             //newCostumer.GetComponent<CostumerSc>().SendTo(costumerLastPoint.position - (Vector3.right * 1.5f * (costumerCount - 1)));
             newCostumer.GetComponent<CostumerSc>().SendTo(AvailableCostumerPlace());
             costumers = AddToCustomArray(costumers, newCostumer);
+        }
+        else if(costumerCount <= 0 && resourceCount <= 0)
+        {
+            CancelInvoke("SpawnCostumer");
+            outOfResourcePanel.SetActive(true);
         }
         else if(resourceCount <= 0)
         {

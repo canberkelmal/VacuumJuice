@@ -44,13 +44,15 @@ public class CostumerSc : MonoBehaviour
     public void SendTo(Vector3 finalPoint)
     {
         destination = finalPoint;
+        transform.LookAt(destination);
+        transform.Find("Canvas").rotation = Quaternion.Euler(-45f, 180f, 0f);
         InvokeRepeating("GoToDestination", 0, Time.fixedDeltaTime);
     }
 
     private void GoToDestination()
     {
         transform.position = Vector3.MoveTowards(transform.position, destination, movementSpeed * Time.deltaTime);
-        if(transform.position == destination)
+        if (transform.position == destination)
         {
             if(!onQueue)
             {
@@ -59,6 +61,8 @@ public class CostumerSc : MonoBehaviour
                 //Debug.Log("Reached to destination.");
                 idleManager.CostumerAsksFor(askFor, gameObject);
             }
+            transform.rotation= Quaternion.Euler(0f, 180f, 0f);
+            transform.Find("Canvas").rotation = Quaternion.Euler(-45f, 180f, 0f);
             CancelInvoke("GoToDestination");
         }
     }
@@ -66,7 +70,8 @@ public class CostumerSc : MonoBehaviour
 
     public void TakeAndGo(bool taken, GameObject handledProduct)
     {
-        if(taken)
+        Destroy(Instantiate(idleManager.takeProductParticle, transform.position + Vector3.up, Quaternion.Euler(Vector3.right * -90)), 1);
+        if (taken)
         {
             statuUI.texture = idleManager.SetTexture("happy");
         }
@@ -82,6 +87,8 @@ public class CostumerSc : MonoBehaviour
         }
         idleManager.SetCostumerPlaceAvailable(transform.position);
         idleManager.SentCostumer(gameObject, taken);
+        transform.LookAt(idleManager.costumerExitPoint.position);
+        transform.Find("Canvas").rotation = Quaternion.Euler(-45f, 180f, 0f);
         InvokeRepeating("GoToExit", 0, Time.fixedDeltaTime); 
     }
 
@@ -89,7 +96,6 @@ public class CostumerSc : MonoBehaviour
     {
         CancelInvoke("GoToDestination");
         transform.position = Vector3.MoveTowards(transform.position, idleManager.costumerExitPoint.position, movementSpeed * Time.deltaTime);
-
         if (transform.position == idleManager.costumerExitPoint.position)
         {
             //Debug.Log("Costumer went.");
