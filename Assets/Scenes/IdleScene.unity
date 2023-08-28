@@ -847,7 +847,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &345747190
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1939,7 +1939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 430185f60ddf19f4b8584409709f2e38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 8
+  speed: 5
 --- !u!136 &673329431
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2919,6 +2919,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: WorkerObj
+      objectReference: {fileID: 0}
+    - target: {fileID: 1067506897980771807, guid: 1b8720da4e85faf40aa0807f83dfc8a3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.418
+      objectReference: {fileID: 0}
+    - target: {fileID: 1067506897980771807, guid: 1b8720da4e85faf40aa0807f83dfc8a3,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.61
       objectReference: {fileID: 0}
     - target: {fileID: 4440089419942243968, guid: 1b8720da4e85faf40aa0807f83dfc8a3,
         type: 3}
@@ -5991,7 +6001,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1511294338
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7098,7 +7108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 430185f60ddf19f4b8584409709f2e38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 8
+  speed: 5
 --- !u!54 &1881585833
 Rigidbody:
   m_ObjectHideFlags: 0

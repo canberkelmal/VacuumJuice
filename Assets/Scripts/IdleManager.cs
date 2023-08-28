@@ -219,11 +219,6 @@ public class IdleManager : MonoBehaviour
             newCostumer.GetComponent<CostumerSc>().SendTo(AvailableCostumerPlace());
             costumers = AddToCustomArray(costumers, newCostumer);
         }
-        else if(costumerCount <= 0 && resourceCount <= 0)
-        {
-            CancelInvoke("SpawnCostumer");
-            outOfResourcePanel.SetActive(true);
-        }
         else if(resourceCount <= 0)
         {
             CancelInvoke("SpawnCostumer");
@@ -236,6 +231,10 @@ public class IdleManager : MonoBehaviour
         sentCostumer.transform.parent = null;
         costumers = RemoveFromCustomArray(costumers, sentCostumer);
         RemoveFromQueue(sentCostumer);
+        if(costumerCount <= 0 && resourceCount <= 0)
+        {
+            outOfResourcePanel.SetActive(true);
+        }
     }
 
     public void CashAnimation(GameObject costumer, float inc)
