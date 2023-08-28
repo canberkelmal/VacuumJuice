@@ -364,7 +364,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   askFor: apple
-  movementSpeed: 5
+  movementSpeed: 4
   isWaiting: 0
   isHandled: 0
   onQueue: 0
