@@ -264,7 +264,8 @@ public class MachineSc : MonoBehaviour
                     break;
             }
         }
-
+        bool isReady = stat == 2 ? true : false;
+        transform.Find("ReadyParticle").gameObject.SetActive(isReady);
         //Debug.Log("before SetReadyMachines");
         idleManager.SetReadyMachines();
     }

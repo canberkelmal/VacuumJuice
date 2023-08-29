@@ -185,7 +185,7 @@ MonoBehaviour:
   type: 2
   increase: 0
   level: 1
-  takeAnim: {fileID: 150944, guid: 3b9161edba9968c48bd058067ad18c84, type: 3}
+  takeAnim: {fileID: 195900, guid: ec61825cb06be72419bb09eee03af08c, type: 3}
   takeSplashColor: {r: 0, g: 0, b: 0, a: 0}
   rotateDirection: {x: 0, y: 0, z: 1}
   timer: 0
