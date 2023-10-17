@@ -10,14 +10,14 @@ public class WorkerSc : MonoBehaviour
     private IdleManager idleManager;
     private GameObject machine, costumer;
     private GameObject handledProduct;
-    private float income = 0;
+    private float income = 0; 
     private bool waitingCostumer = true;
     private bool waitingForMachine = false;
     private bool serving = false;
     private bool goingMachine = false;
     void Awake()
     {
-        idleManager = GameObject.Find("IdleManager").GetComponent<IdleManager>();
+        idleManager = GameObject.Find("IdleManager").GetComponent<IdleManager>(); 
         productPlace = transform.Find("ProductPlace");
     }
 
@@ -64,7 +64,7 @@ public class WorkerSc : MonoBehaviour
 
     private void GoToMachine()
     {
-        transform.position = Vector3.MoveTowards(transform.position, machine.transform.Find("TakeProductPoint").position, speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, machine.transform.Find("TakeProductPoint").position, speed * Time.fixedDeltaTime);
         if (transform.position == machine.transform.Find("TakeProductPoint").position)
         {
             goingMachine = false;
@@ -79,8 +79,8 @@ public class WorkerSc : MonoBehaviour
 
     private void GoToCostumer()
     {
-        transform.position = Vector3.MoveTowards(transform.position, costumer.transform.position - Vector3.forward*3.5f, speed * Time.deltaTime);
-        if (transform.position == costumer.transform.position - Vector3.forward * 3.5f)
+        transform.position = Vector3.MoveTowards(transform.position, costumer.transform.position - Vector3.forward*3f, speed * Time.fixedDeltaTime);
+        if (transform.position == costumer.transform.position - Vector3.forward * 3f)
         {
             DeliverToCostumer();
         }

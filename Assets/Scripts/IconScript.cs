@@ -15,8 +15,9 @@ public class IconScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        transform.localPosition = Vector2.Lerp(transform.localPosition, Vector2.zero, gM.getCupSens * Time.deltaTime);
-        if(transform.localPosition.y < 15 && transform.localPosition.y > -15 && !coled)
+        Vector2 targetPos = transform.parent.Find("Icon").localPosition;
+        transform.localPosition = Vector2.Lerp(transform.localPosition, targetPos, gM.getCupSens * Time.deltaTime);
+        if(transform.localPosition.y < targetPos.y + 15 && transform.localPosition.y > targetPos.y - 15 && !coled)
         {
             coled = true;
             gM.IncreaseCupCount();

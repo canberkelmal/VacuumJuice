@@ -14,6 +14,8 @@ public class TankTriggerSc : MonoBehaviour
     {
         if (other.CompareTag("VacuumArea"))
         {
+            gameManager.fireworks.SetActive(true);
+
             gameManager.ReachToFinalTank();
             Destroy(gameObject);
         }

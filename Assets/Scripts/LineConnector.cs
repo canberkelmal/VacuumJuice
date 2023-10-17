@@ -15,6 +15,7 @@ public class LineConnector : MonoBehaviour
     private CollectableSc currentCollectable;
     private AnimationCurve curve = new AnimationCurve();
     private GameManager gameManager;
+    private bool animating = false;
 
     private void Awake()
     {
@@ -29,15 +30,24 @@ public class LineConnector : MonoBehaviour
         for(int i=0; i < _objs.Length; i++)
         {
             //Debug.Log(line.positionCount);
-            line.SetPosition(i, _objs[i].transform.position + Vector3.up * 0.06f);
+            line.SetPosition(i, _objs[i].transform.position/* + Vector3.up * 0.06f*/);
         }
     }
 
     public void PipeGetAnimTrigger(CollectableSc sc)
     {
-        currentCollectable = sc;
-        tempT = animTPoints.x;
-        InvokeRepeating("PipeGetAnim", 0, Time.fixedDeltaTime);
+        if (!animating)
+        {
+            animating = true;
+            currentCollectable = sc;
+            tempT = animTPoints.x;
+            InvokeRepeating("PipeGetAnim", 0, Time.fixedDeltaTime);
+        }
+        else
+        {
+            currentCollectable.TakeTheFruit();
+            currentCollectable = sc;
+        }
     }
 
     private void PipeGetAnim()
@@ -63,6 +73,7 @@ public class LineConnector : MonoBehaviour
         {
             MoveKeyFrame(1, animTPoints.x, 0.25f);
             currentCollectable.TakeTheFruit();
+            animating = false;
             //_objs[_objs.Length - 1].transform.position = new Vector3(_objs[_objs.Length - 1].transform.position.x, 1.5f, _objs[_objs.Length - 1].transform.position.z);
             CancelInvoke("PipeGetAnim");
         }

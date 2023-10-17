@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Sirenix.OdinInspector;
+using UnityEditor.Rendering;
 
 public class CollectableSc : MonoBehaviour
 {
@@ -30,6 +31,9 @@ public class CollectableSc : MonoBehaviour
     public float timer = 0;
     private bool collected = false;
     private Vector3 movementUpperPoint;
+    private Vector3 startPos;
+    private float snakeSpeed, snakeXMovement;
+    private bool isRight = true;
 
     private void Awake()
     {
@@ -44,7 +48,7 @@ public class CollectableSc : MonoBehaviour
         if (!collected)
         {
             transform.Rotate(rotateDirection * gameManager.rotateObjectsSens * Time.deltaTime);
-            if(!IsJuice())
+            /*if(!IsJuice())
             {
                 timer += Time.deltaTime;
                 if (timer <= 1)
@@ -59,6 +63,49 @@ public class CollectableSc : MonoBehaviour
                 {
                     timer = 0;
                 }
+            }*/
+            /*timer += Time.deltaTime;
+            if (timer <= 1)
+            {
+                transform.localPosition = Vector3.Lerp(transform.localPosition, movementUpperPoint, gameManager.swingObjectsSens * Time.deltaTime);
+            }
+            else if (timer <= 2)
+            {
+                transform.localPosition = Vector3.Lerp(transform.localPosition, movementUpperPoint - Vector3.up, gameManager.swingObjectsSens * Time.deltaTime);
+            }
+            else
+            {
+                timer = 0;
+            }*/
+        }
+    }
+
+    public void SnakeMovement(float speed, float x, float delay)
+    {
+        snakeSpeed = speed;
+        snakeXMovement = x;
+        startPos = transform.localPosition;
+        InvokeRepeating("SnakeMovementLoop", delay, Time.fixedDeltaTime);
+    }
+
+    public void SnakeMovementLoop()
+    {
+        if (isRight)
+        {
+            Vector3 pos = transform.localPosition;
+            transform.localPosition = Vector3.MoveTowards(pos, startPos + Vector3.right * snakeXMovement, snakeSpeed * Time.fixedDeltaTime);
+            if (transform.localPosition == startPos + Vector3.right * snakeXMovement)
+            {
+                isRight = false;
+            }
+        }
+        else
+        {
+            Vector3 pos = transform.localPosition;
+            transform.localPosition = Vector3.MoveTowards(pos, startPos - Vector3.right * snakeXMovement, snakeSpeed * Time.fixedDeltaTime);
+            if (transform.localPosition == startPos - Vector3.right * snakeXMovement)
+            {
+                isRight = true;
             }
         }
     }
@@ -78,11 +125,22 @@ public class CollectableSc : MonoBehaviour
 
     private void MoveToPlayer()
     {
+        transform.Find("Obj").localPosition = Vector3.MoveTowards(transform.Find("Obj").localPosition, Vector3.zero, gameManager.collectSens * 2 * Time.fixedDeltaTime);
         transform.localPosition = Vector3.MoveTowards(transform.localPosition, Vector3.zero, gameManager.collectSens * Time.fixedDeltaTime);
         transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.zero, (gameManager.collectSens * 2 / 3) * Time.fixedDeltaTime);
+        if (IsJuice())
+        {
+            //transform.Find("Obj").LookAt(transform.parent.position);
+            transform.LookAt(transform.parent.position);
+
+            float key = transform.Find("Obj").GetComponent<SkinnedMeshRenderer>().GetBlendShapeWeight(0) + gameManager.shapeSens * Time.fixedDeltaTime;
+            key= Mathf.Clamp(key,0,75);
+            transform.Find("Obj").GetComponent<SkinnedMeshRenderer>().SetBlendShapeWeight(0, key);
+        }
 
         if (transform.localPosition == Vector3.zero && !triged)
         {
+            transform.localScale = Vector3.zero;
             triged = true;
             if (IsJuice())
             {
@@ -105,12 +163,20 @@ public class CollectableSc : MonoBehaviour
 
     public void TakeTheFruit()
     {
-        GameObject getEffect = Instantiate(gameManager.getJuiceParticle, gameManager.tankShader.transform.position, Quaternion.identity);
-        getEffect.GetComponent<ParticleSystem>().startColor = takeSplashColor;
-        getEffect.transform.GetChild(0).GetComponent<ParticleSystem>().startColor = takeSplashColor;
-        getEffect.transform.GetChild(1).GetComponent<ParticleSystem>().startColor = takeSplashColor;
-        gameManager.ChangeLiquidColor(takeSplashColor);
-        Destroy(getEffect, 1f);
+        if (increase)
+        {
+            GameObject getEffect = Instantiate(gameManager.getJuiceParticle, gameManager.tankShader.transform.position, Quaternion.identity);
+            getEffect.GetComponent<ParticleSystem>().startColor = takeSplashColor;
+            getEffect.transform.GetChild(0).GetComponent<ParticleSystem>().startColor = takeSplashColor;
+            getEffect.transform.GetChild(1).GetComponent<ParticleSystem>().startColor = takeSplashColor;
+            gameManager.ChangeLiquidColor(takeSplashColor);
+            Destroy(getEffect, 1f);
+        }
+        else
+        {
+            GameObject getEffect = Instantiate(gameManager.getPoisonParticle, gameManager.tankShader.transform.position, Quaternion.identity, gameManager.tankShader.transform.parent);
+            Destroy(getEffect, 1f);
+        }
 
         gameManager.FillTank(effectFactor);
         Destroy(gameObject);

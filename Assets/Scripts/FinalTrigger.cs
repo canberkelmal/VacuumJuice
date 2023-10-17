@@ -14,6 +14,7 @@ public class FinalTrigger : MonoBehaviour
     {
         if (other.CompareTag("VacuumArea"))
         {
+            transform.parent.Find("Confetties").gameObject.SetActive(true);
             gameManager.EnterToFinish();
             Destroy(gameObject);
         }

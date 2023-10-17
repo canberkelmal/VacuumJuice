@@ -13,10 +13,10 @@ public class CashAnimUI : MonoBehaviour
 
     float timer = 0;
 
-    public void SpawnCashAnim(float price)
+    public void SpawnCashAnim(string price)
     {
-        this.price = (int)price;
-        transform.Find("Text").GetComponent<Text>().text = price.ToString() + "$";
+        //this.price = (int)price;
+        transform.Find("Text").GetComponent<Text>().text = price + "$";
         InvokeRepeating("MoneyAnim", 0, Time.fixedDeltaTime);
     }
 

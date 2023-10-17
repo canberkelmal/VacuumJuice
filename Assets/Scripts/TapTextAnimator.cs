@@ -32,10 +32,20 @@ public class TapTextAnimator : MonoBehaviour
             dir = true;
         }
 
-        if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject() && transform.parent.gameObject.activeSelf && !gameManager.settingsPanel.activeSelf)
+        if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
+        {
+            TapToStart();
+        }
+    }
+
+    public void TapToStart()
+    {
+        if (transform.parent.gameObject.activeSelf && !gameManager.settingsPanel.activeSelf)
         {
             gameManager.StartGame();
             transform.parent.gameObject.SetActive(false);
         }
     }
+
+
 }

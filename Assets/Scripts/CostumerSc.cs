@@ -11,24 +11,27 @@ public class CostumerSc : MonoBehaviour
     public bool isHandled = false;
     public bool onQueue = false;
     public bool noResource = false;
+    public Transform productPlace;
+    public SkinnedMeshRenderer shirtRenderer, pantRenderer, hairRenderer;
 
-    private Transform productPlace;
     private IdleManager idleManager;
     private Vector3 destination = Vector3.zero;
     private RawImage statuUI;
+    private Material shirtMat, pantMat, hairMat; 
 
     void Awake()
     {
         idleManager = GameObject.Find("IdleManager").GetComponent<IdleManager>();
+        SetCostume();
         switch (idleManager.currentLevel)
         {
             case 1:
                 askFor = Random.Range(1, 100) < 50 ? "apple" : "orange";
                 break;
-            case 2:
-                int a = Random.Range(1, 150);
+            case 2: 
+                int a = Random.Range(1, 150); 
                 if (a <= 50)
-                    askFor = "apple";
+                    askFor = "apple"; 
                 else if (a > 50 && a <= 100)
                     askFor = "orange";
                 else
@@ -37,8 +40,27 @@ public class CostumerSc : MonoBehaviour
                 break;
         }
         statuUI = transform.Find("Canvas").Find("Statu").GetComponent<RawImage>();
-        statuUI.texture = idleManager.SetTexture(askFor);
+        statuUI.texture = idleManager.SetTexture(askFor); 
         productPlace = transform.Find("ProductPlace");
+    } 
+
+    public void SetCostume()
+    {
+        shirtMat = new Material(shirtRenderer.material);
+        Color randomColor = new Color(Random.value, Random.value, Random.value);
+        shirtMat.color = randomColor;
+        shirtRenderer.material = shirtMat;
+
+        pantMat = new Material(pantRenderer.material);
+        randomColor = new Color(Random.value, Random.value, Random.value);
+        pantMat.color = randomColor;
+        pantRenderer.material = pantMat;
+
+        hairMat = new Material(hairRenderer.material);
+        int randomInt = Mathf.FloorToInt(UnityEngine.Random.Range(0, idleManager.hairColors.Length));
+        randomColor = idleManager.hairColors[randomInt];
+        hairMat.color = randomColor;
+        hairRenderer.material = hairMat;
     }
 
     public void SendTo(Vector3 finalPoint)
@@ -46,25 +68,27 @@ public class CostumerSc : MonoBehaviour
         destination = finalPoint;
         transform.LookAt(destination);
         transform.Find("Canvas").rotation = Quaternion.Euler(-45f, 180f, 0f);
-        transform.Find("CostumerObj").GetComponent<Animator>().SetBool("Walk", true);
+        //transform.Find("CostumerObj").GetComponent<Animator>().SetBool("Walk", true);
+        transform.Find("Obj").GetComponent<Animator>().SetTrigger("Walk");
         InvokeRepeating("GoToDestination", 0, Time.fixedDeltaTime);
     }
 
     private void GoToDestination()
     {
-        transform.position = Vector3.MoveTowards(transform.position, destination, movementSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, destination, movementSpeed * Time.fixedDeltaTime);
         if (transform.position == destination)
         {
             if(!onQueue)
             {
-                idleManager.AddToQueue(gameObject);
-                onQueue = true;
+                //idleManager.AddToQueue(gameObject);
                 //Debug.Log("Reached to destination.");
-                idleManager.CostumerAsksFor(askFor, gameObject);
             }
-            transform.Find("CostumerObj").GetComponent<Animator>().SetBool("Walk", false);
+            //transform.Find("CostumerObj").GetComponent<Animator>().SetBool("Walk", false);
+            onQueue = true;
+            transform.Find("Obj").GetComponent<Animator>().SetTrigger("Idle");
             transform.rotation= Quaternion.Euler(0f, 180f, 0f);
             transform.Find("Canvas").rotation = Quaternion.Euler(-45f, 180f, 0f);
+            idleManager.CostumerAsksFor(askFor, gameObject);
             CancelInvoke("GoToDestination");
         }
     }
@@ -72,16 +96,22 @@ public class CostumerSc : MonoBehaviour
 
     public void TakeAndGo(bool taken, GameObject handledProduct)
     {
-        Destroy(Instantiate(idleManager.takeProductParticle, transform.position + Vector3.up, Quaternion.Euler(Vector3.right * -90)), 1);
+        transform.parent = null;
+        transform.LookAt(idleManager.costumerExitPoint.position);
+        transform.Find("Canvas").rotation = Quaternion.Euler(-45f, 180f, 0f);
         if (taken)
         {
             statuUI.texture = idleManager.SetTexture("happy");
+            transform.Find("Obj").GetComponent<Animator>().SetTrigger("Handle");
+            Destroy(Instantiate(idleManager.takeProductParticle, transform.position + Vector3.up, Quaternion.Euler(Vector3.right * -90)), 1);
         }
         else
         { 
-            noResource = true;
             statuUI.texture = idleManager.SetTexture("unHappy");
+            transform.Find("Obj").GetComponent<Animator>().SetTrigger("Walk");
+            noResource = true;
         }
+
         if(handledProduct != null)
         {
             handledProduct.transform.parent = productPlace;
@@ -89,19 +119,16 @@ public class CostumerSc : MonoBehaviour
         }
         idleManager.SetCostumerPlaceAvailable(transform.position);
         idleManager.SentCostumer(gameObject, taken);
-        transform.LookAt(idleManager.costumerExitPoint.position);
-        transform.Find("Canvas").rotation = Quaternion.Euler(-45f, 180f, 0f);
-        transform.Find("CostumerObj").GetComponent<Animator>().SetBool("Walk", true);
-        InvokeRepeating("GoToExit", 0, Time.fixedDeltaTime); 
+        //transform.Find("CostumerObj").GetComponent<Animator>().SetBool("Walk", true);
+        InvokeRepeating("GoToExit", 0, Time.fixedDeltaTime);
     }
 
     private void GoToExit()
     {
-        CancelInvoke("GoToDestination");
-        transform.position = Vector3.MoveTowards(transform.position, idleManager.costumerExitPoint.position, movementSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, idleManager.costumerExitPoint.position, movementSpeed * Time.fixedDeltaTime);
         if (transform.position == idleManager.costumerExitPoint.position)
         {
-            //Debug.Log("Costumer went.");
+            //Debug.Log("Costumer went."); 
             CancelInvoke("GoToExit");
             Destroy(gameObject);
         }

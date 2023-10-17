@@ -1,30 +1,50 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+//using static UnityEngine.Rendering.DebugUI;
 
-public class IdleManager : MonoBehaviour
+public class IdleManager : MonoBehaviour 
 {
     public int startLevel = 0;
     public int currentLevel = 0;
     public int maxCostumerCount = 4;
+    public float workerSpeed = 3f;
+    public float workerDefSpeed = 3f;
+    public int workerCount = 1;
+    public float appleSpeedDevider = 1f;
+    public float orangeSpeedDevider = 1f;
+    public float frozenSpeedDevider = 1f;
+    public float appleDefDuration = 1f;
+    public float orangeDefDuration = 1f;
+    public float frozenDefDuration = 1f;
+    public int defMaxCostumerCount = 3;
+    public Color[] hairColors = new Color[6];
     public GameObject mainCam;
     public GameObject outOfResourcePanel;
     public GameObject machinesParent;
     public GameObject workersParent;
     public GameObject costumersParent;
-    public GameObject costumer;
+    public GameObject costumer1, costumer2, testCostumer;
+    public GameObject sideWorker;
     public GameObject machinePanel;
+    public GameObject settingsPanel;
+    public GameObject upgradesPanel;
     public GameObject cashAnimUI;
     public GameObject upgradeMachineParticle, takeProductParticle;
     public Transform costumerSpawnPoint;
     public Transform costumerLastPoint;
-    public Transform costumerExitPoint;
+    public Transform costumerExitPoint; 
+    public Transform workerSpawnPoint;
     public LayerMask machinesLayerMask;
     public Texture appleIcon, orangeIcon, frozenIcon, warningIcon, happyIcon;
+    public Texture apple1, apple2, apple3, orange1, orange2, orange3, frozen1, frozen2, frozen3;
     public GameObject[] levels;
+    public GameObject[] upgradesForLevels;
     public int resourceCount = 0;
     public float moneyCount = 0;
     public int[] maxMachineLevels = new int[0];
@@ -43,7 +63,7 @@ public class IdleManager : MonoBehaviour
     public GameObject[] machines = new GameObject[0];
     public GameObject[] readyMachines = new GameObject[0];
     public GameObject[] availableWorkers = new GameObject[0];
-    public GameObject[] onQueueCostumers = new GameObject[0];
+    //public GameObject[] onQueueCostumers = new GameObject[0];
     private GameObject[] appleMachines = new GameObject[0];
     private GameObject[] orangeMachines = new GameObject[0];
     private GameObject[] frozenMachines = new GameObject[0];
@@ -51,12 +71,15 @@ public class IdleManager : MonoBehaviour
     private GameObject[] costumers = new GameObject[0];
     private GameObject[] handledCostumers = new GameObject[0];
     public GameObject[] waitingCostumers = new GameObject[0];
+    private bool soundState = true;
+    private bool vibrationState = true;
+    private GameObject upgradingMachine;
 
     // Start is called before the first frame update
     void Awake()
     {
         mainCam = GameObject.Find("Main Camera");
-        SetCostumerPlaces();
+        SetCostumerPlaces(false);
         resourceCount = PlayerPrefs.GetInt("cupCount", 0);
         moneyCount = PlayerPrefs.GetFloat("moneyCount", 0);
         InitIdleScene();
@@ -65,16 +88,48 @@ public class IdleManager : MonoBehaviour
         costumerCount = costumersParent.transform.childCount;
         SetAvailableWorkers();
         InvokeRepeating("SpawnCostumer", 1, 1);
+        Time.timeScale = 1;
     }
      
     void InitIdleScene()
     {
+        soundState = PlayerPrefs.GetInt("soundState", 1) == 1 ? true : false;
+        SetVolumes();
+
+        vibrationState = PlayerPrefs.GetInt("vibrationState", 1) == 1 ? true : false;
+        SetVibrations();
+
+        maxCostumerCount = PlayerPrefs.GetInt("maxCostumerCount", defMaxCostumerCount);
+
         currentLevel = PlayerPrefs.GetInt("IdleLevel", startLevel);
         currentMaxMachineLevel = maxMachineLevels[currentLevel];
+
         GameObject scene = Instantiate(levels[currentLevel], GameObject.Find("Levels").transform);
         machinesParent = scene.transform.GetChild(0).gameObject;
+
+        for(int i = 0; i < upgradesForLevels.Length; i++)
+        {
+            Debug.Log(currentLevel + " - " + i);
+            if(i == currentLevel)
+            {
+                upgradesForLevels[i].SetActive(true);
+                foreach(Transform upg in upgradesForLevels[i].transform)
+                {
+                    bool act = PlayerPrefs.GetInt(upg.name, 1) == 1 ? true : false;
+                    upg.gameObject.SetActive(act);
+                }
+                upgradesForLevels[i].GetComponent<UpgradeSc>().OrderUpgrades();
+            }
+            else
+            {
+                upgradesForLevels[i].SetActive(false);
+            }
+        }
+
+        SetPrepareDurations();
+        SetWorkers();
         SetCupCount(0);
-        SetMoneyCount(0);        
+        SetMoneyCount(0);
     }
 
     private void Update()
@@ -84,7 +139,7 @@ public class IdleManager : MonoBehaviour
 
     void InputController()
     {
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0)/* && !EventSystem.current.IsPointerOverGameObject()*/)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -93,8 +148,9 @@ public class IdleManager : MonoBehaviour
             {
                 CloseMachinePanel();
                 hit.collider.gameObject.GetComponent<MachineSc>().OpenMachinePanel(true);
+                upgradingMachine = hit.collider.gameObject;
             }
-        }
+        } 
 
         // Restart the game when the "R" key is pressed
         if (Input.GetKeyDown(KeyCode.R))
@@ -103,53 +159,179 @@ public class IdleManager : MonoBehaviour
         }
     }
 
+    public Texture GetIcon(String product, int lv)
+    {
+        Texture icon = null;
+
+        if(product == "apple")
+        {
+            if (lv < firstMachineUpgradeLevel)
+            {
+                icon = apple1;
+            }
+            else if (lv >= firstMachineUpgradeLevel && lv < secondMachineUpgradeLevel)
+            {
+                icon = apple2;
+            }
+            else if (lv >= secondMachineUpgradeLevel)
+            {
+                icon = apple3;
+            }
+        }
+        else if (product == "orange")
+        {
+            if (lv < firstMachineUpgradeLevel)
+            {
+                icon = orange1;
+            }
+            else if (lv >= firstMachineUpgradeLevel && lv < secondMachineUpgradeLevel)
+            {
+                icon = orange2;
+            }
+            else if (lv >= secondMachineUpgradeLevel)
+            {
+                icon = orange3;
+            }
+        }
+        else if (product == "frozen")
+        {
+            if (lv < firstMachineUpgradeLevel)
+            {
+                icon = frozen1;
+            }
+            else if (lv >= firstMachineUpgradeLevel && lv < secondMachineUpgradeLevel)
+            {
+                icon = frozen2;
+            }
+            else if (lv >= secondMachineUpgradeLevel)
+            {
+                icon = frozen3;
+            }
+        }
+
+        return icon;
+    }
+
     public void CheckForNextLevel()
     {
-        bool available = true;
+        bool available1 = true;
         foreach (GameObject machineObj in machines)
         {
-            available = machineObj.GetComponent<MachineSc>().isMaxLevel ? true : false; 
-            if (!available)
+            available1 = machineObj.GetComponent<MachineSc>().isMaxLevel ? true : false; 
+            if (!available1)
             {
                 break; 
             }
         }
-        //Debug.Log("Next level is " + available);
 
-        if (available)
+
+        bool available2 = true;
+        for (int i = 0; i < upgradesForLevels.Length; i++)
+        {
+            if (i == currentLevel)
+            {
+                foreach (Transform upg in upgradesForLevels[i].transform)
+                {
+                    upg.transform.Find("Button").GetComponent<Button>().interactable = CheckForMoneyCount(upg.gameObject.GetComponent<IdleUpgradesSc>().upgradeCost);
+                    available2 = !upg.gameObject.activeSelf;
+                    if (!available2)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (available1 && available2)
         { 
-            nextLevelButton.GetComponent<Button>().interactable = true;
-            nextLevelButton.Find("Icon").gameObject.SetActive(false);
-            nextLevelButton.GetComponent<Image>().color = Color.green;
+            if (currentLevel == 1)
+            {
+                nextLevelButton.GetComponent<Button>().interactable = false;
+                nextLevelButton.Find("Icon").gameObject.SetActive(false);
+                nextLevelButton.GetComponent<Image>().color = Color.green;
+                nextLevelButton.Find("Text").GetComponent<Text>().text = "Next Level SOON!";
+
+
+            }
+            else
+            {
+                nextLevelButton.GetComponent<Button>().interactable = true;
+                nextLevelButton.Find("Icon").gameObject.SetActive(false);
+                nextLevelButton.GetComponent<Image>().color = Color.green;
+                nextLevelButton.Find("Text").GetComponent<Text>().text = "Next Level";
+            }
         }
         else
         {
             nextLevelButton.GetComponent<Button>().interactable = false;
             nextLevelButton.Find("Icon").gameObject.SetActive(true);
             nextLevelButton.GetComponent<Image>().color = Color.red;
+            nextLevelButton.Find("Text").GetComponent<Text>().text = "Next Level";
         }
+
+
     }
 
     public void GoNextLevel()
     {
         currentLevel = PlayerPrefs.GetInt("IdleLevel", startLevel) + 1;
         PlayerPrefs.SetInt("IdleLevel", currentLevel);
+        ResetUpgrades();
         ResetMachineLevels("all");
+
+        moneyCount = 0;
+        PlayerPrefs.SetFloat("moneyCount", moneyCount);
+        moneyCountTx.text = ConvertNumberToUIText(moneyCount);
+
         Restart();
-    } 
+    }
+
+    public void ResetUpgrades()
+    {
+        for (int i = 0; i < upgradesForLevels.Length; i++)
+        {
+            foreach (Transform upg in upgradesForLevels[i].transform)
+            {
+                PlayerPrefs.SetInt(upg.name, 1);
+                upg.gameObject.SetActive(true);
+            }
+            if (i == currentLevel)
+            {
+                upgradesForLevels[i].SetActive(true);
+                upgradesForLevels[i].GetComponent<UpgradeSc>().OrderUpgrades();
+            }
+            else
+            {
+                upgradesForLevels[i].SetActive(false);
+            }
+        }
+
+        SetWorkerSpeed(true, 1);
+        SetMachineSpeed(true, "a", 1);
+        SetMaxCostumerCount(true, 0);
+        SetWorkerCount(true);
+    }
 
     public void StartFromFirstLevel()
     {
         PlayerPrefs.SetInt("IdleLevel", startLevel);
+        ResetUpgrades();
         ResetMachineLevels("all");
         Restart();
     }
 
-    public void SetCostumerPlaces()
+    public void SetCostumerPlaces(bool isNew)
     {
-        for(int i = 0; i < maxCostumerCount; i++)
+        if (isNew)
         {
-            costumerPlaces.Add(costumerLastPoint.position - (Vector3.right * 1.5f * i), false);
+            costumerPlaces.Add(costumerLastPoint.position - (Vector3.right * 1.5f * (maxCostumerCount)), false);
+        }
+        else
+        {
+            for (int i = 0; i < maxCostumerCount; i++)
+            {
+                costumerPlaces.Add(costumerLastPoint.position - (Vector3.right * 1.5f * i), false);
+            }
         }
     }
 
@@ -182,16 +364,104 @@ public class IdleManager : MonoBehaviour
 
     public void SetCupCount(int count)
     {
-        resourceCount += count;
+        resourceCount += count; 
+        PlayerPrefs.SetInt("cupCount", resourceCount);
+        cupCountTx.text = resourceCount.ToString();
+    }
+    public void ResetCupCount()
+    {
+        resourceCount = 0;
         PlayerPrefs.SetInt("cupCount", resourceCount);
         cupCountTx.text = resourceCount.ToString();
     }
 
-    public void SetMoneyCount(float count)
+    public void SetMoneyCount(float count) 
     {
         moneyCount += count;
         PlayerPrefs.SetFloat("moneyCount", moneyCount);
-        moneyCountTx.text = ((int)moneyCount).ToString();
+        moneyCountTx.text = ConvertNumberToUIText(moneyCount);
+        Debug.Log(count + "harcandý.");
+        if(machinePanel.activeSelf )
+        {
+            bool act = !upgradingMachine.GetComponent<MachineSc>().isMaxLevel && CheckForMoneyCount(upgradingMachine.gameObject.GetComponent<MachineSc>().UpgradeCost());
+            machinePanel.transform.Find("LevelButton").GetComponent<Button>().interactable = act;
+            machinePanel.transform.Find("LevelButton").Find("Icon").gameObject.SetActive(act);
+        }
+
+        if(upgradesPanel.activeSelf)
+        {
+            for (int i = 0; i < upgradesForLevels.Length; i++)
+            {
+                if (i == currentLevel)
+                {
+                    foreach (Transform upg in upgradesForLevels[i].transform)
+                    {
+                        //bool act = PlayerPrefs.GetInt(upg.name, 1) == 1 ? true : false;
+                        upg.transform.Find("Button").GetComponent<Button>().interactable = CheckForMoneyCount(upg.gameObject.GetComponent<IdleUpgradesSc>().upgradeCost);
+                    }
+                }
+            }
+        }
+
+        foreach(GameObject mac in machines)
+        {
+            mac.GetComponent<MachineSc>().IfUpgradable();
+        }
+
+        for (int i = 0; i < upgradesForLevels.Length; i++)
+        {
+            if (i == currentLevel)
+            {
+                upgradesPanel.transform.parent.Find("UpgradesButton").Find("UpgIcon").gameObject.SetActive(false);
+                foreach (Transform upg in upgradesForLevels[i].transform)
+                {
+                    if (CheckForMoneyCount(upg.GetComponent<IdleUpgradesSc>().upgradeCost) && upg.gameObject.activeSelf)
+                    {
+                        upgradesPanel.transform.parent.Find("UpgradesButton").Find("UpgIcon").gameObject.SetActive(true);
+                        break;
+                    }
+                }
+            }
+        }
+
+
+    }
+
+    public bool CheckForMoneyCount(float amount)
+    {
+        return amount <= moneyCount;
+    }
+
+    public String ConvertNumberToUIText(float number)
+    {
+        String UITx = ">B";
+        float operatedNumber;
+        if (number > 1000000000000) // Trillion
+        {
+            operatedNumber = (int)(number / 100000000000);
+            UITx = (operatedNumber / 10).ToString() + "B";
+        }
+        else if (number > 1000000000) // Billion
+        {
+            operatedNumber = (int)(number / 100000000);
+            UITx = (operatedNumber / 10).ToString() + "B";
+        }
+        else if (number > 1000000) // Million
+        {
+            operatedNumber = (int)(number / 100000);
+            UITx = (operatedNumber / 10).ToString() + "M";
+        }
+        else if (number > 1000) // Thousand
+        {
+            operatedNumber = (int)(number / 100);
+            UITx = (operatedNumber / 10).ToString() + "K";
+        }
+        else
+        {
+            operatedNumber = (int)(number * 10);
+            UITx = (operatedNumber / 10).ToString();
+        }
+        return UITx;
     }
 
     public void AddCredit(float a)
@@ -205,16 +475,24 @@ public class IdleManager : MonoBehaviour
 
     public void CloseMachinePanel()
     {
-        Button lvButton = machinePanel.transform.Find("LevelButton").GetComponent<Button>();
-        lvButton.onClick.RemoveAllListeners();
+        Button lvlButton = machinePanel.transform.Find("LevelButton").GetComponent<Button>();
+        lvlButton.onClick.RemoveAllListeners();
         machinePanel.SetActive(false);
+
+        if(upgradingMachine != null)
+        {
+            upgradingMachine.transform.Find("PanelParticle").gameObject.SetActive(false);
+            //upgradingMachine.GetComponent<Outline>().enabled = false;
+        }
+        upgradingMachine = null;
     }
     public void SpawnCostumer()
     {
         if(costumerCount < maxCostumerCount && resourceCount > 0)
         {
             costumerCount++;
-            GameObject newCostumer = Instantiate(costumer, costumerSpawnPoint.position, Quaternion.identity, costumersParent.transform);
+            GameObject spawned = UnityEngine.Random.Range(1, 100) < 50 ? costumer1 : costumer2;
+            GameObject newCostumer = Instantiate(spawned, costumerSpawnPoint.position, Quaternion.identity, costumersParent.transform);
             //newCostumer.GetComponent<CostumerSc>().SendTo(costumerLastPoint.position - (Vector3.right * 1.5f * (costumerCount - 1)));
             newCostumer.GetComponent<CostumerSc>().SendTo(AvailableCostumerPlace());
             costumers = AddToCustomArray(costumers, newCostumer);
@@ -228,9 +506,8 @@ public class IdleManager : MonoBehaviour
     public void SentCostumer(GameObject sentCostumer, bool withProduct)
     {
         costumerCount--;
-        sentCostumer.transform.parent = null;
         costumers = RemoveFromCustomArray(costumers, sentCostumer);
-        RemoveFromQueue(sentCostumer);
+        //RemoveFromQueue(sentCostumer);
         if(costumerCount <= 0 && resourceCount <= 0)
         {
             outOfResourcePanel.SetActive(true);
@@ -241,7 +518,7 @@ public class IdleManager : MonoBehaviour
     {
         Vector3 costumerScreenPosition = Camera.main.WorldToScreenPoint(costumer.transform.position);
         GameObject animCash = Instantiate(cashAnimUI, costumerScreenPosition, Quaternion.identity, cupCountTx.transform.parent.parent);
-        animCash.GetComponent<CashAnimUI>().SpawnCashAnim(inc);
+        animCash.GetComponent<CashAnimUI>().SpawnCashAnim(ConvertNumberToUIText(inc));
     }
 
     /*public void EditOrder()
@@ -257,14 +534,14 @@ public class IdleManager : MonoBehaviour
         }
     }*/
 
-    public void AddToQueue(GameObject addedCostumer)
+    /*public void AddToQueue(GameObject addedCostumer)
     {
         onQueueCostumers = AddToCustomArray(onQueueCostumers, addedCostumer);
     }
     public void RemoveFromQueue(GameObject addedCostumer)
     {
         onQueueCostumers = RemoveFromCustomArray(onQueueCostumers, addedCostumer);
-    }
+    }*/
 
     public void CostumerAsksFor(string productName, GameObject costumer)
     {
@@ -356,8 +633,8 @@ public class IdleManager : MonoBehaviour
         {
             if (waiting.GetComponent<CostumerSc>().askFor == productName)
             {
-                waitingCostumers = RemoveFromCustomArray(waitingCostumers, waiting);
                 waiting.GetComponent<CostumerSc>().TakeAndGo(false, null);
+                waitingCostumers = RemoveFromCustomArray(waitingCostumers, waiting);
             }
         }
         /*switch (productName)
@@ -662,6 +939,53 @@ public class IdleManager : MonoBehaviour
             //Debug.Log(workersParent.transform.GetChild(i).gameObject + " is added.");
             workers[i] = workersParent.transform.GetChild(i).gameObject;
         }
+
+        workerSpeed = PlayerPrefs.GetFloat("workerSpeed", workerDefSpeed);
+        SetWorkerSpeed(false, 1);
+    }
+    public void SetSound()
+    {
+        soundState = !soundState;
+        int a = soundState ? 1 : 0;
+        settingsPanel.transform.Find("SoundUI").Find("Stroke").gameObject.SetActive(!soundState);
+        PlayerPrefs.SetInt("soundState", a);
+        SetVolumes();
+    }
+    public void SetVolumes()
+    {
+        Debug.Log("Sound button is pressed.");
+        float soundLevel = soundState ? 0.5f : 0f;
+        //audioManager.SetVolume(soundLevel);
+    }
+    public void SetVibration()
+    {
+        vibrationState = !vibrationState;
+        //Vibrate();
+        int a = vibrationState ? 1 : 0;
+        Debug.Log("Vibration button is pressed.");
+        settingsPanel.transform.Find("VibrationUI").Find("Stroke").gameObject.SetActive(!vibrationState);
+        PlayerPrefs.SetInt("vibrationState", a);
+        SetVibrations();
+    }
+    public void SettingsPanel()
+    {
+        bool v = settingsPanel.activeSelf;
+        
+        Time.timeScale = v ? 1f : 0f;
+
+        settingsPanel.SetActive(!v);
+
+        soundState = PlayerPrefs.GetInt("soundState") == 1 ? true : false;
+        vibrationState = PlayerPrefs.GetInt("vibrationState") == 1 ? true : false;
+
+        settingsPanel.transform.Find("VibrationUI").Find("Stroke").gameObject.SetActive(!vibrationState);
+        settingsPanel.transform.Find("SoundUI").Find("Stroke").gameObject.SetActive(!soundState);
+    }
+     
+    public void SetVibrations()
+    {
+        //vibrationBut.color = vibrationState ? Color.white : Color.red;
+        //vibrationBut.transform.parent.Find("Text").GetComponent<Text>().text = vibrationState ? "On" : "Off";
     }
 
     public Texture SetTexture(string product)
@@ -682,6 +1006,171 @@ public class IdleManager : MonoBehaviour
         }
         return warningIcon;
     }
+
+    public void UpgradesPanel(bool openPanel)
+    {
+        upgradesPanel.SetActive(openPanel);
+
+        if (upgradesPanel.activeSelf)
+        {
+            for (int i = 0; i < upgradesForLevels.Length; i++)
+            {
+                if (i == currentLevel)
+                {
+                    foreach (Transform upg in upgradesForLevels[i].transform)
+                    {
+                        //bool act = PlayerPrefs.GetInt(upg.name, 1) == 1 ? true : false;
+                        upg.transform.Find("Button").GetComponent<Button>().interactable = CheckForMoneyCount(upg.gameObject.GetComponent<IdleUpgradesSc>().upgradeCost);
+                    }
+                }
+            }
+        }
+    }
+
+    public void IncreaseWorkerSpeed(float mult)
+    {
+        SetWorkerSpeed(false, mult);
+    }
+
+    public void IncreaseAppleSpeed(float devider)
+    {
+        SetMachineSpeed(false, "appleMachine", devider);
+    }
+    public void IncreaseOrangeSpeed(float devider)
+    {
+        SetMachineSpeed(false, "orangeMachine", devider);
+    }
+    public void IncreaseFrozenSpeed(float devider)
+    {
+        SetMachineSpeed(false, "frozenMachine", devider);
+    }
+
+    public void SetWorkerSpeed(bool reset, float multiplier)
+    {
+        workerSpeed = reset ? workerDefSpeed : workerSpeed * multiplier;
+        PlayerPrefs.SetFloat("workerSpeed", workerSpeed);
+        foreach (GameObject worker in workers)
+        {
+            worker.GetComponent<WorkerSc>().speed = workerSpeed;
+        }
+    }
+
+    public void SetMachineSpeed(bool reset, String tag, float devider)
+    {
+        if(!reset)
+        {
+            switch (tag)
+            {
+                case "appleMachine":
+                    appleSpeedDevider /= devider;
+                    PlayerPrefs.SetFloat("appleSpeedDevider", appleSpeedDevider);
+                    break;
+                case "orangeMachine":
+                    orangeSpeedDevider /= devider;
+                    PlayerPrefs.SetFloat("orangeSpeedDevider", orangeSpeedDevider);
+                    break;
+                case "frozenMachine":
+                    frozenSpeedDevider /= devider;
+                    PlayerPrefs.SetFloat("frozenSpeedDevider", frozenSpeedDevider);
+                    break;
+            }
+        }
+        else
+        {
+            PlayerPrefs.SetFloat("appleSpeedDevider", 1);
+            PlayerPrefs.SetFloat("orangeSpeedDevider", 1);
+            PlayerPrefs.SetFloat("frozenSpeedDevider", 1);
+        }
+        SetPrepareDurations();
+    }
+
+    public void SetPrepareDurations()
+    {
+        appleSpeedDevider = PlayerPrefs.GetFloat("appleSpeedDevider", 1);
+        orangeSpeedDevider = PlayerPrefs.GetFloat("orangeSpeedDevider", 1);
+        frozenSpeedDevider = PlayerPrefs.GetFloat("frozenSpeedDevider", 1);
+        foreach (GameObject machineObj in machines)
+        {
+            switch (machineObj.tag)
+            {
+                case "appleMachine":
+                    machineObj.GetComponent<MachineSc>().prepareDuration = appleDefDuration * appleSpeedDevider;
+                    break;
+                case "orangeMachine":
+                    machineObj.GetComponent<MachineSc>().prepareDuration = orangeDefDuration * orangeSpeedDevider;
+                    break;
+                case "frozenMachine":
+                    machineObj.GetComponent<MachineSc>().prepareDuration = frozenDefDuration * frozenSpeedDevider;
+                    break;
+            }
+        }
+        if(machinePanel.activeSelf)
+        {
+            machinePanel.transform.Find("Duration").Find("Text").GetComponent<Text>().text = upgradingMachine.GetComponent<MachineSc>().prepareDuration.ToString();
+        }
+    }
+
+    public void AddCostumer(int add)
+    {
+        SetMaxCostumerCount(false, add);
+    }
+
+    public void SetMaxCostumerCount(bool reset, int add)
+    {
+        maxCostumerCount = reset ? defMaxCostumerCount : maxCostumerCount + add;
+        PlayerPrefs.SetInt("maxCostumerCount", maxCostumerCount);
+        if(!reset)
+        {
+            SetCostumerPlaces(true);
+        }
+    }
+
+    public void IncreaseWorkerCount()
+    {
+        int wrk = PlayerPrefs.GetInt("workerCount", 1);
+        PlayerPrefs.SetInt("workerCount", wrk + 1);
+        SetWorkers();
+    }
+
+    public void SetWorkers()
+    {
+        workerCount = workersParent.transform.childCount;
+        if(workerCount < PlayerPrefs.GetInt("workerCount", 1))
+        {
+            SetWorkerCount(false);
+        }
+    }
+
+    public void SetWorkerCount(bool reset)
+    {
+        if (!reset)
+        {
+            Instantiate(sideWorker, workerSpawnPoint.position, Quaternion.identity, workersParent.transform);
+        }
+        else
+        {
+            GameObject[] deletedWorkers = new GameObject[workers.Length-1];
+            for(int i = 0; i<workers.Length; i++)  
+            {
+                if (i > 0)
+                {
+                    AddToCustomArray(deletedWorkers, workers[i]);
+                }
+            }
+            foreach(GameObject worker in deletedWorkers)
+            {
+                Destroy(worker);
+            }
+            PlayerPrefs.SetInt("workerCount", 1);
+        }
+        FillWorkersArray();
+        SetAvailableWorkers();
+
+        workerSpeed = PlayerPrefs.GetFloat("workerSpeed", workerDefSpeed);
+        SetWorkerSpeed(false, 1);
+        SetWorkers();
+    }
+
     public void LoadScene(int sceneIndex)
     {
         SceneManager.LoadScene(sceneIndex);
