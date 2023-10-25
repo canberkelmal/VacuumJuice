@@ -377,7 +377,7 @@ public class MachineSc : MonoBehaviour
         idleManager.SetReadyMachines();
     }
 
-    private void PrepareProductLoop()
+    private void PrepareProductLoop() 
     {
         timer += Time.fixedDeltaTime;
         float x = timer / prepareDuration;
