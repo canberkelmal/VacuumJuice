@@ -15,7 +15,10 @@ public class LineConnector : MonoBehaviour
     private CollectableSc currentCollectable;
     private AnimationCurve curve = new AnimationCurve();
     private GameManager gameManager;
+<<<<<<< HEAD
     private bool animating = false;
+=======
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
 
     private void Awake()
     {
@@ -30,12 +33,17 @@ public class LineConnector : MonoBehaviour
         for(int i=0; i < _objs.Length; i++)
         {
             //Debug.Log(line.positionCount);
+<<<<<<< HEAD
             line.SetPosition(i, _objs[i].transform.position/* + Vector3.up * 0.06f*/);
+=======
+            line.SetPosition(i, _objs[i].transform.position + Vector3.up * 0.06f);
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
         }
     }
 
     public void PipeGetAnimTrigger(CollectableSc sc)
     {
+<<<<<<< HEAD
         if (!animating)
         {
             animating = true;
@@ -48,6 +56,11 @@ public class LineConnector : MonoBehaviour
             currentCollectable.TakeTheFruit();
             currentCollectable = sc;
         }
+=======
+        currentCollectable = sc;
+        tempT = animTPoints.x;
+        InvokeRepeating("PipeGetAnim", 0, Time.fixedDeltaTime);
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
     }
 
     private void PipeGetAnim()
@@ -73,7 +86,10 @@ public class LineConnector : MonoBehaviour
         {
             MoveKeyFrame(1, animTPoints.x, 0.25f);
             currentCollectable.TakeTheFruit();
+<<<<<<< HEAD
             animating = false;
+=======
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
             //_objs[_objs.Length - 1].transform.position = new Vector3(_objs[_objs.Length - 1].transform.position.x, 1.5f, _objs[_objs.Length - 1].transform.position.z);
             CancelInvoke("PipeGetAnim");
         }

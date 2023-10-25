@@ -15,7 +15,10 @@ TagManager:
   - orangeMachine
   - Missile
   - frozenMachine
+<<<<<<< HEAD
   - Gate
+=======
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
   layers:
   - Default
   - TransparentFX
@@ -24,7 +27,11 @@ TagManager:
   - Water
   - UI
   - Machines
+<<<<<<< HEAD
   - Gates
+=======
+  - 
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
   - 
   - 
   - 

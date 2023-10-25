@@ -60,7 +60,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
+<<<<<<< HEAD
   m_Color: {r: 0, g: 1, b: 0.034408808, a: 1}
+=======
+  m_Color: {r: 0.12724805, g: 1, b: 0, a: 1}
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -68,7 +72,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
+<<<<<<< HEAD
     m_Font: {fileID: 12800000, guid: 010b82bc895978049b69aaf4b855d7ab, type: 3}
+=======
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
     m_FontSize: 40
     m_FontStyle: 1
     m_BestFit: 0
@@ -94,7 +102,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
+<<<<<<< HEAD
   m_EffectDistance: {x: 1, y: -1}
+=======
+  m_EffectDistance: {x: 3, y: -4}
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
   m_UseGraphicAlpha: 1
 --- !u!1 &3568720161919865366
 GameObject:
@@ -180,7 +192,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3568720161919865366}
+<<<<<<< HEAD
   m_Enabled: 0
+=======
+  m_Enabled: 1
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
@@ -220,7 +236,11 @@ RectTransform:
   - {fileID: 1601754843679366440}
   - {fileID: 6987158441443499663}
   m_Father: {fileID: 0}
+<<<<<<< HEAD
   m_RootOrder: -1
+=======
+  m_RootOrder: 0
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

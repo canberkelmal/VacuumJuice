@@ -69,10 +69,17 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
+<<<<<<< HEAD
     maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 3
+=======
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0

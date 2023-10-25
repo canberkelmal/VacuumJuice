@@ -3,7 +3,11 @@ guid: 28f6ba1ce45c649e2b7b6a18a6bb2e11
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
+<<<<<<< HEAD
   serializedVersion: 12
+=======
+  serializedVersion: 11
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
@@ -20,12 +24,20 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+<<<<<<< HEAD
     flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
   ignoreMipmapLimit: 0
+=======
+  isReadable: 0
+  streamingMipmaps: 1
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -64,8 +76,11 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+<<<<<<< HEAD
   swizzle: 50462976
   cookieLightType: 0
+=======
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -77,6 +92,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+<<<<<<< HEAD
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -143,6 +159,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     ignorePlatformSupport: 0
+=======
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -159,8 +177,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable: {}
+<<<<<<< HEAD
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
+=======
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
   userData: 
   assetBundleName: 
   assetBundleVariant: 

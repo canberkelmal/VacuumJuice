@@ -1,8 +1,14 @@
 using System;
+<<<<<<< HEAD
 /*using System.Collections;
 using System.Runtime.ConstrainedExecution;
 using System.Threading;
 using Unity.VisualScripting;*/
+=======
+using System.Collections;
+using System.Runtime.ConstrainedExecution;
+using System.Threading;
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -15,7 +21,11 @@ public class GameManager : MonoBehaviour
     public GameObject director;
     public GameObject vacuumCollider, vacuumParticle;
     public GameObject tankShader;
+<<<<<<< HEAD
     public GameObject finalTankShader; 
+=======
+    public GameObject finalTankShader;
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
     public Material cupInsideShader;
     public GameObject[] tankObjs;
     public GameObject cupIcon;
@@ -24,6 +34,7 @@ public class GameManager : MonoBehaviour
     public GameObject buffParticle;
     public GameObject debuffParticle;
     public GameObject getJuiceParticle;
+<<<<<<< HEAD
     public GameObject getPoisonParticle;
     public GameObject buffTankParticle;
     public GameObject debuffTankParticle;
@@ -36,11 +47,21 @@ public class GameManager : MonoBehaviour
     public HealthBarSc healthBar;
     public int currentRunnerLevel = 1;
     public int runnerUILevel = 1;
+=======
+    public GameObject buffTankParticle;
+    public GameObject debuffTankParticle;
+    public GameObject finalTankBouy;
+    public Slider rotateSensSlider;
+    public Animator playerAnimator;
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
     public int cupPerFruid = 4;
     public float finalTankLiquidMultiplier = 24;
     public float getCupSens = 1;
     public float camSensivity = 1f;
+<<<<<<< HEAD
     public float finalTankCamYOffs = 1f;
+=======
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
     public float playerRotateSens = 1;
     public float playerRotateLimit = 75;
     public float playerMoveSens = 1f;
@@ -62,6 +83,7 @@ public class GameManager : MonoBehaviour
     public float getCupDelay = 0.25f;
     public bool isTankEmpty = true;
     public bool isTankFull = false;
+<<<<<<< HEAD
     public LayerMask gatesLayerMask;
 
     //UI Elements
@@ -76,6 +98,20 @@ public class GameManager : MonoBehaviour
     public AudioManager audioManager;
 
     public GameObject mainCam;
+=======
+
+    //UI Elements
+    public Text cupCountTx;
+    public Text moneyCountTx;
+    public Image soundBut, vibrationBut;
+
+    [NonSerialized]
+    public Color liquidColor, tempLiquidColor;
+    [NonSerialized]
+    public AudioManager audioManager;
+
+    private GameObject mainCam;
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
     private Vector3 camOffset;
     private Vector3 camTankOffset;
     private bool controller = true;
@@ -94,6 +130,7 @@ public class GameManager : MonoBehaviour
     private float tempFinalTankFill = -5;
     private int cupCount = 0;
     private int tempCupCount = 0;
+<<<<<<< HEAD
     private float moneyCount = 0;
     public float juiceAmount = 0;
     private int tankLevel = 1;
@@ -131,9 +168,37 @@ public class GameManager : MonoBehaviour
 
         mainCam = GameObject.Find("Main Camera");
         //tankShader = player.transform.Find("LiquidTank").Find("Shader").gameObject;
+=======
+    private int moneyCount = 0;
+    private float juiceAmount = 0;
+    private int tankLevel = 1;
+    private bool soundState = true;
+    private bool vibrationState = true;
+    //private bool isFirstFruit
+    void Awake()
+    {
+        mainCam = GameObject.Find("Main Camera");
+        //tankShader = player.transform.Find("LiquidTank").Find("Shader").gameObject;
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
         camOffset = player.transform.position - mainCam.transform.position;
         directorOffsY = player.transform.position.y - director.transform.position.y;
+        controller = true;
+        playerTempSpeed = playerMaxSpeed;
+        playerMaxSpeed = 0;
+        cupCount = PlayerPrefs.GetInt("cupCount", 0);
+        cupCountTx.text = cupCount.ToString();
+        moneyCount = PlayerPrefs.GetInt("moneyCount", 0);
+        moneyCountTx.text = moneyCount.ToString();
     }
+<<<<<<< HEAD
+=======
+
+    private void Start()
+    {
+        audioManager = FindObjectOfType<AudioManager>();
+        InitializeScene();
+    }
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
     // Update is called once per frame
     void Update()
     {
@@ -177,8 +242,30 @@ public class GameManager : MonoBehaviour
         controller = value;
     }
 
+    public void IncreaseCupCount()
+    {
+        tempCupCount++;
+        cupCount++;
+        PlayerPrefs.SetInt("cupCount", cupCount);
+        cupCountTx.text = cupCount.ToString();
+    }
+
+    public void EnterToFinish()
+    {
+        isFinished = true;
+        SetController(false);
+        vacuumParticle.transform.parent.Find("MagicAuraBlue").GetComponent<ParticleSystem>().startSpeed *= -1;
+        vacuumParticle.transform.parent.Find("MagicAuraBlue").transform.localPosition += Vector3.forward * 0.5f;
+    }
+
+    public void SetController(bool value)
+    {
+        controller = value;
+    }
+
     public void FillTank(int fillFactor)
     {
+<<<<<<< HEAD
         if(fillFactor > 0)
         {
             audioManager.Play("AddJuice");
@@ -187,11 +274,15 @@ public class GameManager : MonoBehaviour
         {
             audioManager.Play("Debuff");
         }
+=======
+        audioManager.Play("AddJuice");
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
         if (tankShader.GetComponent<Renderer>().material.GetFloat("_Fill") < tankFillAmount)
         {
             tankShader.GetComponent<Renderer>().material.SetFloat("_Fill", tankFillAmount);
         }
 
+<<<<<<< HEAD
         if (tankFillAmount >= (0.75f + ((tankLevel - 1) * tankVolumeMultiplier * 0.2f)) && fillFactor>0)
         {
             Debug.Log("Tank is full!");
@@ -201,26 +292,45 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Tank is empty!");
             healthBar.SetFillAmount(1, true);
+=======
+        if (tankFillAmount >= (0.75f + ((tankLevel - 1) * tankVolumeMultiplier * 0.2f)))
+        {
+            Debug.Log("Tank is full!");
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
         }
         else
         {
             juiceAmount += (fillFactor * fillMultiplier);
+<<<<<<< HEAD
             RefillTank(true);
+=======
+            RefillTank();
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
         }
     }
     public void FillACup()
     {
         audioManager.Play("FillCup");
         juiceAmount -= (fillMultiplier / cupPerFruid);
+<<<<<<< HEAD
         RefillTank(true);
     }
 
     public void RefillTank(bool glow)
+=======
+        RefillTank();
+    }
+
+    public void RefillTank()
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
     {
         tankFillAmount = (0.25f - ((tankLevel-1) * tankVolumeMultiplier * 0.2f)) + (juiceAmount / (Mathf.Pow((1 + ((tankLevel - 1) * tankVolumeMultiplier)), 3)));
         if(tankFillAmount <= (0.25f - ((tankLevel - 1) * tankVolumeMultiplier * 0.2f)))
         {
+<<<<<<< HEAD
             healthBar.SetFillAmount(0, glow);
+=======
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
             tankFillAmount = 0;
             isTankEmpty = true;
             if (isFinished)
@@ -228,6 +338,7 @@ public class GameManager : MonoBehaviour
                 EmptyTankOnFinish();
             }
         }
+<<<<<<< HEAD
         else if (tankFillAmount >= (0.75f + ((tankLevel - 1) * tankVolumeMultiplier * 0.2f)))
         {
             healthBar.SetFillAmount(1, glow);
@@ -238,12 +349,45 @@ public class GameManager : MonoBehaviour
         {
             float borderAmount = Mathf.Lerp(0, 1, Mathf.InverseLerp((0.25f - ((tankLevel - 1) * tankVolumeMultiplier * 0.2f)), (0.75f + ((tankLevel - 1) * tankVolumeMultiplier * 0.2f)), tankFillAmount));
             healthBar.SetFillAmount(borderAmount, glow);
+=======
+        else
+        {
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
             isTankEmpty = false;
         }
         Debug.Log("Juice: " + juiceAmount + " || TankFill: " + tankFillAmount);
         InvokeRepeating("FillTankAnim", 0, Time.deltaTime);
     }
     
+<<<<<<< HEAD
+=======
+    public void ReachToFinalTank()
+    {
+        finalTankBouy.transform.localPosition = -Vector3.up;
+
+        camTankOffset = finalTankBouy.transform.position - mainCam.transform.position - Vector3.forward*4;
+        camTankOffset.y = -5;
+        ChangePlayerSpeed(false);
+        isFinalTankFilling = true;
+        FillFinalTank();
+    }
+
+    public void FillFinalTank()
+    {
+        finalTankShader.GetComponent<Renderer>().material.color = liquidColor;
+        finalTankShader.GetComponent<Renderer>().material.SetColor("_TopColor", liquidColor + Color.white / 5);
+
+        isEnded = true;
+        finalTankFillAmount = (-50) + (juiceAmount * finalTankLiquidMultiplier);
+        InvokeRepeating("FillFinalTankAnim", fillFinalTankDelay, Time.deltaTime);
+        Invoke("WobbleFinalTank", fillFinalTankDelay);
+
+        isTankEmpty = true;
+        tankFillAmount = 0;
+        Debug.Log("Juice: " + juiceAmount + " || TankFill: " + tankFillAmount);
+        InvokeRepeating("FillTankAnim", fillFinalTankDelay, Time.deltaTime);
+    }
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
 
 
     private void FillTankAnim()
@@ -256,6 +400,7 @@ public class GameManager : MonoBehaviour
             CancelInvoke("FillTankAnim");
         }
     }
+<<<<<<< HEAD
     public void ReachToFinalTank()
     {
         finalTankBouy.transform.localPosition = -Vector3.up;
@@ -297,6 +442,20 @@ public class GameManager : MonoBehaviour
             //finalTankBouy.transform.localPosition = Vector3.up * Remap(tempFinalTankFill, -50, 50, -1, 1);
             Invoke("EmptyTankOnFinish", 1f);
             audioManager.Play("FillCup");
+=======
+    private void FillFinalTankAnim()
+    {
+        tempFinalTankFill = Mathf.MoveTowards(finalTankShader.GetComponent<Renderer>().material.GetFloat("_Fill"), finalTankFillAmount, fillFinalTankSens * Time.deltaTime);
+        finalTankShader.GetComponent<Renderer>().material.SetFloat("_Fill", tempFinalTankFill);
+
+        //finalTankBouy.transform.localPosition = Vector3.MoveTowards(finalTankBouy.transform.localPosition, Vector3.up * Remap(tempFinalTankFill, -50, 50, -1, 1), bouySens * Time.deltaTime) ;
+        finalTankBouy.transform.localPosition = Vector3.up * Remap(tempFinalTankFill, -50, 50, -1, 1);
+
+        if (tempFinalTankFill == finalTankFillAmount)
+        {
+            //finalTankBouy.transform.localPosition = Vector3.up * Remap(tempFinalTankFill, -50, 50, -1, 1);
+            Invoke("EmptyTankOnFinish", 1f);
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
             CancelInvoke("FillFinalTankAnim");
         }
 
@@ -311,19 +470,31 @@ public class GameManager : MonoBehaviour
         {
             audioManager.Play("Buff");
 
+<<<<<<< HEAD
             Destroy(Instantiate(buffParticle, tankShader.transform.position + Vector3.up * 2, Quaternion.Euler(-90, 0, 0), tankShader.transform.parent), 1f);
             //Destroy(Instantiate(buffTankParticle, tankShader.transform.position, Quaternion.Euler(-90, 0, 0), tankShader.transform.parent), 1f);
+=======
+            Destroy(Instantiate(buffTankParticle, tankShader.transform.position, Quaternion.Euler(-90, 0, 0), tankShader.transform.parent), 1f);
+            tankLevel += factor;
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
         }
 
         else
         {
             audioManager.Play("Debuff");
+<<<<<<< HEAD
             
             //Destroy(Instantiate(debuffTankParticle, tankShader.transform.position + Vector3.up * 4, Quaternion.Euler(90, 0, 0), tankShader.transform.parent), 1f);
             Destroy(Instantiate(debuffParticle, tankShader.transform.position + Vector3.up * 7, Quaternion.Euler(90, 0, 0), tankShader.transform.parent), 1f);
             //tankLevel -= factor;
         }
         tankLevel += factor;
+=======
+
+            Destroy(Instantiate(debuffTankParticle, tankShader.transform.position, Quaternion.Euler(90, 0, 0), tankShader.transform.parent), 1f);
+            tankLevel -= factor;
+        }
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
 
         tankObjs[0].transform.parent.localScale += Vector3.one * tankVolumeMultiplier * factor;
         //tankObjs[0].transform.parent.localPosition += Vector3.up * tankVolumeMultiplier * factor - Vector3.forward * tankVolumeMultiplier * factor * 2;
@@ -333,7 +504,11 @@ public class GameManager : MonoBehaviour
             obj.transform.localScale += Vector3.one * tankVolumeMultiplier * factor;
             obj.transform.localPosition -= Vector3.up * tankVolumeMultiplier * factor;
         }*/
+<<<<<<< HEAD
         RefillTank(false);
+=======
+        RefillTank();
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
     }
 
     public void ChangeLiquidColor(Color clr)
@@ -354,13 +529,20 @@ public class GameManager : MonoBehaviour
             tankShader.GetComponent<Renderer>().material.SetColor("_BaseColor", setColor);
         }
         liquidColor = tankShader.GetComponent<Renderer>().material.GetColor("_BaseColor");
+<<<<<<< HEAD
         healthBar.SetFillColor(liquidColor);
+=======
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
         cupInsideShader.color = liquidColor;
         //tankShader.GetComponent<Renderer>().material.SetColor("_TopColor", liquidColor + Color.white / 5);
     }
 
     public void SetVacuum(int scaleFactor)
     {
+<<<<<<< HEAD
+=======
+        //Vector3 radiusScale = (Vector3.right + Vector3.forward) * (scaleFactor * vacuumRadiusMultiplier);
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
         if(scaleFactor > 0)
         {
             audioManager.Play("Buff");
@@ -372,7 +554,11 @@ public class GameManager : MonoBehaviour
         {
             audioManager.Play("Debuff");
 
+<<<<<<< HEAD
             Destroy(Instantiate(debuffParticle, vacuumCollider.transform.position + Vector3.up * 7f, Quaternion.Euler(90,0,0), vacuumCollider.transform), 1f);
+=======
+            Destroy(Instantiate(debuffParticle, vacuumParticle.transform.position + Vector3.up * 3.5f, Quaternion.Euler(90,0,0), vacuumCollider.transform), 1f);
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
             vacuumParticle.GetComponent<ParticleSystem>().emissionRate -= 2;
         }
         Vector3 radiusScale = Vector3.one * (scaleFactor * vacuumRadiusMultiplier);
@@ -389,7 +575,11 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+<<<<<<< HEAD
             mainCam.transform.position = Vector3.Lerp(mainCam.transform.position, finalTankBouy.transform.position - camTankOffset, camSensivity * Time.deltaTime);
+=======
+            mainCam.transform.position = Vector3.Lerp(mainCam.transform.position, finalTankBouy.transform.position - camTankOffset, camSensivity / 2 * Time.deltaTime);
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
             //mainCam.transform.LookAt(finalTankBouy.transform.position);
         }
     }
@@ -503,6 +693,7 @@ public class GameManager : MonoBehaviour
         playerMaxSpeed = fc ? playerTempSpeed : 0;
     }
 
+<<<<<<< HEAD
     public void StartFrom(int lv)
     {
         PlayerPrefs.SetInt("runnerLevel", lv);
@@ -539,6 +730,12 @@ public class GameManager : MonoBehaviour
 
         finishPanel.SetActive(true);
 
+=======
+    public void EmptyTankOnFinish()
+    {
+        finishPanel.transform.Find("Count").GetComponent<Text>().text = tempCupCount.ToString(); 
+        finishPanel.SetActive(true);
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
         ChangePlayerSpeed(false);
         isEnded = true;
     }
@@ -562,16 +759,25 @@ public class GameManager : MonoBehaviour
     {
         soundState = !soundState;
         int a = soundState ? 1 : 0;
+<<<<<<< HEAD
         settingsPanel.transform.Find("SoundUI").Find("Stroke").gameObject.SetActive(!soundState);
+=======
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
         PlayerPrefs.SetInt("soundState", a);
         SetVolumes();
     }
     public void SetVolumes()
     {
+<<<<<<< HEAD
         //soundBut.color = soundState ? Color.white : Color.red;
         //soundBut.transform.parent.Find("Text").GetComponent<Text>().text = soundState ? "On" : "Off"; 
 
         Debug.Log("Sound button is pressed.");
+=======
+        soundBut.color = soundState ? Color.white : Color.red;
+        soundBut.transform.parent.Find("Text").GetComponent<Text>().text = soundState ? "On" : "Off";
+
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
         float soundLevel = soundState ? 0.5f : 0f;
         audioManager.SetVolume(soundLevel);
     }
@@ -580,16 +786,24 @@ public class GameManager : MonoBehaviour
         vibrationState = !vibrationState;
         Vibrate();
         int a = vibrationState ? 1 : 0;
+<<<<<<< HEAD
         Debug.Log("Vibration button is pressed.");
         settingsPanel.transform.Find("VibrationUI").Find("Stroke").gameObject.SetActive(!vibrationState);
+=======
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
         PlayerPrefs.SetInt("vibrationState", a);
         SetVibrations();
     }
 
     public void SetVibrations()
     {
+<<<<<<< HEAD
         //vibrationBut.color = vibrationState ? Color.white : Color.red;
         //vibrationBut.transform.parent.Find("Text").GetComponent<Text>().text = vibrationState ? "On" : "Off";
+=======
+        vibrationBut.color = vibrationState ? Color.white : Color.red;
+        vibrationBut.transform.parent.Find("Text").GetComponent<Text>().text = vibrationState ? "On" : "Off";
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
     }
 
     public void SetRotateSens()
@@ -601,6 +815,7 @@ public class GameManager : MonoBehaviour
 
     public void ResetCounts()
     {
+<<<<<<< HEAD
         ResetCupCount();
         moneyCount = 0;
         PlayerPrefs.SetFloat("moneyCount", moneyCount);
@@ -609,11 +824,14 @@ public class GameManager : MonoBehaviour
 
     public void ResetCupCount()
     {
+=======
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
         cupCount = 0;
         PlayerPrefs.SetInt("cupCount", cupCount);
         cupCountTx.text = cupCount.ToString();
     }
 
+<<<<<<< HEAD
     public void SettingsPanel()
     {
         bool v = settingsPanel.activeSelf;
@@ -654,14 +872,26 @@ public class GameManager : MonoBehaviour
             UITx = (operatedNumber / 10).ToString();
         }
         return UITx;
+=======
+    public void SettingsPanel(bool v)
+    {
+        if(isStarted)
+        {
+            ChangePlayerSpeed(!v);
+        }
+        settingsPanel.SetActive(v);
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
     }
 
     private void InitializeScene()
     {
+<<<<<<< HEAD
         GameObject level = Instantiate(runnerLevels[currentRunnerLevel], levelParent.transform);
         level.transform.localPosition = Vector3.zero;
         levelTx.text = "Lv. " + runnerUILevel.ToString();
 
+=======
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
         soundState = PlayerPrefs.GetInt("soundState", 1) == 1 ? true : false;
         SetVolumes();
 
@@ -675,6 +905,7 @@ public class GameManager : MonoBehaviour
         rotateSensSlider.value = PlayerPrefs.GetFloat("RotateSens", playerRotateSens);
         rotateSensSlider.transform.parent.Find("Amount").GetComponent<Text>().text = playerRotateSens.ToString();
     }
+<<<<<<< HEAD
      
     public void StartGame()
     {
@@ -684,6 +915,11 @@ public class GameManager : MonoBehaviour
             camOffset = player.transform.position - mainCam.transform.position;
             directorOffsY = player.transform.position.y - director.transform.position.y;
         }
+=======
+
+    public void StartGame()
+    {
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
         isStarted = true;
         ChangePlayerSpeed(true);
     }
@@ -693,6 +929,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(sceneIndex);
     }
 
+<<<<<<< HEAD
     public void LoadIdle()
     {
         Instantiate(idlePrefab);
@@ -750,6 +987,8 @@ public class GameManager : MonoBehaviour
         asyncOperation.allowSceneActivation = true;
     }*/
 
+=======
+>>>>>>> e135bd62164667161091742e0478e6084b9b368d
     // Reload the current scene to restart the game
     public void Restart()
     {
