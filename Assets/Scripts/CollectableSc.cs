@@ -20,10 +20,7 @@ public class CollectableSc : MonoBehaviour
     public GameObject takeAnim;
     public Color takeSplashColor;
     public Vector3 rotateDirection = Vector3.zero;
-<<<<<<< HEAD
     public bool isJuice, isVacuum, isTank;
-=======
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
 
     private int effectFactor;
     private GameObject player;
@@ -32,13 +29,9 @@ public class CollectableSc : MonoBehaviour
     public float timer = 0;
     private bool collected = false;
     private Vector3 movementUpperPoint;
-<<<<<<< HEAD
     private Vector3 startPos;
     private float snakeSpeed, snakeXMovement;
     private bool isRight = true;
-=======
-
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
     private void Awake()
     {
         player = GameObject.Find("Player");
@@ -52,11 +45,7 @@ public class CollectableSc : MonoBehaviour
         if (!collected)
         {
             transform.Rotate(rotateDirection * gameManager.rotateObjectsSens * Time.deltaTime);
-<<<<<<< HEAD
             /*if(!IsJuice())
-=======
-            if(!IsJuice())
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
             {
                 timer += Time.deltaTime;
                 if (timer <= 1)
@@ -71,7 +60,6 @@ public class CollectableSc : MonoBehaviour
                 {
                     timer = 0;
                 }
-<<<<<<< HEAD
             }*/
             /*timer += Time.deltaTime;
             if (timer <= 1)
@@ -115,8 +103,6 @@ public class CollectableSc : MonoBehaviour
             if (transform.localPosition == startPos - Vector3.right * snakeXMovement)
             {
                 isRight = true;
-=======
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
             }
         }
     }
@@ -141,7 +127,6 @@ public class CollectableSc : MonoBehaviour
         transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.zero, (gameManager.collectSens * 2 / 3) * Time.fixedDeltaTime);
         
 
-<<<<<<< HEAD
         if (isJuice)
         {
             //transform.Find("Obj").LookAt(transform.parent.position);
@@ -175,24 +160,6 @@ public class CollectableSc : MonoBehaviour
             {
                 gameManager.SetVacuum(effectFactor);
                 Destroy(gameObject);
-=======
-        if (transform.localPosition == Vector3.zero && !triged)
-        {
-            triged = true;
-            if (IsJuice())
-            {
-                GameObject.Find("VacuumPipe").transform.Find("left").GetComponent<LineConnector>().PipeGetAnimTrigger(gameObject.GetComponent<CollectableSc>());
-            }
-            else if (IsVacuum())
-            {
-                gameManager.SetVacuum(effectFactor);
-                Destroy(gameObject);
-            }
-            else if (IsTank())
-            {
-                gameManager.SetTankCapacity(effectFactor);
-                Destroy(gameObject);
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
             }
             else if(isTank)
             {
@@ -221,7 +188,6 @@ public class CollectableSc : MonoBehaviour
 
     public void TakeTheFruit()
     {
-<<<<<<< HEAD
         if (increase)
         {
             GameObject getEffect = Instantiate(gameManager.getJuiceParticle, gameManager.tankShader.transform.position, Quaternion.identity);
@@ -236,14 +202,6 @@ public class CollectableSc : MonoBehaviour
             GameObject getEffect = Instantiate(gameManager.getPoisonParticle, gameManager.tankShader.transform.position, Quaternion.identity, gameManager.tankShader.transform.parent);
             Destroy(getEffect, 1f);
         }
-=======
-        GameObject getEffect = Instantiate(gameManager.getJuiceParticle, gameManager.tankShader.transform.position, Quaternion.identity);
-        getEffect.GetComponent<ParticleSystem>().startColor = takeSplashColor;
-        getEffect.transform.GetChild(0).GetComponent<ParticleSystem>().startColor = takeSplashColor;
-        getEffect.transform.GetChild(1).GetComponent<ParticleSystem>().startColor = takeSplashColor;
-        gameManager.ChangeLiquidColor(takeSplashColor);
-        Destroy(getEffect, 1f);
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
 
         gameManager.FillTank(effectFactor);
         Destroy(gameObject);

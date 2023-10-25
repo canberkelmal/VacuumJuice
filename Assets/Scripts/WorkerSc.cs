@@ -10,22 +10,14 @@ public class WorkerSc : MonoBehaviour
     private IdleManager idleManager;
     private GameObject machine, costumer;
     private GameObject handledProduct;
-<<<<<<< HEAD
     private float income = 0; 
-=======
-    private float income = 0;
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
     private bool waitingCostumer = true;
     private bool waitingForMachine = false;
     private bool serving = false;
     private bool goingMachine = false;
     void Awake()
     {
-<<<<<<< HEAD
         idleManager = GameObject.Find("IdleManager").GetComponent<IdleManager>(); 
-=======
-        idleManager = GameObject.Find("IdleManager").GetComponent<IdleManager>();
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
         productPlace = transform.Find("ProductPlace");
     }
 
@@ -72,11 +64,7 @@ public class WorkerSc : MonoBehaviour
 
     private void GoToMachine()
     {
-<<<<<<< HEAD
         transform.position = Vector3.MoveTowards(transform.position, machine.transform.Find("TakeProductPoint").position, speed * Time.fixedDeltaTime);
-=======
-        transform.position = Vector3.MoveTowards(transform.position, machine.transform.Find("TakeProductPoint").position, speed * Time.deltaTime);
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
         if (transform.position == machine.transform.Find("TakeProductPoint").position)
         {
             goingMachine = false;
@@ -91,13 +79,8 @@ public class WorkerSc : MonoBehaviour
 
     private void GoToCostumer()
     {
-<<<<<<< HEAD
         transform.position = Vector3.MoveTowards(transform.position, costumer.transform.position - Vector3.forward*3f, speed * Time.fixedDeltaTime);
         if (transform.position == costumer.transform.position - Vector3.forward * 3f)
-=======
-        transform.position = Vector3.MoveTowards(transform.position, costumer.transform.position - Vector3.forward*3.5f, speed * Time.deltaTime);
-        if (transform.position == costumer.transform.position - Vector3.forward * 3.5f)
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
         {
             DeliverToCostumer();
         }

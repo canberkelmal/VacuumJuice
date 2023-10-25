@@ -3,35 +3,16 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - VacuumArea
-  - Collectable
-  - Bouy
-  - FinalCanvasObj
-  - IdleMachine
-  - Busy
-  - NotBusy
-  - appleMachine
-  - orangeMachine
-  - Missile
-  - frozenMachine
-<<<<<<< HEAD
-  - Gate
-=======
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
+  tags: []
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - NoShadow
+  - 
   - Water
   - UI
-  - Machines
-<<<<<<< HEAD
-  - Gates
-=======
   - 
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
+  - 
   - 
   - 
   - 

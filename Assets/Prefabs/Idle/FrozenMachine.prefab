@@ -1,6 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
-<<<<<<< HEAD
 --- !u!1 &116213905794952463
 GameObject:
   m_ObjectHideFlags: 0
@@ -153,8 +152,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
-=======
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
 --- !u!1 &396628088597038284
 GameObject:
   m_ObjectHideFlags: 0
@@ -262,7 +259,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 5
-<<<<<<< HEAD
 --- !u!1 &2959719915864447590
 GameObject:
   m_ObjectHideFlags: 0
@@ -295,8 +291,6 @@ Transform:
   m_Father: {fileID: 7578705625640698571}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-=======
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
 --- !u!1 &2968244076933400346
 GameObject:
   m_ObjectHideFlags: 0
@@ -373,7 +367,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 5
-<<<<<<< HEAD
 --- !u!1 &3615811192461012138
 GameObject:
   m_ObjectHideFlags: 0
@@ -478,8 +471,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 63
-=======
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
 --- !u!1 &4509190810431525559
 GameObject:
   m_ObjectHideFlags: 0
@@ -638,10 +629,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7578705625640698571}
-<<<<<<< HEAD
   - component: {fileID: 4410400353284958407}
-=======
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
   m_Layer: 6
   m_Name: MachineObj
   m_TagString: Untagged
@@ -661,17 +649,13 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-<<<<<<< HEAD
   - {fileID: 3292505953493522151}
-=======
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
   - {fileID: 315454306381017801}
   - {fileID: 3566049557159473471}
   - {fileID: 8333475554927779447}
   m_Father: {fileID: 3986053626912134850}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< HEAD
 --- !u!114 &4410400353284958407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -690,8 +674,6 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
-=======
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
 --- !u!1 &5393058501931048431
 GameObject:
   m_ObjectHideFlags: 0
@@ -727,10 +709,7 @@ RectTransform:
   - {fileID: 3017602217483889225}
   - {fileID: 885997424461784418}
   - {fileID: 1823385933935513126}
-<<<<<<< HEAD
   - {fileID: 7495003999243847494}
-=======
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
   m_Father: {fileID: 3986053626912134850}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 45, y: 90, z: 0}
@@ -802,7 +781,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 63
-<<<<<<< HEAD
 --- !u!1 &5900534419422353206
 GameObject:
   m_ObjectHideFlags: 0
@@ -879,8 +857,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 57
-=======
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
 --- !u!1 &7521186473167480671
 GameObject:
   m_ObjectHideFlags: 0
@@ -909,22 +885,14 @@ Transform:
   m_GameObject: {fileID: 7521186473167480671}
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 4.06, y: 2.055, z: -10}
-<<<<<<< HEAD
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 1
-=======
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
   m_Children:
   - {fileID: 7578705625640698571}
   - {fileID: 7109618105361729128}
   - {fileID: 432471376342652643}
   - {fileID: 7917406964296954119}
-<<<<<<< HEAD
   - {fileID: 1062471361177249907}
-=======
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -946,11 +914,7 @@ MonoBehaviour:
   product: frozen
   productObject: {fileID: 3952800613320815003, guid: b9db3ed96cffe8e449a77d298ae129d2,
     type: 3}
-<<<<<<< HEAD
   prepareDuration: 8
-=======
-  prepareDuration: 4
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
   resourceCount: 1
   readyColor: {r: 0, g: 1, b: 0, a: 1}
   unreadyColor: {r: 1, g: 0, b: 0, a: 1}
@@ -1002,7 +966,6 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-<<<<<<< HEAD
   m_Size: {x: 1, y: 2.2, z: 1}
   m_Center: {x: 0, y: 1.2, z: 0}
 --- !u!1001 &198641969962948164
@@ -1089,10 +1052,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 198641969962948164}
   m_PrefabAsset: {fileID: 0}
-=======
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0.43, z: 0}
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
 --- !u!1001 &282039542847395106
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1166,14 +1125,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: V0
       objectReference: {fileID: 0}
-<<<<<<< HEAD
     - target: {fileID: 919132149155446097, guid: e8c4d1a4e86720644bd925332de649fb,
         type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-=======
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
     - target: {fileID: 2260572911655127856, guid: e8c4d1a4e86720644bd925332de649fb,
         type: 3}
       propertyPath: m_Materials.Array.data[0]

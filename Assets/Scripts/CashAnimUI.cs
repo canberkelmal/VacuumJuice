@@ -13,7 +13,6 @@ public class CashAnimUI : MonoBehaviour
 
     float timer = 0;
 
-<<<<<<< HEAD
     public void SpawnCashAnim(string price)
     {
         //this.price = (int)price;
@@ -21,15 +20,6 @@ public class CashAnimUI : MonoBehaviour
         InvokeRepeating("MoneyAnim", 0, Time.fixedDeltaTime);
     }
      
-=======
-    public void SpawnCashAnim(float price)
-    {
-        this.price = (int)price;
-        transform.Find("Text").GetComponent<Text>().text = price.ToString() + "$";
-        InvokeRepeating("MoneyAnim", 0, Time.fixedDeltaTime);
-    }
-
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
     public void MoneyAnim()
     {
         timer += Time.deltaTime;
@@ -50,7 +40,4 @@ public class CashAnimUI : MonoBehaviour
         }
     }
 }
-<<<<<<< HEAD
  
-=======
->>>>>>> e135bd62164667161091742e0478e6084b9b368d

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 using System;
 //using System.Collections;
 using System.Collections.Generic;
@@ -11,21 +10,10 @@ using UnityEngine.UI;
 //using static UnityEngine.Rendering.DebugUI;
 
 public class IdleManager : MonoBehaviour 
-=======
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-
-public class IdleManager : MonoBehaviour
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
 {
     public int startLevel = 0;
     public int currentLevel = 0;
     public int maxCostumerCount = 4;
-<<<<<<< HEAD
     public float workerSpeed = 3f;
     public float workerDefSpeed = 3f;
     public int workerCount = 1;
@@ -38,28 +26,19 @@ public class IdleManager : MonoBehaviour
     public int defMaxCostumerCount = 3;
     public Color[] hairColors = new Color[6];
     public GameObject runnerPrefab;
-=======
-    public GameObject mainCam;
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
     public GameObject outOfResourcePanel;
     public GameObject machinesParent;
     public GameObject workersParent;
     public GameObject costumersParent;
-<<<<<<< HEAD
     public GameObject costumer1, costumer2, testCostumer;
     public GameObject sideWorker;
     public GameObject machinePanel;
     public GameObject settingsPanel;
     public GameObject upgradesPanel;
-=======
-    public GameObject costumer;
-    public GameObject machinePanel;
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
     public GameObject cashAnimUI;
     public GameObject upgradeMachineParticle, takeProductParticle;
     public Transform costumerSpawnPoint;
     public Transform costumerLastPoint;
-<<<<<<< HEAD
 
     public Transform costumerExitPoint; 
     public Transform workerSpawnPoint;
@@ -68,12 +47,6 @@ public class IdleManager : MonoBehaviour
     public Texture apple1, apple2, apple3, orange1, orange2, orange3, frozen1, frozen2, frozen3;
     public GameObject[] levels;
     public GameObject[] upgradesForLevels;
-=======
-    public Transform costumerExitPoint;
-    public LayerMask machinesLayerMask;
-    public Texture appleIcon, orangeIcon, frozenIcon, warningIcon, happyIcon;
-    public GameObject[] levels;
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
     public int resourceCount = 0;
     public float moneyCount = 0;
     public int[] maxMachineLevels = new int[0];
@@ -90,7 +63,6 @@ public class IdleManager : MonoBehaviour
     private bool anyAvailableWorker = true;
     private int costumerCount = 0;
     public GameObject[] machines = new GameObject[0];
-<<<<<<< HEAD
     public GameObject[] readyMachines = new GameObject[0]; 
     public GameObject[] availableWorkers = new GameObject[0]; 
     //public GameObject[] onQueueCostumers = new GameObject[0]; 
@@ -109,30 +81,11 @@ public class IdleManager : MonoBehaviour
     void Start()
     {
         Resources.UnloadUnusedAssets(); 
-=======
-    public GameObject[] readyMachines = new GameObject[0];
-    public GameObject[] availableWorkers = new GameObject[0];
-    public GameObject[] onQueueCostumers = new GameObject[0];
-    private GameObject[] appleMachines = new GameObject[0];
-    private GameObject[] orangeMachines = new GameObject[0];
-    private GameObject[] frozenMachines = new GameObject[0];
-    private GameObject[] workers = new GameObject[0];
-    private GameObject[] costumers = new GameObject[0];
-    private GameObject[] handledCostumers = new GameObject[0];
-    public GameObject[] waitingCostumers = new GameObject[0];
-
-    // Start is called before the first frame update
-    void Awake()
-    {
-        mainCam = GameObject.Find("Main Camera");
-        SetCostumerPlaces();
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
         resourceCount = PlayerPrefs.GetInt("cupCount", 0);
         moneyCount = PlayerPrefs.GetFloat("moneyCount", 0);
         InitIdleScene();
         FillMachinesArray();
         FillWorkersArray();
-<<<<<<< HEAD
         SetCostumerPlaces(false);
         //Debug.Log("Workers array filled");
         costumerCount = costumersParent.transform.childCount;
@@ -194,38 +147,12 @@ public class IdleManager : MonoBehaviour
     { 
 
         /*if(Input.GetMouseButtonDown(0)*//* && !EventSystem.current.IsPointerOverGameObject()*//*)
-=======
-        costumerCount = costumersParent.transform.childCount;
-        SetAvailableWorkers();
-        InvokeRepeating("SpawnCostumer", 1, 1);
-    }
-     
-    void InitIdleScene()
-    {
-        currentLevel = PlayerPrefs.GetInt("IdleLevel", startLevel);
-        currentMaxMachineLevel = maxMachineLevels[currentLevel];
-        GameObject scene = Instantiate(levels[currentLevel], GameObject.Find("Levels").transform);
-        machinesParent = scene.transform.GetChild(0).gameObject;
-        SetCupCount(0);
-        SetMoneyCount(0);        
-    }
-
-    private void Update()
-    {
-        InputController();
-    } 
-
-    void InputController()
-    {
-        if(Input.GetMouseButtonDown(0))
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             // Open machine panel
             if (Physics.Raycast(ray, out hit, 100, machinesLayerMask))
             {
-<<<<<<< HEAD
                 if(machinePanel.activeSelf)
                 {
                     CloseMachinePanel();
@@ -237,21 +164,12 @@ public class IdleManager : MonoBehaviour
         } */
 
         // Restart the game when the "R" key is pressed 
-=======
-                CloseMachinePanel();
-                hit.collider.gameObject.GetComponent<MachineSc>().OpenMachinePanel(true);
-            }
-        }
-
-        // Restart the game when the "R" key is pressed
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
         if (Input.GetKeyDown(KeyCode.R))
         {
             Restart();
         }
     }
 
-<<<<<<< HEAD
     public Texture GetIcon(String product, int lv)
     {
         Texture icon = null;
@@ -312,20 +230,10 @@ public class IdleManager : MonoBehaviour
         {
             available1 = machineObj.GetComponent<MachineSc>().isMaxLevel ? true : false; 
             if (!available1)
-=======
-    public void CheckForNextLevel()
-    {
-        bool available = true;
-        foreach (GameObject machineObj in machines)
-        {
-            available = machineObj.GetComponent<MachineSc>().isMaxLevel ? true : false; 
-            if (!available)
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
             {
                 break; 
             }
         }
-<<<<<<< HEAD
 
 
         bool available2 = true;
@@ -363,36 +271,22 @@ public class IdleManager : MonoBehaviour
                 nextLevelButton.GetComponent<Image>().color = Color.green;
                 nextLevelButton.Find("Text").GetComponent<Text>().text = "Next Level";
             }
-=======
-        //Debug.Log("Next level is " + available);
-
-        if (available)
-        { 
-            nextLevelButton.GetComponent<Button>().interactable = true;
-            nextLevelButton.Find("Icon").gameObject.SetActive(false);
-            nextLevelButton.GetComponent<Image>().color = Color.green;
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
         }
         else
         {
             nextLevelButton.GetComponent<Button>().interactable = false;
             nextLevelButton.Find("Icon").gameObject.SetActive(true);
             nextLevelButton.GetComponent<Image>().color = Color.red;
-<<<<<<< HEAD
             nextLevelButton.Find("Text").GetComponent<Text>().text = "Next Level";
         }
 
 
-=======
-        }
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
     }
 
     public void GoNextLevel()
     {
         currentLevel = PlayerPrefs.GetInt("IdleLevel", startLevel) + 1;
         PlayerPrefs.SetInt("IdleLevel", currentLevel);
-<<<<<<< HEAD
         ResetUpgrades();
         ResetMachineLevels("all");
 
@@ -428,24 +322,15 @@ public class IdleManager : MonoBehaviour
         SetMaxCostumerCount(true, 0);
         SetWorkerCount(true);
     }
-=======
-        ResetMachineLevels("all");
-        Restart();
-    } 
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
 
     public void StartFromFirstLevel()
     {
         PlayerPrefs.SetInt("IdleLevel", startLevel);
-<<<<<<< HEAD
         ResetUpgrades();
-=======
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
         ResetMachineLevels("all");
         Restart();
     }
 
-<<<<<<< HEAD
     public void SetCostumerPlaces(bool isNew)
     {
         if (isNew)
@@ -458,13 +343,6 @@ public class IdleManager : MonoBehaviour
             {
                 costumerPlaces.Add(costumerLastPoint.position - (Vector3.right * 1.5f * i), false);
             }
-=======
-    public void SetCostumerPlaces()
-    {
-        for(int i = 0; i < maxCostumerCount; i++)
-        {
-            costumerPlaces.Add(costumerLastPoint.position - (Vector3.right * 1.5f * i), false);
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
         }
     }
 
@@ -497,7 +375,6 @@ public class IdleManager : MonoBehaviour
 
     public void SetCupCount(int count)
     {
-<<<<<<< HEAD
         resourceCount += count; 
         PlayerPrefs.SetInt("cupCount", resourceCount);
         cupCountTx.text = resourceCount.ToString();
@@ -505,14 +382,10 @@ public class IdleManager : MonoBehaviour
     public void ResetCupCount()
     {
         resourceCount = 0;
-=======
-        resourceCount += count;
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
         PlayerPrefs.SetInt("cupCount", resourceCount);
         cupCountTx.text = resourceCount.ToString();
     }
 
-<<<<<<< HEAD
     public void SetMoneyCount(float count) 
     {
         moneyCount += count;
@@ -603,16 +476,6 @@ public class IdleManager : MonoBehaviour
     }
 
     public void AddCredit(float a) 
-=======
-    public void SetMoneyCount(float count)
-    {
-        moneyCount += count;
-        PlayerPrefs.SetFloat("moneyCount", moneyCount);
-        moneyCountTx.text = ((int)moneyCount).ToString();
-    }
-
-    public void AddCredit(float a)
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
     {
         SetMoneyCount(a);
     }
@@ -621,7 +484,6 @@ public class IdleManager : MonoBehaviour
         SetCupCount(a);
     }
 
-<<<<<<< HEAD
     public void CloseMachinePanel(GameObject upgMac) 
     {
         Debug.Log("closemachinepanel start");
@@ -652,25 +514,13 @@ public class IdleManager : MonoBehaviour
         Debug.Log("closemachinepanel end");
     }
 
-=======
-    public void CloseMachinePanel()
-    {
-        Button lvButton = machinePanel.transform.Find("LevelButton").GetComponent<Button>();
-        lvButton.onClick.RemoveAllListeners();
-        machinePanel.SetActive(false);
-    }
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
     public void SpawnCostumer()
     {
         if(costumerCount < maxCostumerCount && resourceCount > 0)
         {
             costumerCount++;
-<<<<<<< HEAD
             GameObject spawned = UnityEngine.Random.Range(1, 100) < 50 ? costumer1 : costumer2;
             GameObject newCostumer = Instantiate(spawned, costumerSpawnPoint.position, Quaternion.identity, costumersParent.transform);
-=======
-            GameObject newCostumer = Instantiate(costumer, costumerSpawnPoint.position, Quaternion.identity, costumersParent.transform);
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
             //newCostumer.GetComponent<CostumerSc>().SendTo(costumerLastPoint.position - (Vector3.right * 1.5f * (costumerCount - 1)));
             newCostumer.GetComponent<CostumerSc>().SendTo(AvailableCostumerPlace());
             costumers = AddToCustomArray(costumers, newCostumer);
@@ -684,14 +534,8 @@ public class IdleManager : MonoBehaviour
     public void SentCostumer(GameObject sentCostumer, bool withProduct)
     {
         costumerCount--;
-<<<<<<< HEAD
         costumers = RemoveFromCustomArray(costumers, sentCostumer);
         //RemoveFromQueue(sentCostumer);
-=======
-        sentCostumer.transform.parent = null;
-        costumers = RemoveFromCustomArray(costumers, sentCostumer);
-        RemoveFromQueue(sentCostumer);
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
         if(costumerCount <= 0 && resourceCount <= 0)
         {
             outOfResourcePanel.SetActive(true);
@@ -701,13 +545,8 @@ public class IdleManager : MonoBehaviour
     public void CashAnimation(GameObject costumer, float inc)
     {
         Vector3 costumerScreenPosition = Camera.main.WorldToScreenPoint(costumer.transform.position);
-<<<<<<< HEAD
         GameObject animCash = Instantiate(cashAnimUI, costumerScreenPosition, Quaternion.identity, moneyCountTx.transform.parent);
         animCash.GetComponent<CashAnimUI>().SpawnCashAnim(ConvertNumberToUIText(inc));
-=======
-        GameObject animCash = Instantiate(cashAnimUI, costumerScreenPosition, Quaternion.identity, cupCountTx.transform.parent.parent);
-        animCash.GetComponent<CashAnimUI>().SpawnCashAnim(inc);
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
     }
 
     /*public void EditOrder()
@@ -723,22 +562,14 @@ public class IdleManager : MonoBehaviour
         }
     }*/
 
-<<<<<<< HEAD
     /*public void AddToQueue(GameObject addedCostumer)
-=======
-    public void AddToQueue(GameObject addedCostumer)
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
     {
         onQueueCostumers = AddToCustomArray(onQueueCostumers, addedCostumer);
     }
     public void RemoveFromQueue(GameObject addedCostumer)
     {
         onQueueCostumers = RemoveFromCustomArray(onQueueCostumers, addedCostumer);
-<<<<<<< HEAD
     }*/
-=======
-    }
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
 
     public void CostumerAsksFor(string productName, GameObject costumer)
     {
@@ -779,11 +610,7 @@ public class IdleManager : MonoBehaviour
             // Ready machine && NO available worker
             else if (CheckForReadyMachine(productName) && !(availableWorkers.Length > 0))
             {
-<<<<<<< HEAD
                 //Debug.Log(costumer + " is waiting for worker.");
-=======
-                Debug.Log(costumer + " is waiting for worker.");
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
 
                 if (costumer.GetComponent<CostumerSc>().isWaiting == false)
                 {
@@ -794,11 +621,7 @@ public class IdleManager : MonoBehaviour
             // NO ready machine && available worker
             else if (!CheckForReadyMachine(productName) && (availableWorkers.Length > 0))
             {
-<<<<<<< HEAD
                 //Debug.Log(costumer + " is waiting for machine.");
-=======
-                Debug.Log(costumer + " is waiting for machine.");
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
 
                 if (costumer.GetComponent<CostumerSc>().isWaiting == false)
                 {
@@ -838,13 +661,8 @@ public class IdleManager : MonoBehaviour
         {
             if (waiting.GetComponent<CostumerSc>().askFor == productName)
             {
-<<<<<<< HEAD
                 waiting.GetComponent<CostumerSc>().TakeAndGo(false, null);
                 waitingCostumers = RemoveFromCustomArray(waitingCostumers, waiting);
-=======
-                waitingCostumers = RemoveFromCustomArray(waitingCostumers, waiting);
-                waiting.GetComponent<CostumerSc>().TakeAndGo(false, null);
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
             }
         }
         /*switch (productName)
@@ -895,11 +713,7 @@ public class IdleManager : MonoBehaviour
             }
             else
             {
-<<<<<<< HEAD
                 ////Debug.Log("____No available worker.___");
-=======
-                //Debug.Log("____No available worker.___");
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
             }
         }
 
@@ -917,11 +731,7 @@ public class IdleManager : MonoBehaviour
             }
             else
             {
-<<<<<<< HEAD
                 ////Debug.Log("Next machine.");
-=======
-                //Debug.Log("Next machine.");
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
             }
         }
 
@@ -964,11 +774,7 @@ public class IdleManager : MonoBehaviour
     {
         if (addedObj == null)
         {
-<<<<<<< HEAD
             ////Debug.Log("Null obj is tried to add to the array");
-=======
-            //Debug.Log("Null obj is tried to add to the array");
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
             return originalArray;
         }
 
@@ -991,11 +797,7 @@ public class IdleManager : MonoBehaviour
 
         newArray[originalArray.Length] = addedObj;
 
-<<<<<<< HEAD
         ////Debug.Log("Object is added to the array");
-=======
-        //Debug.Log("Object is added to the array");
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
 
         return newArray;
     }
@@ -1003,11 +805,7 @@ public class IdleManager : MonoBehaviour
     {
         if (removedObj == null)
         {
-<<<<<<< HEAD
             ////Debug.Log("Null obj is tried to remove from the array");
-=======
-            //Debug.Log("Null obj is tried to remove from the array");
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
             return originalArray;
         }
 
@@ -1025,11 +823,7 @@ public class IdleManager : MonoBehaviour
 
         if (removedIndex == -1)
         {
-<<<<<<< HEAD
             ////Debug.Log("Object not found in the array");
-=======
-            //Debug.Log("Object not found in the array");
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
             return originalArray;
         }
 
@@ -1047,11 +841,7 @@ public class IdleManager : MonoBehaviour
             newArray[i - 1] = originalArray[i];
         }
 
-<<<<<<< HEAD
         ////Debug.Log("Object is removed from the array");
-=======
-        //Debug.Log("Object is removed from the array");
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
 
         return newArray;
     }
@@ -1077,11 +867,8 @@ public class IdleManager : MonoBehaviour
                     break;
             }
         }
-<<<<<<< HEAD
 
         //Debug.Log("Machines array filled");
-=======
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
     }
 
     public int GetMachineCount(string tag)
@@ -1179,7 +966,6 @@ public class IdleManager : MonoBehaviour
 
         for (int i = 0; i < workers.Length; i++)
         {
-<<<<<<< HEAD
             ////Debug.Log(workersParent.transform.GetChild(i).gameObject + " is added.");
             workers[i] = workersParent.transform.GetChild(i).gameObject;
         }
@@ -1230,11 +1016,6 @@ public class IdleManager : MonoBehaviour
     {
         //vibrationBut.color = vibrationState ? Color.white : Color.red;
         //vibrationBut.transform.parent.Find("Text").GetComponent<Text>().text = vibrationState ? "On" : "Off";
-=======
-            //Debug.Log(workersParent.transform.GetChild(i).gameObject + " is added.");
-            workers[i] = workersParent.transform.GetChild(i).gameObject;
-        }
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
     }
 
     public Texture SetTexture(string product)
@@ -1255,7 +1036,6 @@ public class IdleManager : MonoBehaviour
         }
         return warningIcon;
     }
-<<<<<<< HEAD
 
     public void UpgradesPanel(bool openPanel) 
     {
@@ -1439,12 +1219,6 @@ public class IdleManager : MonoBehaviour
         Destroy(transform.parent.gameObject);
     }
 
-=======
-    public void LoadScene(int sceneIndex)
-    {
-        SceneManager.LoadScene(sceneIndex);
-    }
->>>>>>> e135bd62164667161091742e0478e6084b9b368d
     // Reload the current scene to restart the game
     public void Restart()
     {
