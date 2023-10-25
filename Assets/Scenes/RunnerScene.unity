@@ -193,11 +193,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: RunnerPrefab
       objectReference: {fileID: 0}
-    - target: {fileID: 6364698176511174291, guid: bb13a4387dc05a8489d4bdb87e2d0a5e,
-        type: 3}
-      propertyPath: m_VertexColorAlwaysGammaSpace
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

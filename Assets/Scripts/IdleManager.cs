@@ -63,7 +63,7 @@ public class IdleManager : MonoBehaviour
     private bool anyAvailableWorker = true;
     private int costumerCount = 0;
     public GameObject[] machines = new GameObject[0];
-    public GameObject[] readyMachines = new GameObject[0];
+    public GameObject[] readyMachines = new GameObject[0]; 
     public GameObject[] availableWorkers = new GameObject[0]; 
     //public GameObject[] onQueueCostumers = new GameObject[0]; 
     private GameObject[] appleMachines = new GameObject[0];
@@ -74,7 +74,7 @@ public class IdleManager : MonoBehaviour
     private GameObject[] handledCostumers = new GameObject[0];
     public GameObject[] waitingCostumers = new GameObject[0];
     private bool soundState = true;
-    private bool vibrationState = true;
+    private bool vibrationState = true; 
     public GameObject upgradingMachine;
 
     // Start is called before the first frame update

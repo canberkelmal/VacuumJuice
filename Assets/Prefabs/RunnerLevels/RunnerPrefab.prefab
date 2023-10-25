@@ -9167,7 +9167,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -10540,7 +10540,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cf2216b0a96c5142aa500ef2be41316, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idlePrefab: {fileID: 7159638314104040269, guid: dfb1f5ca69b61a4478714261edfe90df,
+  idlePrefab: {fileID: 2352298921671476003, guid: dfb1f5ca69b61a4478714261edfe90df,
     type: 3}
   player: {fileID: 1950643968839686043}
   director: {fileID: 5045500482001692784}
