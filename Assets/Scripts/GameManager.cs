@@ -1,20 +1,21 @@
 using System;
-using System.Collections;
+/*using System.Collections;
 using System.Runtime.ConstrainedExecution;
 using System.Threading;
-using Unity.VisualScripting;
+using Unity.VisualScripting;*/
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
-{
+{ 
+    public GameObject idlePrefab;
     public GameObject player;
     public GameObject director;
     public GameObject vacuumCollider, vacuumParticle;
     public GameObject tankShader;
-    public GameObject finalTankShader;
+    public GameObject finalTankShader; 
     public Material cupInsideShader;
     public GameObject[] tankObjs;
     public GameObject cupIcon;
@@ -74,7 +75,7 @@ public class GameManager : MonoBehaviour
     [NonSerialized]
     public AudioManager audioManager;
 
-    private GameObject mainCam;
+    public GameObject mainCam;
     private Vector3 camOffset;
     private Vector3 camTankOffset;
     private bool controller = true;
@@ -99,7 +100,7 @@ public class GameManager : MonoBehaviour
     private bool soundState = true;
     private bool vibrationState = true;
 
-    void Awake()
+    /*void Awake()
     {
         mainCam = GameObject.Find("Main Camera");
         //tankShader = player.transform.Find("LiquidTank").Find("Shader").gameObject;
@@ -111,20 +112,32 @@ public class GameManager : MonoBehaviour
 
         SetCupCount(0);
         SetMoneyCount(0);
-    }
+    }*/
 
     private void Start()
     {
+        controller = true;
+        playerTempSpeed = playerMaxSpeed;
+        playerMaxSpeed = 0;
+
+        SetCupCount(0);
+        SetMoneyCount(0);
+
         audioManager = FindObjectOfType<AudioManager>();
         currentRunnerLevel = PlayerPrefs.GetInt("runnerLevel", 1);
         runnerUILevel = PlayerPrefs.GetInt("runnerUILevel", 1);
 
         InitializeScene();
+
+        mainCam = GameObject.Find("Main Camera");
+        //tankShader = player.transform.Find("LiquidTank").Find("Shader").gameObject;
+        camOffset = player.transform.position - mainCam.transform.position;
+        directorOffsY = player.transform.position.y - director.transform.position.y;
     }
     // Update is called once per frame
     void Update()
     {
-        InputController();
+        InputController(); 
         CameraController();
     }
     public void SetCupCount(int count)
@@ -166,7 +179,14 @@ public class GameManager : MonoBehaviour
 
     public void FillTank(int fillFactor)
     {
-        audioManager.Play("AddJuice");
+        if(fillFactor > 0)
+        {
+            audioManager.Play("AddJuice");
+        }
+        else if(fillFactor < 0)
+        {
+            audioManager.Play("Debuff");
+        }
         if (tankShader.GetComponent<Renderer>().material.GetFloat("_Fill") < tankFillAmount)
         {
             tankShader.GetComponent<Renderer>().material.SetFloat("_Fill", tankFillAmount);
@@ -268,13 +288,15 @@ public class GameManager : MonoBehaviour
         tempFinalTankFill = Mathf.MoveTowards(finalTankShader.GetComponent<Renderer>().material.GetFloat("_Fill"), finalTankFillAmount, fillFinalTankSens * Time.fixedDeltaTime);
         finalTankShader.GetComponent<Renderer>().material.SetFloat("_Fill", tempFinalTankFill);
 
+
         //finalTankBouy.transform.localPosition = Vector3.MoveTowards(finalTankBouy.transform.localPosition, Vector3.up * Remap(tempFinalTankFill, -50, 50, -1, 1), bouySens * Time.deltaTime) ;
         finalTankBouy.transform.localPosition = Vector3.up * Remap(tempFinalTankFill, -50, 50, -1, 1);
-
-        if (tempFinalTankFill == finalTankFillAmount)
+         
+        if (tempFinalTankFill == finalTankFillAmount) 
         {
             //finalTankBouy.transform.localPosition = Vector3.up * Remap(tempFinalTankFill, -50, 50, -1, 1);
             Invoke("EmptyTankOnFinish", 1f);
+            audioManager.Play("FillCup");
             CancelInvoke("FillFinalTankAnim");
         }
 
@@ -493,7 +515,7 @@ public class GameManager : MonoBehaviour
         if(currentRunnerLevel < runnerLevels.Length-1)
         {
             PlayerPrefs.SetInt("runnerLevel", currentRunnerLevel + 1);
-        }
+        } 
         else
         {
             int randomInt = Mathf.FloorToInt(UnityEngine.Random.Range(5, 11));
@@ -502,7 +524,8 @@ public class GameManager : MonoBehaviour
         runnerUILevel++;
         PlayerPrefs.SetInt("runnerUILevel", runnerUILevel);
 
-        finishPanel.transform.Find("Count").GetComponent<Text>().text = tempCupCount.ToString(); 
+        finishPanel.transform.Find("Count").GetComponent<Text>().text = tempCupCount.ToString();
+
         if (PlayerPrefs.GetInt("cupCount", 0)>=4)
         {
             finishPanel.transform.Find("ShopButton").gameObject.SetActive(true);
@@ -511,6 +534,9 @@ public class GameManager : MonoBehaviour
         {
             finishPanel.transform.Find("NextButton").gameObject.SetActive(true);
         }
+
+        //finishPanel.transform.Find("NextButton").gameObject.SetActive(true);
+
         finishPanel.SetActive(true);
 
         ChangePlayerSpeed(false);
@@ -543,7 +569,7 @@ public class GameManager : MonoBehaviour
     public void SetVolumes()
     {
         //soundBut.color = soundState ? Color.white : Color.red;
-        //soundBut.transform.parent.Find("Text").GetComponent<Text>().text = soundState ? "On" : "Off";
+        //soundBut.transform.parent.Find("Text").GetComponent<Text>().text = soundState ? "On" : "Off"; 
 
         Debug.Log("Sound button is pressed.");
         float soundLevel = soundState ? 0.5f : 0f;
@@ -649,9 +675,15 @@ public class GameManager : MonoBehaviour
         rotateSensSlider.value = PlayerPrefs.GetFloat("RotateSens", playerRotateSens);
         rotateSensSlider.transform.parent.Find("Amount").GetComponent<Text>().text = playerRotateSens.ToString();
     }
-
+     
     public void StartGame()
     {
+        if(mainCam == null)
+        {
+            mainCam = GameObject.Find("Main Camera");
+            camOffset = player.transform.position - mainCam.transform.position;
+            directorOffsY = player.transform.position.y - director.transform.position.y;
+        }
         isStarted = true;
         ChangePlayerSpeed(true);
     }
@@ -660,6 +692,63 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(sceneIndex);
     }
+
+    public void LoadIdle()
+    {
+        Instantiate(idlePrefab);
+        Destroy(transform.parent.gameObject);
+    }
+
+
+    /*
+        //int a = 0;
+        public void LoadScene(int sceneIndex)
+    {
+        SceneManager.LoadScene(sceneIndex);
+        *//*a = sceneIndex;
+        Invoke("LoadSceneInv", 0.5f);*//* 
+        //StartCoroutine(LoadSceneCor(sceneIndex));
+
+    }
+    *//*void LoadSceneInv()
+    {
+        SceneManager.LoadScene(a);  
+    }*/
+    /*void LoadSceneInv()
+    {
+        //Start loading the Scene asynchronously and output the progress bar
+        StartCoroutine(LoadScene());
+    }
+
+    IEnumerator LoadSceneCor(int a)
+    {
+        yield return null; 
+
+        //Begin to load the Scene you specify
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(a);
+        //Don't let the Scene activate until you allow it to
+        asyncOperation.allowSceneActivation = false; 
+        Debug.Log("Pro :" + asyncOperation.progress);
+        //When the load is still in progress, output the Text and progress bar
+        /*while (!asyncOperation.isDone)
+        {
+
+            // Check if the load has finished
+            if (asyncOperation.progress >= 0.90f)
+            {
+                    //Activate the Scene
+                    asyncOperation.allowSceneActivation = true;
+            }
+
+            yield return null;
+        }
+        while (asyncOperation.progress < 0.9f)
+        {
+            yield return null;
+        }
+
+        asyncOperation.allowSceneActivation = true;
+    }*/
 
     // Reload the current scene to restart the game
     public void Restart()

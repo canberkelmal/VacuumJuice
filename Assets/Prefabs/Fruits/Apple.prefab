@@ -48,12 +48,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f884b248b0a45cd41b984da71f5e7f4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
   increase: 1
   level: 1
   takeAnim: {fileID: 195900, guid: ec61825cb06be72419bb09eee03af08c, type: 3}
   takeSplashColor: {r: 1, g: 0, b: 0, a: 1}
   rotateDirection: {x: 0, y: 2, z: 0}
+  isJuice: 1
+  isVacuum: 0
+  isTank: 0
   timer: 0
 --- !u!135 &4987089622872950834
 SphereCollider:
@@ -74,7 +76,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.62
+  m_Radius: 1.38
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &974142358540886349
 GameObject:
@@ -102,7 +104,7 @@ Transform:
   m_GameObject: {fileID: 974142358540886349}
   m_LocalRotation: {x: -0.70700246, y: 0.012145085, z: -0.012145084, w: 0.7070026}
   m_LocalPosition: {x: -0.044, y: -0.032, z: 0.005}
-  m_LocalScale: {x: 140, y: 140, z: 140}
+  m_LocalScale: {x: 210, y: 210, z: 210}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7677062228512401043}

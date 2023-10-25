@@ -15,6 +15,11 @@ public class CanvasInit : MonoBehaviour
 
             Color randomColor = new Color(Random.value, Random.value, Random.value);
             transform.GetChild(i).GetChild(0).GetComponent<Image>().color = randomColor;
+
+            /*foreach(Transform child in transform.GetChild(i))
+            {
+                transform.gameObject.SetActive(false);
+            }*/
         }
     }
 }

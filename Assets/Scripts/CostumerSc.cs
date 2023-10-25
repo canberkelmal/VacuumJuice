@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,10 +20,10 @@ public class CostumerSc : MonoBehaviour
     private RawImage statuUI;
     private Material shirtMat, pantMat, hairMat; 
 
-    void Awake()
+    void Start()
     {
+        Debug.Log("Awake costumer");
         idleManager = GameObject.Find("IdleManager").GetComponent<IdleManager>();
-        SetCostume();
         switch (idleManager.currentLevel)
         {
             case 1:
@@ -42,10 +43,12 @@ public class CostumerSc : MonoBehaviour
         statuUI = transform.Find("Canvas").Find("Statu").GetComponent<RawImage>();
         statuUI.texture = idleManager.SetTexture(askFor); 
         productPlace = transform.Find("ProductPlace");
+        SetCostume();
     } 
 
     public void SetCostume()
     {
+        Debug.Log("Set costumer costume");
         shirtMat = new Material(shirtRenderer.material);
         Color randomColor = new Color(Random.value, Random.value, Random.value);
         shirtMat.color = randomColor;
@@ -57,7 +60,7 @@ public class CostumerSc : MonoBehaviour
         pantRenderer.material = pantMat;
 
         hairMat = new Material(hairRenderer.material);
-        int randomInt = Mathf.FloorToInt(UnityEngine.Random.Range(0, idleManager.hairColors.Length));
+        int randomInt = Mathf.FloorToInt(Random.Range(0, idleManager.hairColors.Length));
         randomColor = idleManager.hairColors[randomInt];
         hairMat.color = randomColor;
         hairRenderer.material = hairMat;
@@ -65,6 +68,7 @@ public class CostumerSc : MonoBehaviour
 
     public void SendTo(Vector3 finalPoint)
     {
+        Debug.Log("Sendto costumer");
         destination = finalPoint;
         transform.LookAt(destination);
         transform.Find("Canvas").rotation = Quaternion.Euler(-45f, 180f, 0f);
@@ -96,14 +100,15 @@ public class CostumerSc : MonoBehaviour
 
     public void TakeAndGo(bool taken, GameObject handledProduct)
     {
-        transform.parent = null;
+        transform.parent = idleManager.transform.parent; 
         transform.LookAt(idleManager.costumerExitPoint.position);
         transform.Find("Canvas").rotation = Quaternion.Euler(-45f, 180f, 0f);
-        if (taken)
+        if (taken) 
         {
-            statuUI.texture = idleManager.SetTexture("happy");
+            statuUI.texture = idleManager.SetTexture("happy"); 
             transform.Find("Obj").GetComponent<Animator>().SetTrigger("Handle");
-            Destroy(Instantiate(idleManager.takeProductParticle, transform.position + Vector3.up, Quaternion.Euler(Vector3.right * -90)), 1);
+            GameObject particle = Instantiate(idleManager.takeProductParticle, transform.position + Vector3.up, Quaternion.Euler(Vector3.right * -90), idleManager.transform.parent);
+            Destroy(particle, 1);
         }
         else
         { 
@@ -114,23 +119,23 @@ public class CostumerSc : MonoBehaviour
 
         if(handledProduct != null)
         {
-            handledProduct.transform.parent = productPlace;
+            handledProduct.transform.parent = productPlace; 
             handledProduct.transform.localPosition = Vector3.zero;
-        }
-        idleManager.SetCostumerPlaceAvailable(transform.position);
+        } 
+        idleManager.SetCostumerPlaceAvailable(transform.position); 
         idleManager.SentCostumer(gameObject, taken);
         //transform.Find("CostumerObj").GetComponent<Animator>().SetBool("Walk", true);
         InvokeRepeating("GoToExit", 0, Time.fixedDeltaTime);
     }
-
+     
     private void GoToExit()
     {
         transform.position = Vector3.MoveTowards(transform.position, idleManager.costumerExitPoint.position, movementSpeed * Time.fixedDeltaTime);
         if (transform.position == idleManager.costumerExitPoint.position)
         {
             //Debug.Log("Costumer went."); 
+            Destroy(gameObject, 1);
             CancelInvoke("GoToExit");
-            Destroy(gameObject);
         }
     }
 }

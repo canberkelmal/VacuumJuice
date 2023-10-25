@@ -1,7 +1,6 @@
 using UnityEngine.Audio;
 using UnityEngine;
 using System;
-using Sirenix.Utilities;
 
 public class AudioManager : MonoBehaviour
 {
@@ -18,13 +17,27 @@ public class AudioManager : MonoBehaviour
             s.source.volume = s.volume;
             s.source.pitch = s.pitch;
         }
-    }
+    } 
 
     public void Play(string name)
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
-        s.source.Play();
-    }
+        Sound s = Array.Find(sounds, sound => sound.name == name); 
+        /* If not playing.
+        if (!s.source.isPlaying)
+        {
+            s.source.Play(); 
+            Debug.Log(name + " is _REplayed!");
+        }*/
+
+        if (s.source.isPlaying)
+        {
+            s.source.time = 0;
+        }
+        else
+        {
+            s.source.Play();
+        }
+    } 
 
     public void SetVolume(float level)
     {

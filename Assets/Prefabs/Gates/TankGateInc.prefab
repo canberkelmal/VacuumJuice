@@ -522,7 +522,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   takeAnim: {fileID: 114134, guid: 5552d0e6b5e91684c9b9b938763192bf, type: 3}
   increase: 1
-  level: 1
+  level: 2
   speed: 4
   isMoving: 0
   isRight: 1

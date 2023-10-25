@@ -1,9 +1,10 @@
 using System;
-using System.Collections;
+//using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+//using Unity.VisualScripting;
+//using UnityEditor;
 using UnityEngine;
-using UnityEngine.EventSystems;
+//using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 //using static UnityEngine.Rendering.DebugUI;
@@ -24,7 +25,7 @@ public class IdleManager : MonoBehaviour
     public float frozenDefDuration = 1f;
     public int defMaxCostumerCount = 3;
     public Color[] hairColors = new Color[6];
-    public GameObject mainCam;
+    public GameObject runnerPrefab;
     public GameObject outOfResourcePanel;
     public GameObject machinesParent;
     public GameObject workersParent;
@@ -38,6 +39,7 @@ public class IdleManager : MonoBehaviour
     public GameObject upgradeMachineParticle, takeProductParticle;
     public Transform costumerSpawnPoint;
     public Transform costumerLastPoint;
+
     public Transform costumerExitPoint; 
     public Transform workerSpawnPoint;
     public LayerMask machinesLayerMask;
@@ -62,44 +64,48 @@ public class IdleManager : MonoBehaviour
     private int costumerCount = 0;
     public GameObject[] machines = new GameObject[0];
     public GameObject[] readyMachines = new GameObject[0];
-    public GameObject[] availableWorkers = new GameObject[0];
-    //public GameObject[] onQueueCostumers = new GameObject[0];
+    public GameObject[] availableWorkers = new GameObject[0]; 
+    //public GameObject[] onQueueCostumers = new GameObject[0]; 
     private GameObject[] appleMachines = new GameObject[0];
     private GameObject[] orangeMachines = new GameObject[0];
     private GameObject[] frozenMachines = new GameObject[0];
-    private GameObject[] workers = new GameObject[0];
+    private GameObject[] workers = new GameObject[0]; 
     private GameObject[] costumers = new GameObject[0];
     private GameObject[] handledCostumers = new GameObject[0];
     public GameObject[] waitingCostumers = new GameObject[0];
     private bool soundState = true;
     private bool vibrationState = true;
-    private GameObject upgradingMachine;
+    public GameObject upgradingMachine;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
-        mainCam = GameObject.Find("Main Camera");
-        SetCostumerPlaces(false);
+        Resources.UnloadUnusedAssets(); 
         resourceCount = PlayerPrefs.GetInt("cupCount", 0);
         moneyCount = PlayerPrefs.GetFloat("moneyCount", 0);
         InitIdleScene();
         FillMachinesArray();
         FillWorkersArray();
+        SetCostumerPlaces(false);
+        //Debug.Log("Workers array filled");
         costumerCount = costumersParent.transform.childCount;
+        //Debug.Log("costumer count set");
         SetAvailableWorkers();
+        //Debug.Log("available workers set");
         InvokeRepeating("SpawnCostumer", 1, 1);
+        //Debug.Log("spawn costumer started workers set");
         Time.timeScale = 1;
-    }
+    }  
      
     void InitIdleScene()
     {
-        soundState = PlayerPrefs.GetInt("soundState", 1) == 1 ? true : false;
+        soundState = PlayerPrefs.GetInt("soundState", 1) == 1 ? true : false; 
         SetVolumes();
 
         vibrationState = PlayerPrefs.GetInt("vibrationState", 1) == 1 ? true : false;
         SetVibrations();
 
-        maxCostumerCount = PlayerPrefs.GetInt("maxCostumerCount", defMaxCostumerCount);
+        maxCostumerCount = PlayerPrefs.GetInt("maxCostumerCount", defMaxCostumerCount); 
 
         currentLevel = PlayerPrefs.GetInt("IdleLevel", startLevel);
         currentMaxMachineLevel = maxMachineLevels[currentLevel];
@@ -109,7 +115,7 @@ public class IdleManager : MonoBehaviour
 
         for(int i = 0; i < upgradesForLevels.Length; i++)
         {
-            Debug.Log(currentLevel + " - " + i);
+            //Debug.Log(currentLevel + " - " + i);
             if(i == currentLevel)
             {
                 upgradesForLevels[i].SetActive(true);
@@ -118,7 +124,7 @@ public class IdleManager : MonoBehaviour
                     bool act = PlayerPrefs.GetInt(upg.name, 1) == 1 ? true : false;
                     upg.gameObject.SetActive(act);
                 }
-                upgradesForLevels[i].GetComponent<UpgradeSc>().OrderUpgrades();
+                upgradesForLevels[i].GetComponent<UpgradeSc>().OrderUpgrades(); 
             }
             else
             {
@@ -132,27 +138,32 @@ public class IdleManager : MonoBehaviour
         SetMoneyCount(0);
     }
 
-    private void Update()
+    /*private void Update()
     {
         InputController();
-    } 
+    } */
 
     void InputController()
-    {
-        if(Input.GetMouseButtonDown(0)/* && !EventSystem.current.IsPointerOverGameObject()*/)
+    { 
+
+        /*if(Input.GetMouseButtonDown(0)*//* && !EventSystem.current.IsPointerOverGameObject()*//*)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             // Open machine panel
             if (Physics.Raycast(ray, out hit, 100, machinesLayerMask))
             {
-                CloseMachinePanel();
+                if(machinePanel.activeSelf)
+                {
+                    CloseMachinePanel();
+                }
+
                 hit.collider.gameObject.GetComponent<MachineSc>().OpenMachinePanel(true);
                 upgradingMachine = hit.collider.gameObject;
             }
-        } 
+        } */
 
-        // Restart the game when the "R" key is pressed
+        // Restart the game when the "R" key is pressed 
         if (Input.GetKeyDown(KeyCode.R))
         {
             Restart();
@@ -380,7 +391,7 @@ public class IdleManager : MonoBehaviour
         moneyCount += count;
         PlayerPrefs.SetFloat("moneyCount", moneyCount);
         moneyCountTx.text = ConvertNumberToUIText(moneyCount);
-        Debug.Log(count + "harcandý.");
+        //Debug.Log(count + "harcandý.");
         if(machinePanel.activeSelf )
         {
             bool act = !upgradingMachine.GetComponent<MachineSc>().isMaxLevel && CheckForMoneyCount(upgradingMachine.gameObject.GetComponent<MachineSc>().UpgradeCost());
@@ -464,7 +475,7 @@ public class IdleManager : MonoBehaviour
         return UITx;
     }
 
-    public void AddCredit(float a)
+    public void AddCredit(float a) 
     {
         SetMoneyCount(a);
     }
@@ -473,19 +484,36 @@ public class IdleManager : MonoBehaviour
         SetCupCount(a);
     }
 
-    public void CloseMachinePanel()
+    public void CloseMachinePanel(GameObject upgMac) 
     {
-        Button lvlButton = machinePanel.transform.Find("LevelButton").GetComponent<Button>();
-        lvlButton.onClick.RemoveAllListeners();
-        machinePanel.SetActive(false);
-
-        if(upgradingMachine != null)
+        Debug.Log("closemachinepanel start");
+        upgradingMachine = upgMac;
+        if (machinePanel.activeSelf) 
         {
-            upgradingMachine.transform.Find("PanelParticle").gameObject.SetActive(false);
-            //upgradingMachine.GetComponent<Outline>().enabled = false;
+            Button lvlButton = machinePanel.transform.Find("LevelButton").GetComponent<Button>();
+            lvlButton.onClick.RemoveAllListeners();
+            machinePanel.SetActive(false);
+
         }
-        upgradingMachine = null;
+        if (upgMac != null)
+        {
+            upgMac.GetComponent<MachineSc>().OpenMachinePanel();
+        }
+        Debug.Log("closemachinepanel end");
     }
+    public void CloseMachinePanelUI()
+    {
+        upgradingMachine = null;
+        if (machinePanel.activeSelf)
+        {
+            Button lvlButton = machinePanel.transform.Find("LevelButton").GetComponent<Button>();
+            lvlButton.onClick.RemoveAllListeners();
+            machinePanel.SetActive(false);
+
+        }
+        Debug.Log("closemachinepanel end");
+    }
+
     public void SpawnCostumer()
     {
         if(costumerCount < maxCostumerCount && resourceCount > 0)
@@ -517,7 +545,7 @@ public class IdleManager : MonoBehaviour
     public void CashAnimation(GameObject costumer, float inc)
     {
         Vector3 costumerScreenPosition = Camera.main.WorldToScreenPoint(costumer.transform.position);
-        GameObject animCash = Instantiate(cashAnimUI, costumerScreenPosition, Quaternion.identity, cupCountTx.transform.parent.parent);
+        GameObject animCash = Instantiate(cashAnimUI, costumerScreenPosition, Quaternion.identity, moneyCountTx.transform.parent);
         animCash.GetComponent<CashAnimUI>().SpawnCashAnim(ConvertNumberToUIText(inc));
     }
 
@@ -582,7 +610,7 @@ public class IdleManager : MonoBehaviour
             // Ready machine && NO available worker
             else if (CheckForReadyMachine(productName) && !(availableWorkers.Length > 0))
             {
-                Debug.Log(costumer + " is waiting for worker.");
+                //Debug.Log(costumer + " is waiting for worker.");
 
                 if (costumer.GetComponent<CostumerSc>().isWaiting == false)
                 {
@@ -593,7 +621,7 @@ public class IdleManager : MonoBehaviour
             // NO ready machine && available worker
             else if (!CheckForReadyMachine(productName) && (availableWorkers.Length > 0))
             {
-                Debug.Log(costumer + " is waiting for machine.");
+                //Debug.Log(costumer + " is waiting for machine.");
 
                 if (costumer.GetComponent<CostumerSc>().isWaiting == false)
                 {
@@ -685,7 +713,7 @@ public class IdleManager : MonoBehaviour
             }
             else
             {
-                //Debug.Log("____No available worker.___");
+                ////Debug.Log("____No available worker.___");
             }
         }
 
@@ -703,7 +731,7 @@ public class IdleManager : MonoBehaviour
             }
             else
             {
-                //Debug.Log("Next machine.");
+                ////Debug.Log("Next machine.");
             }
         }
 
@@ -746,7 +774,7 @@ public class IdleManager : MonoBehaviour
     {
         if (addedObj == null)
         {
-            //Debug.Log("Null obj is tried to add to the array");
+            ////Debug.Log("Null obj is tried to add to the array");
             return originalArray;
         }
 
@@ -769,7 +797,7 @@ public class IdleManager : MonoBehaviour
 
         newArray[originalArray.Length] = addedObj;
 
-        //Debug.Log("Object is added to the array");
+        ////Debug.Log("Object is added to the array");
 
         return newArray;
     }
@@ -777,7 +805,7 @@ public class IdleManager : MonoBehaviour
     {
         if (removedObj == null)
         {
-            //Debug.Log("Null obj is tried to remove from the array");
+            ////Debug.Log("Null obj is tried to remove from the array");
             return originalArray;
         }
 
@@ -795,7 +823,7 @@ public class IdleManager : MonoBehaviour
 
         if (removedIndex == -1)
         {
-            //Debug.Log("Object not found in the array");
+            ////Debug.Log("Object not found in the array");
             return originalArray;
         }
 
@@ -813,7 +841,7 @@ public class IdleManager : MonoBehaviour
             newArray[i - 1] = originalArray[i];
         }
 
-        //Debug.Log("Object is removed from the array");
+        ////Debug.Log("Object is removed from the array");
 
         return newArray;
     }
@@ -839,6 +867,8 @@ public class IdleManager : MonoBehaviour
                     break;
             }
         }
+
+        //Debug.Log("Machines array filled");
     }
 
     public int GetMachineCount(string tag)
@@ -936,7 +966,7 @@ public class IdleManager : MonoBehaviour
 
         for (int i = 0; i < workers.Length; i++)
         {
-            //Debug.Log(workersParent.transform.GetChild(i).gameObject + " is added.");
+            ////Debug.Log(workersParent.transform.GetChild(i).gameObject + " is added.");
             workers[i] = workersParent.transform.GetChild(i).gameObject;
         }
 
@@ -953,7 +983,7 @@ public class IdleManager : MonoBehaviour
     }
     public void SetVolumes()
     {
-        Debug.Log("Sound button is pressed.");
+        //Debug.Log("Sound button is pressed.");
         float soundLevel = soundState ? 0.5f : 0f;
         //audioManager.SetVolume(soundLevel);
     }
@@ -962,7 +992,7 @@ public class IdleManager : MonoBehaviour
         vibrationState = !vibrationState;
         //Vibrate();
         int a = vibrationState ? 1 : 0;
-        Debug.Log("Vibration button is pressed.");
+        //Debug.Log("Vibration button is pressed.");
         settingsPanel.transform.Find("VibrationUI").Find("Stroke").gameObject.SetActive(!vibrationState);
         PlayerPrefs.SetInt("vibrationState", a);
         SetVibrations();
@@ -1007,11 +1037,17 @@ public class IdleManager : MonoBehaviour
         return warningIcon;
     }
 
-    public void UpgradesPanel(bool openPanel)
+    public void UpgradesPanel(bool openPanel) 
     {
+        Debug.Log("upgrades panel open start");
+        if (machinePanel.activeSelf && openPanel)
+        {
+            CloseMachinePanel(null);
+        }
+         
         upgradesPanel.SetActive(openPanel);
 
-        if (upgradesPanel.activeSelf)
+        if (openPanel)
         {
             for (int i = 0; i < upgradesForLevels.Length; i++)
             {
@@ -1025,6 +1061,7 @@ public class IdleManager : MonoBehaviour
                 }
             }
         }
+        Debug.Log("upgrades panel open stop");
     }
 
     public void IncreaseWorkerSpeed(float mult)
@@ -1079,7 +1116,7 @@ public class IdleManager : MonoBehaviour
         {
             PlayerPrefs.SetFloat("appleSpeedDevider", 1);
             PlayerPrefs.SetFloat("orangeSpeedDevider", 1);
-            PlayerPrefs.SetFloat("frozenSpeedDevider", 1);
+            PlayerPrefs.SetFloat("frozenSpeedDevider", 1); 
         }
         SetPrepareDurations();
     }
@@ -1173,8 +1210,15 @@ public class IdleManager : MonoBehaviour
 
     public void LoadScene(int sceneIndex)
     {
-        SceneManager.LoadScene(sceneIndex);
+        //SceneManager.LoadScene(sceneIndex);
     }
+
+    public void LoadRunner()
+    {
+        Instantiate(runnerPrefab);
+        Destroy(transform.parent.gameObject);
+    }
+
     // Reload the current scene to restart the game
     public void Restart()
     {

@@ -6,7 +6,7 @@ public class FinalTrigger : MonoBehaviour
 {
     private GameManager gameManager;
 
-    private void Awake()
+    private void Start() 
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
@@ -14,9 +14,10 @@ public class FinalTrigger : MonoBehaviour
     {
         if (other.CompareTag("VacuumArea"))
         {
+            GetComponent<BoxCollider>().enabled = false;
             transform.parent.Find("Confetties").gameObject.SetActive(true);
             gameManager.EnterToFinish();
-            Destroy(gameObject);
+            Destroy(transform.parent.gameObject, 2);
         }
-    }
-}
+    } 
+} 

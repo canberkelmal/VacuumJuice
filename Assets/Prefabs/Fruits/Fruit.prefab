@@ -47,12 +47,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f884b248b0a45cd41b984da71f5e7f4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
   increase: 1
   level: 1
   takeAnim: {fileID: 195900, guid: ec61825cb06be72419bb09eee03af08c, type: 3}
   takeSplashColor: {r: 0, g: 0, b: 0, a: 0}
   rotateDirection: {x: 0, y: 0, z: 0}
+  isJuice: 1
+  isVacuum: 0
+  isTank: 0
   timer: 0
 --- !u!33 &2726824811321321005
 MeshFilter:

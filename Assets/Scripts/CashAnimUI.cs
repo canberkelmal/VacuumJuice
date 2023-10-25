@@ -19,7 +19,7 @@ public class CashAnimUI : MonoBehaviour
         transform.Find("Text").GetComponent<Text>().text = price + "$";
         InvokeRepeating("MoneyAnim", 0, Time.fixedDeltaTime);
     }
-
+     
     public void MoneyAnim()
     {
         timer += Time.deltaTime;
@@ -40,3 +40,4 @@ public class CashAnimUI : MonoBehaviour
         }
     }
 }
+ 

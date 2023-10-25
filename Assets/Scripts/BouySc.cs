@@ -14,19 +14,21 @@ public class BouySc : MonoBehaviour
     {
         if (other.CompareTag("FinalCanvasObj"))
         {
-            Vector3 cupScreenPos = Camera.main.WorldToScreenPoint(other.transform.position);
-            Instantiate(gameManager.cupIcon, cupScreenPos, Quaternion.identity, gameManager.cupCountTx.transform.parent);
+            other.GetComponent<BoxCollider>().enabled = false;
+            //Vector3 cupScreenPos = Camera.main.WorldToScreenPoint(other.transform.position);
+            //Instantiate(gameManager.cupIcon, cupScreenPos, Quaternion.identity, gameManager.cupCountTx.transform.parent);
+            gameManager.IncreaseCupCount();
+            other.transform.GetChild(0).GetComponent<Image>().color = Color.yellow; 
 
-            other.transform.GetChild(0).GetComponent<Image>().color = Color.yellow;
+            //Take effect
+            //other.transform.GetChild(3).gameObject.SetActive(true);
+            //Destroy(other.transform.GetChild(3).gameObject, 1f);
 
-            other.transform.GetChild(3).gameObject.SetActive(true);
-            Destroy(other.transform.GetChild(3).gameObject, 1f);
-
-            gameManager.audioManager.Play("FillCup");
+            //gameManager.audioManager.Play("FillCup");
 
 
             //GameObject getEffect = Instantiate(gameManager.getJuiceParticle, transform.position + Vector3.up, Quaternion.identity);
             //Destroy(getEffect, 1f);
-        }
+        } 
     }
 }

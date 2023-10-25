@@ -5383,10 +5383,10 @@ MonoBehaviour:
   unreadyColor: {r: 1, g: 0, b: 0, a: 1}
   machineLevel: 1
   productPrice: 1.5
-  firstLevelCost: 28
-  levelCostConstan: 1.22
-  firstLevelPrice: 40
-  levelPriceConstan: 1.09
+  firstLevelCost: 38
+  levelCostConstan: 1.5
+  firstLevelPrice: 85
+  levelPriceConstan: 1.33
   hasOwner: 0
   isMaxLevel: 0
 --- !u!65 &1400404811839857558
