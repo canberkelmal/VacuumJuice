@@ -26,6 +26,7 @@ public class IdleManager : MonoBehaviour
     public int defMaxCostumerCount = 3;
     public Color[] hairColors = new Color[6];
     public GameObject runnerPrefab;
+    public GameObject idlePrefab;
     public GameObject outOfResourcePanel;
     public GameObject machinesParent;
     public GameObject workersParent;
@@ -80,7 +81,7 @@ public class IdleManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Resources.UnloadUnusedAssets(); 
+        //Resources.UnloadUnusedAssets(); 
         resourceCount = PlayerPrefs.GetInt("cupCount", 0);
         moneyCount = PlayerPrefs.GetFloat("moneyCount", 0);
         InitIdleScene();
@@ -283,6 +284,23 @@ public class IdleManager : MonoBehaviour
 
     }
 
+    //For prefab passing
+    /*public void GoNextLevel()
+    {
+        currentLevel = PlayerPrefs.GetInt("IdleLevel", startLevel) + 1;
+        PlayerPrefs.SetInt("IdleLevel", currentLevel);
+        ResetUpgrades();
+        ResetMachineLevels("all");
+
+        moneyCount = 0;
+        PlayerPrefs.SetFloat("moneyCount", moneyCount);
+        moneyCountTx.text = ConvertNumberToUIText(moneyCount);
+
+        Instantiate(idlePrefab);
+        Destroy(transform.parent.gameObject);
+    }*/
+
+    //For scene passing
     public void GoNextLevel()
     {
         currentLevel = PlayerPrefs.GetInt("IdleLevel", startLevel) + 1;
@@ -1201,7 +1219,7 @@ public class IdleManager : MonoBehaviour
             PlayerPrefs.SetInt("workerCount", 1);
         }
         FillWorkersArray();
-        SetAvailableWorkers();
+        SetAvailableWorkers(); 
 
         workerSpeed = PlayerPrefs.GetFloat("workerSpeed", workerDefSpeed);
         SetWorkerSpeed(false, 1);
@@ -1210,7 +1228,7 @@ public class IdleManager : MonoBehaviour
 
     public void LoadScene(int sceneIndex)
     {
-        //SceneManager.LoadScene(sceneIndex);
+        SceneManager.LoadScene(sceneIndex);
     }
 
     public void LoadRunner()

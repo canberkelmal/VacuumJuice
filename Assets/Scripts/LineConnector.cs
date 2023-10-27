@@ -14,20 +14,24 @@ public class LineConnector : MonoBehaviour
     private float tempW = 0.25f;
     private CollectableSc currentCollectable;
     private AnimationCurve curve = new AnimationCurve();
-    private GameManager gameManager;
     private bool animating = false;
 
     private void Awake()
     {
         line = this.gameObject.GetComponent<LineRenderer>();
         curve = line.widthCurve;
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
-    private void Update()
+    /*private void Update()
+    {
+        SetLinePositions();
+    }*/
+    
+
+    public void SetLinePositions()
     {
         //Debug.Log(line.widthCurve.keys[1].value);
-        for(int i=0; i < _objs.Length; i++)
+        for (int i = 0; i < _objs.Length; i++)
         {
             //Debug.Log(line.positionCount);
             line.SetPosition(i, _objs[i].transform.position/* + Vector3.up * 0.06f*/);

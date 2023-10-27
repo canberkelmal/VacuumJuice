@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     public float finalTankLiquidMultiplier = 24;
     public float getCupSens = 1;
     public float camSensivity = 1f;
+    public float finalTankCamSensivity = 1f;
     public float finalTankCamYOffs = 1f;
     public float playerRotateSens = 1;
     public float playerRotateLimit = 75;
@@ -63,6 +64,7 @@ public class GameManager : MonoBehaviour
     public bool isTankEmpty = true;
     public bool isTankFull = false;
     public LayerMask gatesLayerMask;
+    public LineConnector pipeLine;
 
     //UI Elements
     public Text cupCountTx;
@@ -75,6 +77,7 @@ public class GameManager : MonoBehaviour
     [NonSerialized]
     public AudioManager audioManager;
 
+    public PlayerController playerController;
     public GameObject mainCam;
     private Vector3 camOffset;
     private Vector3 camTankOffset;
@@ -167,6 +170,7 @@ public class GameManager : MonoBehaviour
     public void EnterToFinish()
     {
         isFinished = true;
+        playerController.isFinished = isFinished;
         SetController(false);
         vacuumParticle.transform.parent.Find("MagicAuraBlue").GetComponent<ParticleSystem>().startSpeed *= -1;
         vacuumParticle.transform.parent.Find("MagicAuraBlue").transform.localPosition += Vector3.forward * 0.5f;
@@ -175,6 +179,7 @@ public class GameManager : MonoBehaviour
     public void SetController(bool value)
     {
         controller = value;
+        playerController.controller = controller;
     }
 
     public void FillTank(int fillFactor)
@@ -290,6 +295,7 @@ public class GameManager : MonoBehaviour
 
 
         //finalTankBouy.transform.localPosition = Vector3.MoveTowards(finalTankBouy.transform.localPosition, Vector3.up * Remap(tempFinalTankFill, -50, 50, -1, 1), bouySens * Time.deltaTime) ;
+        
         finalTankBouy.transform.localPosition = Vector3.up * Remap(tempFinalTankFill, -50, 50, -1, 1);
          
         if (tempFinalTankFill == finalTankFillAmount) 
@@ -389,15 +395,16 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            mainCam.transform.position = Vector3.Lerp(mainCam.transform.position, finalTankBouy.transform.position - camTankOffset, camSensivity * Time.deltaTime);
+            mainCam.transform.position = Vector3.Lerp(mainCam.transform.position, finalTankBouy.transform.position - camTankOffset, finalTankCamSensivity * Time.deltaTime);
             //mainCam.transform.LookAt(finalTankBouy.transform.position);
         }
     }
 
     void InputController()
     {
+        /* ***************************
         // During game(if UI elements are not touched.)
-        if (controller && !EventSystem.current.IsPointerOverGameObject())
+        if (controller && !EventSystem.current.IsPointerOverGameObject()) 
         {
             if(playerMaxSpeed > 0)
             {
@@ -407,6 +414,7 @@ public class GameManager : MonoBehaviour
                 MovePlayer(true);
             }
         }
+
         // Final Run
         else if(!isEnded)
         {
@@ -415,7 +423,9 @@ public class GameManager : MonoBehaviour
             director.transform.position = new Vector3(director.transform.position.x, director.transform.position.y, player.transform.position.z + directorOffsZ);
             UpdatePlayerRotationY(false);
             MovePlayer(true);
-        }
+        }*/
+
+        pipeLine.SetLinePositions();
 
         // Restart the game when the "R" key is pressed
         if (Input.GetKeyDown(KeyCode.R))
@@ -423,6 +433,7 @@ public class GameManager : MonoBehaviour
             Restart();
         }
     }
+    /* *********************
     void UpdateDirectorPositionX(bool factor)
     {
         if(factor)
@@ -462,7 +473,7 @@ public class GameManager : MonoBehaviour
                 player.transform.rotation = Quaternion.Lerp(player.transform.rotation, Quaternion.Euler(0, 0, 0), playerRotateSens * Time.deltaTime);
             }
         }
-        else
+        else 
         {
             if(isFinished)
             {
@@ -494,13 +505,16 @@ public class GameManager : MonoBehaviour
         }
         playerCurrentSpeed = Mathf.Clamp(playerCurrentSpeed, 0f, playerMaxSpeed);
         player.transform.position += player.transform.forward * playerCurrentSpeed * Time.deltaTime;
-        player.transform.position = new Vector3(Mathf.Clamp(player.transform.position.x, playerXMin, playerXMax), player.transform.position.y, player.transform.position.z);        
-    }
+        player.transform.position = new Vector3(Mathf.Clamp(player.transform.position.x, playerXMin, playerXMax), player.transform.position.y, player.transform.position.z);
+
+        //pipeLine.SetLinePositions();
+    }*/
 
     void ChangePlayerSpeed(bool fc)
     {
         playerAnimator.SetBool("IsRunning", fc);
         playerMaxSpeed = fc ? playerTempSpeed : 0;
+        playerController.playerMaxSpeed = playerMaxSpeed;
     }
 
     public void StartFrom(int lv)
@@ -595,6 +609,7 @@ public class GameManager : MonoBehaviour
     public void SetRotateSens()
     {
         playerRotateSens = rotateSensSlider.value;
+        playerController.playerRotateSens = playerRotateSens;
         PlayerPrefs.SetFloat("RotateSens", playerRotateSens);
         rotateSensSlider.transform.parent.Find("Amount").GetComponent<Text>().text = playerRotateSens.ToString();
     }
@@ -672,6 +687,7 @@ public class GameManager : MonoBehaviour
         cupCountTx.text = cupCount.ToString();
 
         playerRotateSens = PlayerPrefs.GetFloat("RotateSens", playerRotateSens);
+        playerController.playerRotateSens = playerRotateSens;
         rotateSensSlider.value = PlayerPrefs.GetFloat("RotateSens", playerRotateSens);
         rotateSensSlider.transform.parent.Find("Amount").GetComponent<Text>().text = playerRotateSens.ToString();
     }
@@ -683,6 +699,7 @@ public class GameManager : MonoBehaviour
             mainCam = GameObject.Find("Main Camera");
             camOffset = player.transform.position - mainCam.transform.position;
             directorOffsY = player.transform.position.y - director.transform.position.y;
+            playerController.directorOffsY = directorOffsY;
         }
         isStarted = true;
         ChangePlayerSpeed(true);
