@@ -4,6 +4,8 @@ using System.Collections.Generic;
 //using Unity.VisualScripting;
 //using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.HighDefinition;
 //using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -36,10 +38,14 @@ public class IdleManager : MonoBehaviour
     public GameObject machinePanel;
     public GameObject settingsPanel;
     public GameObject upgradesPanel;
+    public GameObject tutorialPanel;
     public GameObject cashAnimUI;
     public GameObject upgradeMachineParticle, takeProductParticle;
     public Transform costumerSpawnPoint;
     public Transform costumerLastPoint;
+    public bool tutorial = false;
+    //public Vignette vignette;
+    public Volume postProcessVolume;
 
     public Transform costumerExitPoint; 
     public Transform workerSpawnPoint;
@@ -75,28 +81,93 @@ public class IdleManager : MonoBehaviour
     private GameObject[] handledCostumers = new GameObject[0];
     public GameObject[] waitingCostumers = new GameObject[0];
     private bool soundState = true;
-    private bool vibrationState = true; 
+    private bool vibrationState = true;
+    private bool noResource = false;
     public GameObject upgradingMachine;
 
     // Start is called before the first frame update
     void Start()
     {
-        //Resources.UnloadUnusedAssets(); 
         resourceCount = PlayerPrefs.GetInt("cupCount", 0);
         moneyCount = PlayerPrefs.GetFloat("moneyCount", 0);
         InitIdleScene();
         FillMachinesArray();
         FillWorkersArray();
         SetCostumerPlaces(false);
-        //Debug.Log("Workers array filled");
         costumerCount = costumersParent.transform.childCount;
-        //Debug.Log("costumer count set");
         SetAvailableWorkers();
-        //Debug.Log("available workers set");
-        InvokeRepeating("SpawnCostumer", 1, 1);
-        //Debug.Log("spawn costumer started workers set");
-        Time.timeScale = 1;
+
+        //postProcessVolume.profile.components.ForEach(c => Debug.Log(c.GetType().Name));
+
+        
+
+        tutorial = PlayerPrefs.GetInt("tutorial", 0) == 0 ? true : false;
+
+        if (tutorial)
+        {
+            StartTutorial();
+        }
+        else
+        {
+            InvokeRepeating("SpawnCostumer", 1, 1);
+            Time.timeScale = 1;
+        }
     }  
+
+    void StartTutorial()
+    {
+        Time.timeScale = 0;
+
+        tutorialPanel.transform.GetChild(0).gameObject.SetActive(true);
+        tutorialPanel.transform.GetChild(1).gameObject.SetActive(false);
+        tutorialPanel.transform.GetChild(2).gameObject.SetActive(false);
+
+        tutorialPanel.SetActive(true);
+    }
+
+    public void SecondTutorial()
+    {
+        tutorialPanel.transform.GetChild(0).gameObject.SetActive(false);
+        tutorialPanel.transform.GetChild(1).gameObject.SetActive(true);
+        tutorialPanel.transform.GetChild(2).gameObject.SetActive(false);
+    }
+    public void ThirdTutorial()
+    {
+        tutorialPanel.transform.GetChild(0).gameObject.SetActive(false);
+        tutorialPanel.transform.GetChild(1).gameObject.SetActive(false);
+        tutorialPanel.transform.GetChild(2).gameObject.SetActive(true);
+    }
+
+    public void FinishTutorial()
+    {
+        tutorialPanel.SetActive(false);
+        tutorialPanel.transform.GetChild(0).gameObject.SetActive(false);
+        tutorialPanel.transform.GetChild(1).gameObject.SetActive(false);
+        tutorialPanel.transform.GetChild(2).gameObject.SetActive(false);
+
+        tutorial = false;
+        PlayerPrefs.SetInt("tutorial", 1);
+
+        Time.timeScale = 1;
+        InvokeRepeating("SpawnCostumer", 1, 1);
+    }
+
+    Vector2 GetVignettePosition(Transform obj)
+    {
+        Transform targetTransform = obj.transform;
+
+        Vector3 targetPosition = targetTransform.position;
+
+        float screenWidth = Screen.width;
+        float screenHeight = Screen.height;
+
+        Vector3 screenPosition = Camera.main.WorldToScreenPoint(targetPosition);
+
+        float xValue = screenPosition.x / screenWidth;
+        float yValue = screenPosition.y / screenHeight;
+
+        return new Vector2 (xValue, yValue);
+    }
      
     void InitIdleScene()
     {
@@ -344,6 +415,7 @@ public class IdleManager : MonoBehaviour
     public void StartFromFirstLevel()
     {
         PlayerPrefs.SetInt("IdleLevel", startLevel);
+        PlayerPrefs.SetInt("tutorial", 0);
         ResetUpgrades();
         ResetMachineLevels("all");
         Restart();
@@ -513,7 +585,7 @@ public class IdleManager : MonoBehaviour
             machinePanel.SetActive(false);
 
         }
-        if (upgMac != null)
+        if (upgMac != null && !noResource && !tutorial)
         {
             upgMac.GetComponent<MachineSc>().OpenMachinePanel();
         }
@@ -550,12 +622,15 @@ public class IdleManager : MonoBehaviour
     }
 
     public void SentCostumer(GameObject sentCostumer, bool withProduct)
-    {
+    { 
         costumerCount--;
         costumers = RemoveFromCustomArray(costumers, sentCostumer);
         //RemoveFromQueue(sentCostumer);
-        if(costumerCount <= 0 && resourceCount <= 0)
+        if (costumerCount <= 0 && resourceCount <= 0)
         {
+            noResource = true;
+            CloseMachinePanel(null);
+            upgradesPanel.SetActive(false);
             outOfResourcePanel.SetActive(true);
         }
     }
@@ -903,6 +978,7 @@ public class IdleManager : MonoBehaviour
     {
         int count = 0;
         int level = -1;
+        bool firstAppleSet = false;
         foreach (GameObject machineObj in machines)
         {
             if(machine.tag == machineObj.tag)
@@ -910,7 +986,15 @@ public class IdleManager : MonoBehaviour
                 count++;
                 if(machine == machineObj)
                 {
-                    level = PlayerPrefs.GetInt((machine.tag + count + "Level"), 1);
+                    if(!firstAppleSet && machine.tag == "appleMachine")
+                    {
+                        firstAppleSet = true;
+                        level = PlayerPrefs.GetInt((machine.tag + count + "Level"), 1);
+                    }
+                    else
+                    {
+                        level = PlayerPrefs.GetInt((machine.tag + count + "Level"), 0);
+                    }
                 }
             }
         }
@@ -1057,29 +1141,29 @@ public class IdleManager : MonoBehaviour
 
     public void UpgradesPanel(bool openPanel) 
     {
-        Debug.Log("upgrades panel open start");
         if (machinePanel.activeSelf && openPanel)
         {
             CloseMachinePanel(null);
         }
-         
-        upgradesPanel.SetActive(openPanel);
 
-        if (openPanel)
+        if (!noResource && !tutorial)
         {
-            for (int i = 0; i < upgradesForLevels.Length; i++)
+            upgradesPanel.SetActive(openPanel);
+            if (openPanel)
             {
-                if (i == currentLevel)
+                for (int i = 0; i < upgradesForLevels.Length; i++)
                 {
-                    foreach (Transform upg in upgradesForLevels[i].transform)
+                    if (i == currentLevel)
                     {
-                        //bool act = PlayerPrefs.GetInt(upg.name, 1) == 1 ? true : false;
-                        upg.transform.Find("Button").GetComponent<Button>().interactable = CheckForMoneyCount(upg.gameObject.GetComponent<IdleUpgradesSc>().upgradeCost);
+                        foreach (Transform upg in upgradesForLevels[i].transform)
+                        {
+                            //bool act = PlayerPrefs.GetInt(upg.name, 1) == 1 ? true : false;
+                            upg.transform.Find("Button").GetComponent<Button>().interactable = CheckForMoneyCount(upg.gameObject.GetComponent<IdleUpgradesSc>().upgradeCost);
+                        }
                     }
                 }
             }
         }
-        Debug.Log("upgrades panel open stop");
     }
 
     public void IncreaseWorkerSpeed(float mult)

@@ -147,6 +147,7 @@ public class GameManager : MonoBehaviour
     {
         cupCount = PlayerPrefs.GetInt("cupCount", 0);
         cupCount += count;
+        cupCount = cupCount < 0 ? 0 : cupCount;
         PlayerPrefs.SetInt("cupCount", cupCount);
         cupCountTx.text = cupCount.ToString();
     }
