@@ -41,7 +41,7 @@ public class TankGate : MonoBehaviour
 
             foreach (Collider collider in colliders)
             {
-                if (collider.CompareTag("Gate"))
+                if (collider.CompareTag("Gate")) 
                 {
                     collider.enabled = false;
                 }

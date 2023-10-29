@@ -56,43 +56,22 @@ public class MachineSc : MonoBehaviour
         {
             PrepareTest();
         }
-
-            /*Transform obj = transform.Find("Obj");
-            if (machineLevel == 0 )
-            {
-                obj.localPosition = Vector3.up * (-0.25f);
-                obj.localScale = Vector3.one - Vector3.up * (0.5f);
-                obj.GetComponent<Renderer>().material = idleManager.defMachineMat;
-            }
-            else
-            {
-                obj.localPosition = Vector3.zero;
-                obj.localScale = Vector3.one;
-                if(gameObject.tag == "appleMachine")
-                {
-                    obj.GetComponent<Renderer>().material = idleManager.appleMachineMat;
-                }
-                else if (gameObject.tag == "orangeMachine")
-                {
-                    obj.GetComponent<Renderer>().material = idleManager.orangeMachineMat;
-                }
-            }*/
-        /*
-        transform.Find("MachineObj").GetComponent<Outline>().enabled = false;
-        transform.Find("MachineObj").GetComponent<Outline>().enabled = true;*/
     }
 
     public void SetMachineObject()
     {
-        if(machineLevel == 0)
+        Debug.Log("Machine level is: " +  machineLevel);
+        if(machineLevel <= 0)
         {
+            machineLevel = 0;
             foreach (Transform mc in transform.Find("MachineObj"))
             {
                 mc.gameObject.SetActive(false);
             }
             transform.Find("MachineObj").Find("Lv0").gameObject.SetActive(true);
         }
-        if(machineLevel < idleManager.firstMachineUpgradeLevel && !transform.Find("MachineObj").Find("V0").gameObject.active)
+
+        if(machineLevel < idleManager.firstMachineUpgradeLevel && machineLevel > 0)
         {
             foreach (Transform mc in transform.Find("MachineObj"))
             {
@@ -116,8 +95,6 @@ public class MachineSc : MonoBehaviour
             }
             transform.Find("MachineObj").Find("V2").gameObject.SetActive(true);
         }
-        //transform.Find("PanelParticle").gameObject.SetActive(false);
-        //transform.Find("MachineObj").GetComponent<Outline>().LoadStroke();
     }
 
     public void SetMachineObjAtStart()
@@ -151,22 +128,19 @@ public class MachineSc : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Debug.Log("Clicked machine");
         idleManager.CloseMachinePanel(gameObject);
-        //Invoke("OpenMachinePanel", 0.1f);
-        //OpenMachinePanel();
     }
 
     public void OpenMachinePanel()
     {
-        Debug.Log("openmachinepanel started");
         Transform panel = idleManager.machinePanel.transform;
         panel.gameObject.SetActive(true);
 
 
         panel.Find("NameTX").GetComponent<Text>().text = char.ToUpper(product[0]) + product.Substring(1) + " Machine";
         machineLevel = idleManager.GetMachineLevel(gameObject);
-        panel.Find("LevelTX").GetComponent<Text>().text = "Level " + machineLevel.ToString();
+
+        panel.Find("LevelTX").GetComponent<Text>().text = "Level " + machineLevel.ToString() + "/" + idleManager.currentMaxMachineLevel;
 
         switch (gameObject.tag)
         {
@@ -188,34 +162,25 @@ public class MachineSc : MonoBehaviour
         panel.Find("Duration").Find("Text").GetComponent<Text>().text = prepareDuration.ToString();
         Button lvButton = panel.Find("LevelButton").GetComponent<Button>();
         lvButton.onClick.AddListener(() => IncreaseMachineLevel(1));
-        //panel.Find("LevelButton").Find("UpgradeCostTx").GetComponent<Text>().text = "Cost: " + idleManager.ConvertNumberToUIText(UpgradeCost()) + "$";
 
-        //idleManager.machinePanel.SetActive(true);
-        //lvButton.interactable = idleManager.CheckForMoneyCount(UpgradeCost());
-
-        Debug.Log("Machine can be upgraded " + idleManager.CheckForMoneyCount(UpgradeCost()) + " UpgradeCost: " + UpgradeCost() + " moneyCount:" + idleManager.moneyCount);
-
-
-
-        //transform.Find("PanelParticle").gameObject.SetActive(true); 
-
-        //transform.Find("MachineObj").GetComponent<Outline>().enabled = true;
-        //GetComponent<Outline>().enabled = true;
         CheckMaxLevel();
-        Debug.Log("openmachinepanel end");
+
+        float amount = (float)machineLevel / idleManager.currentMaxMachineLevel;
+        Debug.Log("Amount: machineLevel / currentMaxMachineLevel = " + machineLevel + "/" + idleManager.currentMaxMachineLevel + "=" + amount);
+        idleManager.levelBar.SetFillAmountDirect(amount);
+        Color barColor = Color.Lerp(idleManager.levelBarDefColor, idleManager.levelBarMaxColor, amount);
+        idleManager.levelBar.SetFillColor(barColor);
     }
 
     public void IncreaseMachineLevel(int addLevel)
     {
-        Debug.Log("increaselevel start");
         GameObject upgEffect = Instantiate(idleManager.upgradeMachineParticle, transform.position + Vector3.up - Vector3.forward, Quaternion.Euler(Vector3.right * -90), idleManager.transform.parent);
         Destroy(upgEffect, 1); 
         idleManager.IncreaseMachineLevel(gameObject);
-        idleManager.SetMoneyCount(-UpgradeCost());
         SetProductPrice();
         machineLevel = idleManager.GetMachineLevel(gameObject);
 
-        idleManager.machinePanel.transform.Find("LevelTX").GetComponent<Text>().text = "Level " + machineLevel.ToString();
+        idleManager.machinePanel.transform.Find("LevelTX").GetComponent<Text>().text = "Level " + machineLevel.ToString() + "/" + idleManager.currentMaxMachineLevel;
 
         idleManager.machinePanel.transform.Find("LevelButton").Find("UpgradeCostTx").GetComponent<TextMeshProUGUI>().text = "<sprite=12>" + idleManager.ConvertNumberToUIText(UpgradeCost());
 
@@ -235,18 +200,28 @@ public class MachineSc : MonoBehaviour
                 icon = idleManager.GetIcon("orange", machineLevel);
                 break;
             case "frozenMachine":
-                //icon = idleManager.frozenIcon;
+                //icon = idleManager.frozenIcon; 
                 icon = idleManager.GetIcon("frozen", machineLevel);
                 break;
         }
 
         idleManager.machinePanel.transform.Find("ProductIcon").GetComponent<RawImage>().texture = icon;
-        Debug.Log("increaselevel end");
+        SetLevelBar();
+        idleManager.SetMoneyCount(-UpgradeCost());
+    }
+
+    void SetLevelBar()
+    {
+        float amount = (float)machineLevel / idleManager.currentMaxMachineLevel;
+        Color barColor = Color.Lerp(idleManager.levelBarDefColor, idleManager.levelBarMaxColor, amount);
+        //Color barColor = machineLevel < idleManager.currentMaxMachineLevel ? idleManager.levelBarDefColor : idleManager.levelBarMaxColor;
+
+        idleManager.levelBar.SetFillAmount(amount, false);
+        idleManager.levelBar.SetFillColor(barColor);
     }
 
     public void CheckMaxLevel() 
     {
-        Debug.Log("Check max lv startted");
         Transform panel = idleManager.machinePanel.transform;
         isMaxLevel = machineLevel >= idleManager.currentMaxMachineLevel;
         panel.Find("Revenue").Find("Text").GetComponent<TextMeshProUGUI>().text = idleManager.ConvertNumberToUIText(productPrice) + "<sprite=13>" + idleManager.ConvertNumberToUIText(NextLevelProductPrice()); 
@@ -267,21 +242,13 @@ public class MachineSc : MonoBehaviour
             idleManager.machinePanel.transform.Find("LevelButton").Find("UpgradeCostTx").GetComponent<TextMeshProUGUI>().text = "<sprite=12>" + idleManager.ConvertNumberToUIText(UpgradeCost());
             panel.Find("LevelButton").GetComponent<Button>().interactable = false;
         }
-
-        Debug.Log("Check max lv end");
     }
 
     public void IfUpgradable()
     {
         isMaxLevel = machineLevel >= idleManager.currentMaxMachineLevel;
-        if (!isMaxLevel && idleManager.CheckForMoneyCount(UpgradeCost()))
-        {
-            transform.Find("MachineCanvas").Find("UpgIcon").gameObject.SetActive(true);
-        }
-        else
-        {
-            transform.Find("MachineCanvas").Find("UpgIcon").gameObject.SetActive(false);
-        }
+        bool cond = !isMaxLevel && idleManager.CheckForMoneyCount(UpgradeCost()) ? true : false;
+        transform.Find("MachineCanvas").Find("UpgIcon").gameObject.SetActive(cond);
     }
 
     public float UpgradeCost()

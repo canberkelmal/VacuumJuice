@@ -1,15 +1,8 @@
 using System;
-//using System.Collections;
 using System.Collections.Generic;
-//using Unity.VisualScripting;
-//using UnityEditor;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.HighDefinition;
-//using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-//using static UnityEngine.Rendering.DebugUI;
 
 public class IdleManager : MonoBehaviour 
 {
@@ -38,18 +31,18 @@ public class IdleManager : MonoBehaviour
     public GameObject machinePanel;
     public GameObject settingsPanel;
     public GameObject upgradesPanel;
-    public GameObject tutorialPanel;
+    public GameObject tutorialPanel; 
     public GameObject cashAnimUI;
     public GameObject upgradeMachineParticle, takeProductParticle;
     public Transform costumerSpawnPoint;
     public Transform costumerLastPoint;
     public bool tutorial = false;
-    //public Vignette vignette;
-    public Volume postProcessVolume;
+    public HealthBarSc levelBar;
+    public Color levelBarDefColor, levelBarMaxColor;
 
     public Transform costumerExitPoint; 
     public Transform workerSpawnPoint;
-    public LayerMask machinesLayerMask;
+    //public LayerMask machinesLayerMask;
     public Texture appleIcon, orangeIcon, frozenIcon, warningIcon, happyIcon;
     public Texture apple1, apple2, apple3, orange1, orange2, orange3, frozen1, frozen2, frozen3;
     public GameObject[] levels;
@@ -116,6 +109,7 @@ public class IdleManager : MonoBehaviour
 
     void StartTutorial()
     {
+        //ResetMachineLevels("all");
         Time.timeScale = 0;
 
         tutorialPanel.transform.GetChild(0).gameObject.SetActive(true);
@@ -151,26 +145,12 @@ public class IdleManager : MonoBehaviour
         Time.timeScale = 1;
         InvokeRepeating("SpawnCostumer", 1, 1);
     }
-
-    Vector2 GetVignettePosition(Transform obj)
-    {
-        Transform targetTransform = obj.transform;
-
-        Vector3 targetPosition = targetTransform.position;
-
-        float screenWidth = Screen.width;
-        float screenHeight = Screen.height;
-
-        Vector3 screenPosition = Camera.main.WorldToScreenPoint(targetPosition);
-
-        float xValue = screenPosition.x / screenWidth;
-        float yValue = screenPosition.y / screenHeight;
-
-        return new Vector2 (xValue, yValue);
-    }
      
     void InitIdleScene()
     {
+        currentLevel = PlayerPrefs.GetInt("IdleLevel", startLevel);
+        currentMaxMachineLevel = maxMachineLevels[currentLevel];
+
         soundState = PlayerPrefs.GetInt("soundState", 1) == 1 ? true : false; 
         SetVolumes();
 
@@ -178,9 +158,6 @@ public class IdleManager : MonoBehaviour
         SetVibrations();
 
         maxCostumerCount = PlayerPrefs.GetInt("maxCostumerCount", defMaxCostumerCount); 
-
-        currentLevel = PlayerPrefs.GetInt("IdleLevel", startLevel);
-        currentMaxMachineLevel = maxMachineLevels[currentLevel];
 
         GameObject scene = Instantiate(levels[currentLevel], GameObject.Find("Levels").transform);
         machinesParent = scene.transform.GetChild(0).gameObject;
@@ -210,10 +187,10 @@ public class IdleManager : MonoBehaviour
         SetMoneyCount(0);
     }
 
-    /*private void Update()
+    private void Update()
     {
         InputController();
-    } */
+    } 
 
     void InputController()
     { 
@@ -576,7 +553,6 @@ public class IdleManager : MonoBehaviour
 
     public void CloseMachinePanel(GameObject upgMac) 
     {
-        Debug.Log("closemachinepanel start");
         upgradingMachine = upgMac;
         if (machinePanel.activeSelf) 
         {
@@ -589,7 +565,6 @@ public class IdleManager : MonoBehaviour
         {
             upgMac.GetComponent<MachineSc>().OpenMachinePanel();
         }
-        Debug.Log("closemachinepanel end");
     }
     public void CloseMachinePanelUI()
     {
@@ -601,7 +576,6 @@ public class IdleManager : MonoBehaviour
             machinePanel.SetActive(false);
 
         }
-        Debug.Log("closemachinepanel end");
     }
 
     public void SpawnCostumer()
@@ -978,7 +952,6 @@ public class IdleManager : MonoBehaviour
     {
         int count = 0;
         int level = -1;
-        bool firstAppleSet = false;
         foreach (GameObject machineObj in machines)
         {
             if(machine.tag == machineObj.tag)
@@ -986,9 +959,8 @@ public class IdleManager : MonoBehaviour
                 count++;
                 if(machine == machineObj)
                 {
-                    if(!firstAppleSet && machine.tag == "appleMachine")
+                    if(count == 1 && machine.tag == "appleMachine")
                     {
-                        firstAppleSet = true;
                         level = PlayerPrefs.GetInt((machine.tag + count + "Level"), 1);
                     }
                     else

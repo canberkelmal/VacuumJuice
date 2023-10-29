@@ -22,7 +22,6 @@ public class CostumerSc : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Awake costumer");
         idleManager = GameObject.Find("IdleManager").GetComponent<IdleManager>();
         switch (idleManager.currentLevel)
         {
@@ -48,7 +47,6 @@ public class CostumerSc : MonoBehaviour
 
     public void SetCostume()
     {
-        Debug.Log("Set costumer costume");
         shirtMat = new Material(shirtRenderer.material);
         Color randomColor = new Color(Random.value, Random.value, Random.value);
         shirtMat.color = randomColor;
@@ -68,7 +66,6 @@ public class CostumerSc : MonoBehaviour
 
     public void SendTo(Vector3 finalPoint)
     {
-        Debug.Log("Sendto costumer");
         destination = finalPoint;
         transform.LookAt(destination);
         transform.Find("Canvas").rotation = Quaternion.Euler(-45f, 180f, 0f);

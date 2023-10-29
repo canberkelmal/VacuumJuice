@@ -64,7 +64,7 @@ public class WorkerSc : MonoBehaviour
 
     private void GoToMachine()
     {
-        transform.position = Vector3.MoveTowards(transform.position, machine.transform.Find("TakeProductPoint").position, speed * Time.fixedDeltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, machine.transform.Find("TakeProductPoint").position, speed * Time.deltaTime);
         if (transform.position == machine.transform.Find("TakeProductPoint").position)
         {
             goingMachine = false;
@@ -79,7 +79,7 @@ public class WorkerSc : MonoBehaviour
 
     private void GoToCostumer()
     {
-        transform.position = Vector3.MoveTowards(transform.position, costumer.transform.position - Vector3.forward*3f, speed * Time.fixedDeltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, costumer.transform.position - Vector3.forward*3f, speed * Time.deltaTime);
         if (transform.position == costumer.transform.position - Vector3.forward * 3f)
         {
             DeliverToCostumer();

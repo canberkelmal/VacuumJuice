@@ -17,7 +17,7 @@ public class FinalTrigger : MonoBehaviour
             GetComponent<BoxCollider>().enabled = false;
             transform.parent.Find("Confetties").gameObject.SetActive(true);
             gameManager.EnterToFinish();
-            Destroy(transform.parent.gameObject, 2);
+            //Destroy(transform.parent.gameObject, 2);
         }
     } 
 } 

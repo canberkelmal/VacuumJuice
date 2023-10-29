@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
             if (playerMaxSpeed > 0)
             {
                 bool r = Input.GetMouseButton(0) ? true : false;
-                UpdateDirectorPositionX(true);
+                //UpdateDirectorPositionX(true);
                 UpdatePlayerRotationY(r);
                 //MovePlayer(true);
             }
@@ -45,19 +45,21 @@ public class PlayerController : MonoBehaviour
         // Final Run
         else if (!isEnded)
         {
+            /*
             Vector3 directorTarget = new Vector3(0, director.transform.position.y, transform.position.z + directorOffsZ);
             director.transform.position = Vector3.MoveTowards(director.transform.position, directorTarget, playerRotateSens * 20 * Time.deltaTime);
-            director.transform.position = new Vector3(director.transform.position.x, director.transform.position.y, transform.position.z + directorOffsZ);
+            director.transform.position = new Vector3(director.transform.position.x, director.transform.position.y, transform.position.z + directorOffsZ);*/
             UpdatePlayerRotationY(false);
             //MovePlayer(true);
         }
+        MovePlayer(true);
     }
-    void UpdateDirectorPositionX(bool factor)
+    /*void UpdateDirectorPositionX(bool factor)
     {
         if (factor)
         {
             float mouseX = Input.GetAxis("Mouse X");
-            float moveAmount = mouseX * playerRotateSens;
+            float moveAmount = mouseX * playerRotateSens * Time.deltaTime;
             Vector3 newPosX = director.transform.position + director.transform.right * moveAmount;
             newPosX.x = Mathf.Clamp(newPosX.x, playerXMin, playerXMax);
             newPosX.z = transform.position.z + directorOffsZ;
@@ -73,7 +75,7 @@ public class PlayerController : MonoBehaviour
             //director.transform.position = Vector3.Lerp(director.transform.position, transform.position + Vector3.forward * directorOffsZ, playerRotateSens * 50 * Time.deltaTime);
             //director.transform.position = new Vector3(director.transform.position.x, director.transform.position.y, transform.position.z + directorOffsZ);
         }
-    }
+    }*/
 
     void UpdatePlayerRotationY(bool a)
     {
@@ -81,7 +83,9 @@ public class PlayerController : MonoBehaviour
         {
             float mouseX = Input.GetAxis("Mouse X");
 
-            float rotationAmount = mouseX * playerRotateSens;
+            //mouseX = Mathf.Clamp(mouseX, -3f, 3f);
+
+            float rotationAmount = mouseX * playerRotateSens * 100 * Time.deltaTime;
 
             float currentRotation = transform.rotation.eulerAngles.y + rotationAmount;
 
@@ -91,7 +95,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, 0), playerRotateSens * Time.deltaTime);
+                //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, 0), playerRotateSens * Time.deltaTime);
             }
         }
         else
@@ -112,7 +116,7 @@ public class PlayerController : MonoBehaviour
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, 0), playerRotateSens * Time.deltaTime * 1.5f);
             }
         }
-        MovePlayer(true);
+        //MovePlayer(true);
     } 
     void MovePlayer(bool direction)
     {
@@ -127,11 +131,13 @@ public class PlayerController : MonoBehaviour
             //playerCurrentSpeed -= playerMoveSens * 5 * Time.deltaTime;
         }
         playerCurrentSpeed = Mathf.Clamp(playerCurrentSpeed, 0f, playerMaxSpeed);
+        //Vector3 playerTargetPos = transform.position + transform.forward * playerCurrentSpeed;
         Vector3 playerTargetPos = transform.position + transform.forward * playerCurrentSpeed * Time.deltaTime;
         playerTargetPos.x = Mathf.Clamp(playerTargetPos.x, playerXMin, playerXMax);
+        transform.position = playerTargetPos;
+
         //transform.position += transform.forward * playerCurrentSpeed * Time.deltaTime;
         //transform.position = new Vector3(Mathf.Clamp(transform.position.x, playerXMin, playerXMax), transform.position.y, transform.position.z);
-        transform.position = playerTargetPos;
         //transform.position = Vector3.Lerp(transform.position, playerTargetPos, playerMoveSens * Time.deltaTime);
 
         //pipeLine.SetLinePositions();

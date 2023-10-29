@@ -5382,7 +5382,7 @@ MonoBehaviour:
   machineLevel: 1
   productPrice: 1.5
   firstLevelCost: 38
-  levelCostConstan: 1.7
+  levelCostConstan: 1.65
   firstLevelPrice: 85
   levelPriceConstan: 1.33
   hasOwner: 0

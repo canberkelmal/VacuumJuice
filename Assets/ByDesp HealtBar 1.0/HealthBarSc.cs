@@ -17,13 +17,12 @@ public class HealthBarSc : MonoBehaviour
     bool repeatingAnim = false;
     bool repeatingGlow = false;
     // Start is called before the first frame update
-    void Start()
-    {
+    void Awake()
+    {        
         fillAmountUI = transform.Find("Health Bar Fill").GetComponent<Image>();
         glow = transform.Find("Glow").GetComponent<Image>();
 
         borderBouy = transform.Find("Bouy");
-        SetFillAmount(0, false);
     }
 
     public void SetFillColor(Color clr)
@@ -31,9 +30,15 @@ public class HealthBarSc : MonoBehaviour
         fillAmountUI.color = clr;
     }
 
+    public void SetFillAmountDirect(float amount)
+    {
+        fillAmount = amount;
+        fillAmountUI.fillAmount = fillAmount;
+    }
+
     public void SetFillAmount(float amount, bool glowAnim)
     {
-        Debug.Log("SettingBorder");
+        Debug.Log("SettingBorder to :" + amount);
         targetFill = amount;
 
 

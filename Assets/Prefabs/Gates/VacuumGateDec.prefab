@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8728950744935813429}
   - component: {fileID: 6712720372487640122}
   - component: {fileID: 6644071240922779536}
-  m_Layer: 7
+  m_Layer: 3
   m_Name: main vacuum
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1030760438519040337}
+  serializedVersion: 2
   m_LocalRotation: {x: -0.70710677, y: -0.000000029802319, z: -0, w: 0.7071068}
   m_LocalPosition: {x: -0.56, y: -0.08, z: 0.0024986286}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2262197004523488070}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6712720372487640122
 MeshFilter:
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 4877483851096983394}
   - component: {fileID: 1230069142467022651}
   - component: {fileID: 421071923495608364}
-  m_Layer: 7
+  m_Layer: 3
   m_Name: MagicAuraBlue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,6 +108,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1182182862706344328}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.48107997, y: 0.48107997, z: 8.017998}
@@ -117,7 +118,6 @@ Transform:
   - {fileID: 5365853183418183684}
   - {fileID: 2303297610751929619}
   m_Father: {fileID: 886115494183103209}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!198 &1230069142467022651
 ParticleSystem:
@@ -4883,13 +4883,15 @@ ParticleSystemRenderer:
   m_RenderAlignment: 2
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
-  m_UseCustomVertexStreams: 0
   m_EnableGPUInstancing: 0
   m_ApplyActiveColorSpace: 0
   m_AllowRoll: 1
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
+  m_UseCustomVertexStreams: 0
   m_VertexStreams: 0001030405
+  m_UseCustomTrailVertexStreams: 0
+  m_TrailVertexStreams: 00010304
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
@@ -4911,7 +4913,7 @@ GameObject:
   - component: {fileID: 2713181859974108090}
   - component: {fileID: 5986395414875856151}
   - component: {fileID: 21450505968939311}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Effect Tx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4931,7 +4933,6 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4165843002664317140}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -5006,7 +5007,7 @@ GameObject:
   - component: {fileID: 4015414190920662397}
   - component: {fileID: 1674188705687148586}
   - component: {fileID: 560608084134606353}
-  m_Layer: 7
+  m_Layer: 3
   m_Name: VacuumGateDec
   m_TagString: Gate
   m_Icon: {fileID: 0}
@@ -5020,6 +5021,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1433261791723225036}
+  serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0.7071068, z: 0, w: 0}
   m_LocalPosition: {x: -3, y: -0.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -5030,7 +5032,6 @@ Transform:
   - {fileID: 9048061976188614707}
   - {fileID: 4165843002664317140}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 90}
 --- !u!114 &1674188705687148586
 MonoBehaviour:
@@ -5083,7 +5084,7 @@ GameObject:
   - component: {fileID: 2529190964674262106}
   - component: {fileID: 252718611517753928}
   - component: {fileID: 1421624319684907584}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5105,7 +5106,6 @@ RectTransform:
   - {fileID: 8788893895131403011}
   - {fileID: 2821307761272945366}
   m_Father: {fileID: 4015414190920662397}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 180, y: 0, z: -90}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5185,7 +5185,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2262197004523488070}
   - component: {fileID: 2298861415031487478}
-  m_Layer: 7
+  m_Layer: 3
   m_Name: VacuumMachine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5199,6 +5199,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3702107057638445405}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.474854, w: 0.88006455}
   m_LocalPosition: {x: 11.3200035, y: 0.019996973, z: 0}
   m_LocalScale: {x: 1.2525729, y: 1.2525731, z: 1.2525731}
@@ -5208,7 +5209,6 @@ Transform:
   - {fileID: 7180867875147174220}
   - {fileID: 2457870912469875346}
   m_Father: {fileID: 8087546430832040634}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -56.7}
 --- !u!114 &2298861415031487478
 MonoBehaviour:
@@ -5235,7 +5235,7 @@ GameObject:
   - component: {fileID: 2303297610751929619}
   - component: {fileID: 8882475160222813080}
   - component: {fileID: 7842595128441163039}
-  m_Layer: 7
+  m_Layer: 3
   m_Name: MagicAuraBlue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5249,13 +5249,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3974342955228641392}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: -0, z: -0.598}
   m_LocalScale: {x: 2.2199998, y: 2.2199998, z: 9.775325}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4877483851096983394}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!198 &8882475160222813080
 ParticleSystem:
@@ -10021,13 +10021,15 @@ ParticleSystemRenderer:
   m_RenderAlignment: 2
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
-  m_UseCustomVertexStreams: 0
   m_EnableGPUInstancing: 0
   m_ApplyActiveColorSpace: 0
   m_AllowRoll: 1
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
+  m_UseCustomVertexStreams: 0
   m_VertexStreams: 0001030405
+  m_UseCustomTrailVertexStreams: 0
+  m_TrailVertexStreams: 00010304
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
@@ -10048,7 +10050,7 @@ GameObject:
   - component: {fileID: 5365853183418183684}
   - component: {fileID: 4896693598507220827}
   - component: {fileID: 3944316697418739997}
-  m_Layer: 7
+  m_Layer: 3
   m_Name: Waves
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10062,13 +10064,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5657342326344760344}
+  serializedVersion: 2
   m_LocalRotation: {x: 1, y: -0, z: -0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0.283}
   m_LocalScale: {x: 2, y: 2, z: 2.16}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4877483851096983394}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 180, y: 0, z: 0}
 --- !u!198 &4896693598507220827
 ParticleSystem:
@@ -14843,13 +14845,15 @@ ParticleSystemRenderer:
   m_RenderAlignment: 2
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
-  m_UseCustomVertexStreams: 0
   m_EnableGPUInstancing: 0
   m_ApplyActiveColorSpace: 0
   m_AllowRoll: 1
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
+  m_UseCustomVertexStreams: 0
   m_VertexStreams: 0001030405
+  m_UseCustomTrailVertexStreams: 0
+  m_TrailVertexStreams: 00010304
   m_Mesh: {fileID: 4300000, guid: cdd7228b39c07dc48a7a8667d55dcb30, type: 3}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
@@ -14870,7 +14874,7 @@ GameObject:
   - component: {fileID: 2457870912469875346}
   - component: {fileID: 7720960944388858008}
   - component: {fileID: 6636007551914938518}
-  m_Layer: 7
+  m_Layer: 3
   m_Name: vacuum emission circles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14884,13 +14888,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7056821351201360084}
+  serializedVersion: 2
   m_LocalRotation: {x: -0.70710677, y: -0.000000029802319, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0.86, y: -0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2262197004523488070}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7720960944388858008
 MeshFilter:
@@ -14951,7 +14955,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9048061976188614707}
-  m_Layer: 7
+  m_Layer: 3
   m_Name: Gate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14965,6 +14969,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7063176609664230704}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.6000003, y: 0.6000003, z: 0.6000003}
@@ -14973,7 +14978,6 @@ Transform:
   - {fileID: 1349919371485235267}
   - {fileID: 2830557568718108193}
   m_Father: {fileID: 4015414190920662397}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7067641273638457479
 GameObject:
@@ -14986,7 +14990,7 @@ GameObject:
   - component: {fileID: 1446434700454191995}
   - component: {fileID: 2126705649914654006}
   - component: {fileID: 8477510338873535972}
-  m_Layer: 7
+  m_Layer: 3
   m_Name: MagicSparkles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15000,13 +15004,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7067641273638457479}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.47249916}
   m_LocalScale: {x: 1.35, y: 1.35, z: 1.35}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4877483851096983394}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &2126705649914654006
 ParticleSystem:
@@ -19781,13 +19785,15 @@ ParticleSystemRenderer:
   m_RenderAlignment: 0
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
-  m_UseCustomVertexStreams: 0
   m_EnableGPUInstancing: 0
   m_ApplyActiveColorSpace: 0
   m_AllowRoll: 1
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
+  m_UseCustomVertexStreams: 0
   m_VertexStreams: 0001030405
+  m_UseCustomTrailVertexStreams: 0
+  m_TrailVertexStreams: 00010304
   m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
@@ -19808,7 +19814,7 @@ GameObject:
   - component: {fileID: 1349919371485235267}
   - component: {fileID: 8055942203632218444}
   - component: {fileID: 7398995291844813060}
-  m_Layer: 7
+  m_Layer: 3
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19822,13 +19828,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7789820432234831756}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 8.17, y: 4.37, z: 0}
   m_LocalScale: {x: 1, y: 6.237504, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9048061976188614707}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!33 &8055942203632218444
 MeshFilter:
@@ -19891,7 +19897,7 @@ GameObject:
   - component: {fileID: 7180867875147174220}
   - component: {fileID: 2007515888132591035}
   - component: {fileID: 304248189688605675}
-  m_Layer: 7
+  m_Layer: 3
   m_Name: power buttom emission
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19905,13 +19911,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7860428763833116118}
+  serializedVersion: 2
   m_LocalRotation: {x: -0.70710677, y: -0.000000029802319, z: -0, w: 0.7071068}
   m_LocalPosition: {x: -1.68, y: -0.07, z: 0.001487733}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2262197004523488070}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2007515888132591035
 MeshFilter:
@@ -19974,7 +19980,7 @@ GameObject:
   - component: {fileID: 2830557568718108193}
   - component: {fileID: 369003813171682195}
   - component: {fileID: 8619888210471735876}
-  m_Layer: 7
+  m_Layer: 3
   m_Name: Cylinder (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19988,13 +19994,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7964953498740618657}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 8.17, y: -4.37, z: 0}
   m_LocalScale: {x: 1, y: 6.237504, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9048061976188614707}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!33 &369003813171682195
 MeshFilter:
@@ -20057,7 +20063,7 @@ GameObject:
   - component: {fileID: 8788893895131403011}
   - component: {fileID: 2049759881257130225}
   - component: {fileID: 5155513431447004127}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: EffectBg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20077,7 +20083,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4165843002664317140}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -20129,7 +20134,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8087546430832040634}
   - component: {fileID: 719984741480971123}
-  m_Layer: 7
+  m_Layer: 3
   m_Name: RotatedMachine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20143,6 +20148,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8325531137093090494}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.8886997, y: -0.00000011920929, z: 0}
   m_LocalScale: {x: 0.6000003, y: 0.6000003, z: 0.6000003}
@@ -20150,7 +20156,6 @@ Transform:
   m_Children:
   - {fileID: 2262197004523488070}
   m_Father: {fileID: 4015414190920662397}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &719984741480971123
 MonoBehaviour:
@@ -20175,7 +20180,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 886115494183103209}
-  m_Layer: 7
+  m_Layer: 3
   m_Name: VacuumArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20189,6 +20194,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9092534257286261470}
+  serializedVersion: 2
   m_LocalRotation: {x: 0.17034437, y: 0.6862819, z: 0.17034435, w: 0.6862819}
   m_LocalPosition: {x: 2.809909, y: 0.00000023841858, z: -0.008}
   m_LocalScale: {x: 1.04, y: 1.04, z: 1.04}
@@ -20196,5 +20202,4 @@ Transform:
   m_Children:
   - {fileID: 4877483851096983394}
   m_Father: {fileID: 4015414190920662397}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

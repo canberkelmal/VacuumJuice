@@ -119,6 +119,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        healthBar.SetFillAmount(0, false);
         controller = true;
         playerTempSpeed = playerMaxSpeed;
         playerMaxSpeed = 0;
