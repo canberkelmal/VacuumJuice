@@ -7652,13 +7652,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: 1
-  playerMoveSens: 9
-  playerMaxSpeed: 20
+  playerMoveSens: 7
+  playerMaxSpeed: 17
   isEnded: 0
   isFinished: 0
   director: {fileID: 5045500482001692784}
   directorOffsZ: 2.5
-  playerRotateSens: 1.4
+  playerRotateSens: 0.4
   playerXMin: -6
   playerXMax: 6
   playerRotateLimit: 50
@@ -9195,7 +9195,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4134452622289705487
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10921,15 +10921,15 @@ MonoBehaviour:
   currentRunnerLevel: 1
   runnerUILevel: 1
   cupPerFruid: 1
-  finalTankLiquidMultiplier: 32
+  finalTankLiquidMultiplier: 12
   getCupSens: 4
   camSensivity: 6
   finalTankCamSensivity: 4
   finalTankCamYOffs: -15
-  playerRotateSens: 1.4
+  playerRotateSens: 0.4
   playerRotateLimit: 75
-  playerMoveSens: 9
-  playerMaxSpeed: 20
+  playerMoveSens: 7
+  playerMaxSpeed: 17
   playerXMin: -6
   playerXMax: 6
   collectSens: 9
@@ -35902,7 +35902,7 @@ PrefabInstance:
     - target: {fileID: 2018639542878274149, guid: 08992ee7953163b41b71ff7409c8ae24,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.469
+      value: 0.04
       objectReference: {fileID: 0}
     - target: {fileID: 2018639542878274149, guid: 08992ee7953163b41b71ff7409c8ae24,
         type: 3}

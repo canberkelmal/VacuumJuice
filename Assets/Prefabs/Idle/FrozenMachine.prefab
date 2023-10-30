@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1403693913322094306}
   - component: {fileID: 3707650228888636745}
   - component: {fileID: 8652001377729835879}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: ConstanBG (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31,7 +31,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 544634149139277204}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -87,7 +86,7 @@ GameObject:
   - component: {fileID: 7495003999243847494}
   - component: {fileID: 3927894482705656816}
   - component: {fileID: 7550032932427650394}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: UpgIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +106,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 432471376342652643}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -161,7 +159,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7109618105361729128}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: TakeProductPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,13 +173,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 396628088597038284}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.5, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3986053626912134850}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &847654383849413434
 GameObject:
@@ -194,7 +192,7 @@ GameObject:
   - component: {fileID: 1763166880208802696}
   - component: {fileID: 1850687563103212845}
   - component: {fileID: 2385674168084945679}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: ConstanBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -214,7 +212,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 432471376342652643}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -268,7 +265,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3292505953493522151}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Lv0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -282,6 +279,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2959719915864447590}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.1201074, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -289,7 +287,6 @@ Transform:
   m_Children:
   - {fileID: 544634149139277204}
   m_Father: {fileID: 7578705625640698571}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2968244076933400346
 GameObject:
@@ -302,7 +299,7 @@ GameObject:
   - component: {fileID: 885997424461784418}
   - component: {fileID: 3323935734534062235}
   - component: {fileID: 7922238487751310116}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: BGStroke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -322,7 +319,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 432471376342652643}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -379,7 +375,7 @@ GameObject:
   - component: {fileID: 2451865288640716523}
   - component: {fileID: 4475068334412706402}
   - component: {fileID: 2766828075621863512}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: MachineCanvas (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -401,7 +397,6 @@ RectTransform:
   - {fileID: 1403693913322094306}
   - {fileID: 5600057828974655762}
   m_Father: {fileID: 3292505953493522151}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -482,7 +477,7 @@ GameObject:
   - component: {fileID: 3017602217483889225}
   - component: {fileID: 1742113646669018047}
   - component: {fileID: 1664539789105616081}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -502,7 +497,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 432471376342652643}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -558,7 +552,7 @@ GameObject:
   - component: {fileID: 1823385933935513126}
   - component: {fileID: 3000917499677347368}
   - component: {fileID: 378283970075061070}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Statu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -578,7 +572,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 432471376342652643}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -630,7 +623,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7578705625640698571}
   - component: {fileID: 4410400353284958407}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: MachineObj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -644,6 +637,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4779823352986510037}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -654,7 +648,6 @@ Transform:
   - {fileID: 3566049557159473471}
   - {fileID: 8333475554927779447}
   m_Father: {fileID: 3986053626912134850}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4410400353284958407
 MonoBehaviour:
@@ -686,7 +679,7 @@ GameObject:
   - component: {fileID: 2770219336091922252}
   - component: {fileID: 6584368447930592269}
   - component: {fileID: 7398263146478166779}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: MachineCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -711,7 +704,6 @@ RectTransform:
   - {fileID: 1823385933935513126}
   - {fileID: 7495003999243847494}
   m_Father: {fileID: 3986053626912134850}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 45, y: 90, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -792,7 +784,7 @@ GameObject:
   - component: {fileID: 5600057828974655762}
   - component: {fileID: 1679841927736250797}
   - component: {fileID: 3742596805027382770}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: ConstanBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -812,7 +804,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 544634149139277204}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -869,7 +860,7 @@ GameObject:
   - component: {fileID: 1433988475947452831}
   - component: {fileID: 651171578384168995}
   - component: {fileID: 5507010030983928122}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: FrozenMachine
   m_TagString: frozenMachine
   m_Icon: {fileID: 0}
@@ -883,6 +874,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7521186473167480671}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 4.06, y: 2.055, z: -10}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
@@ -894,7 +886,6 @@ Transform:
   - {fileID: 7917406964296954119}
   - {fileID: 1062471361177249907}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1433988475947452831
 MonoBehaviour:
@@ -1035,6 +1026,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PanelParticle
+      objectReference: {fileID: 0}
+    - target: {fileID: 4934997776010224441, guid: 1e0acf92a6005ad4ebb89ee1ee739b7c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4934997776010224441, guid: 1e0acf92a6005ad4ebb89ee1ee739b7c,
         type: 3}

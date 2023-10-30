@@ -76,15 +76,9 @@ public class CostumerSc : MonoBehaviour
 
     private void GoToDestination()
     {
-        transform.position = Vector3.MoveTowards(transform.position, destination, movementSpeed * Time.fixedDeltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, destination, movementSpeed * Time.deltaTime);
         if (transform.position == destination)
         {
-            if(!onQueue)
-            {
-                //idleManager.AddToQueue(gameObject);
-                //Debug.Log("Reached to destination.");
-            }
-            //transform.Find("CostumerObj").GetComponent<Animator>().SetBool("Walk", false);
             onQueue = true;
             transform.Find("Obj").GetComponent<Animator>().SetTrigger("Idle");
             transform.rotation= Quaternion.Euler(0f, 180f, 0f);
@@ -127,7 +121,7 @@ public class CostumerSc : MonoBehaviour
      
     private void GoToExit()
     {
-        transform.position = Vector3.MoveTowards(transform.position, idleManager.costumerExitPoint.position, movementSpeed * Time.fixedDeltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, idleManager.costumerExitPoint.position, movementSpeed * Time.deltaTime);
         if (transform.position == idleManager.costumerExitPoint.position)
         {
             //Debug.Log("Costumer went."); 

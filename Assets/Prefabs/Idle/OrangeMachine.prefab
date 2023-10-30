@@ -4889,7 +4889,7 @@ GameObject:
   - component: {fileID: 6760814080089236444}
   - component: {fileID: 8945775582647800120}
   - component: {fileID: 2334675206978406952}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: UpgIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4965,7 +4965,7 @@ GameObject:
   - component: {fileID: 7609989347364386523}
   - component: {fileID: 8847598999261124179}
   - component: {fileID: 4863043290613246273}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: MachineCanvas (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5067,7 +5067,7 @@ GameObject:
   - component: {fileID: 4081368129347867138}
   - component: {fileID: 398385379917402886}
   - component: {fileID: 4223454741462508210}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Obj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5151,7 +5151,7 @@ GameObject:
   - component: {fileID: 5351490708434992763}
   - component: {fileID: 3833893971136058740}
   - component: {fileID: 980987955177453474}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: MachineCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5256,7 +5256,7 @@ GameObject:
   - component: {fileID: 5198519879640809296}
   - component: {fileID: 3112919832369357374}
   - component: {fileID: 164999732079602541}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Statu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5329,7 +5329,7 @@ GameObject:
   - component: {fileID: 4232847833835782470}
   - component: {fileID: 1400404811839857558}
   - component: {fileID: 4320860295619360349}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: OrangeMachine
   m_TagString: orangeMachine
   m_Icon: {fileID: 0}
@@ -5439,7 +5439,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2566430123611298048}
   - component: {fileID: 6613458356979106015}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: MachineObj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5492,7 +5492,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8679592363655989501}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Lv0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5527,7 +5527,7 @@ GameObject:
   - component: {fileID: 6346409464114090218}
   - component: {fileID: 5839866115404945490}
   - component: {fileID: 5701043871888491003}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: ConstanBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5600,7 +5600,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5120802434103271345}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: TakeProductPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5633,7 +5633,7 @@ GameObject:
   - component: {fileID: 6734681594004239190}
   - component: {fileID: 3723073116154453574}
   - component: {fileID: 7998591880657607450}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: ConstanBG (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5708,7 +5708,7 @@ GameObject:
   - component: {fileID: 3823429375556177376}
   - component: {fileID: 2264227355122678161}
   - component: {fileID: 1043661362150704955}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: ConstanBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5783,7 +5783,7 @@ GameObject:
   - component: {fileID: 4141714784201127698}
   - component: {fileID: 7893440753932694500}
   - component: {fileID: 6836784181825451710}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: BG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5858,7 +5858,7 @@ GameObject:
   - component: {fileID: 4465645704544834407}
   - component: {fileID: 4273713612966478714}
   - component: {fileID: 6796168157590329361}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: BGStroke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6229,6 +6229,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PanelParticle
+      objectReference: {fileID: 0}
+    - target: {fileID: 4934997776010224441, guid: 1e0acf92a6005ad4ebb89ee1ee739b7c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4934997776010224441, guid: 1e0acf92a6005ad4ebb89ee1ee739b7c,
         type: 3}

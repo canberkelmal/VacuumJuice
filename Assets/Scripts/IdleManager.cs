@@ -181,7 +181,7 @@ public class IdleManager : MonoBehaviour
             }
         }
 
-        SetPrepareDurations();
+        //SetPrepareDurations();
         SetWorkers();
         SetCupCount(0);
         SetMoneyCount(0);
@@ -461,7 +461,7 @@ public class IdleManager : MonoBehaviour
         //Debug.Log(count + "harcandý.");
         if(machinePanel.activeSelf )
         {
-            bool act = !upgradingMachine.GetComponent<MachineSc>().isMaxLevel && CheckForMoneyCount(upgradingMachine.gameObject.GetComponent<MachineSc>().UpgradeCost());
+            bool act = !upgradingMachine.GetComponent<MachineSc>().isMaxLevel && CheckForMoneyCount(upgradingMachine.gameObject.GetComponent<MachineSc>().UpgradeCost(false));
             machinePanel.transform.Find("LevelButton").GetComponent<Button>().interactable = act;
             machinePanel.transform.Find("LevelButton").Find("Icon").gameObject.SetActive(act);
         }
@@ -971,7 +971,7 @@ public class IdleManager : MonoBehaviour
             }
         }
         return level;
-    }
+    } 
 
     public void IncreaseMachineLevel(GameObject machine)
     {
@@ -984,8 +984,16 @@ public class IdleManager : MonoBehaviour
                 count++;
                 if (machine == machineObj)
                 {
-                    level = PlayerPrefs.GetInt((machine.tag + count + "Level"), 1) + 1;
-                    PlayerPrefs.SetInt((machine.tag + count + "Level"), level);
+                    if (count == 1 && machine.tag == "appleMachine")
+                    {
+                        level = PlayerPrefs.GetInt((machine.tag + count + "Level"), 1) + 1;
+                        PlayerPrefs.SetInt((machine.tag + count + "Level"), level);
+                    }
+                    else
+                    {
+                        level = PlayerPrefs.GetInt((machine.tag + count + "Level"), 0) + 1;
+                        PlayerPrefs.SetInt((machine.tag + count + "Level"), level);
+                    }
                 }
             }
         }

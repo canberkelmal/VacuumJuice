@@ -56,6 +56,7 @@ public class MachineSc : MonoBehaviour
         {
             PrepareTest();
         }
+        idleManager.SetPrepareDurations();
     }
 
     public void SetMachineObject()
@@ -182,7 +183,7 @@ public class MachineSc : MonoBehaviour
 
         idleManager.machinePanel.transform.Find("LevelTX").GetComponent<Text>().text = "Level " + machineLevel.ToString() + "/" + idleManager.currentMaxMachineLevel;
 
-        idleManager.machinePanel.transform.Find("LevelButton").Find("UpgradeCostTx").GetComponent<TextMeshProUGUI>().text = "<sprite=12>" + idleManager.ConvertNumberToUIText(UpgradeCost());
+        idleManager.machinePanel.transform.Find("LevelButton").Find("UpgradeCostTx").GetComponent<TextMeshProUGUI>().text = "<sprite=12>" + idleManager.ConvertNumberToUIText(UpgradeCost(false));
 
         //idleManager.machinePanel.transform.Find("LevelButton").Find("UpgradeCostTx").GetComponent<Text>().text = idleManager.ConvertNumberToUIText(UpgradeCost());
         //idleManager.machinePanel.transform.Find("LevelButton").Find("UpgradeCostTxShadow").GetComponent<Text>().text = idleManager.ConvertNumberToUIText(UpgradeCost());
@@ -207,7 +208,8 @@ public class MachineSc : MonoBehaviour
 
         idleManager.machinePanel.transform.Find("ProductIcon").GetComponent<RawImage>().texture = icon;
         SetLevelBar();
-        idleManager.SetMoneyCount(-UpgradeCost());
+        idleManager.SetMoneyCount(-UpgradeCost(true));
+        Debug.Log(idleManager.GetMachineCount(gameObject.tag));
     }
 
     void SetLevelBar()
@@ -232,14 +234,14 @@ public class MachineSc : MonoBehaviour
             panel.Find("LevelButton").GetComponent<Button>().interactable = false;
             idleManager.CheckForNextLevel();
         }
-        else if (idleManager.CheckForMoneyCount(UpgradeCost()))
+        else if (idleManager.CheckForMoneyCount(UpgradeCost(false)))
         {
-            idleManager.machinePanel.transform.Find("LevelButton").Find("UpgradeCostTx").GetComponent<TextMeshProUGUI>().text = "<sprite=12>" + idleManager.ConvertNumberToUIText(UpgradeCost());
+            idleManager.machinePanel.transform.Find("LevelButton").Find("UpgradeCostTx").GetComponent<TextMeshProUGUI>().text = "<sprite=12>" + idleManager.ConvertNumberToUIText(UpgradeCost(false));
             panel.Find("LevelButton").GetComponent<Button>().interactable = true;
         }
         else
         {
-            idleManager.machinePanel.transform.Find("LevelButton").Find("UpgradeCostTx").GetComponent<TextMeshProUGUI>().text = "<sprite=12>" + idleManager.ConvertNumberToUIText(UpgradeCost());
+            idleManager.machinePanel.transform.Find("LevelButton").Find("UpgradeCostTx").GetComponent<TextMeshProUGUI>().text = "<sprite=12>" + idleManager.ConvertNumberToUIText(UpgradeCost(false));
             panel.Find("LevelButton").GetComponent<Button>().interactable = false;
         }
     }
@@ -247,14 +249,20 @@ public class MachineSc : MonoBehaviour
     public void IfUpgradable()
     {
         isMaxLevel = machineLevel >= idleManager.currentMaxMachineLevel;
-        bool cond = !isMaxLevel && idleManager.CheckForMoneyCount(UpgradeCost()) ? true : false;
+        bool cond = !isMaxLevel && idleManager.CheckForMoneyCount(UpgradeCost(false)) ? true : false;
         transform.Find("MachineCanvas").Find("UpgIcon").gameObject.SetActive(cond);
     }
 
-    public float UpgradeCost()
+    public float UpgradeCost(bool spend)
     {
-        //Debug.Log(idleManager.GetMachineCount(gameObject.tag));
-        return firstLevelCost * MathF.Pow(levelCostConstan, (machineLevel + 1)) / idleManager.GetMachineCount(gameObject.tag);
+        if(spend)
+        {
+            return firstLevelCost * MathF.Pow(levelCostConstan, (machineLevel)) / idleManager.GetMachineCount(gameObject.tag);
+        }
+        else
+        {
+            return firstLevelCost * MathF.Pow(levelCostConstan, (machineLevel + 1)) / idleManager.GetMachineCount(gameObject.tag);
+        }
     }
 
     void SetProductPrice()
@@ -289,9 +297,14 @@ public class MachineSc : MonoBehaviour
     {
         if(status != 1)
         {
-            //idleManager.SetCupCount(1);
-            //resourceCount++;
-            SetStatus(1);
+            if(idleManager.resourceCount > 0)
+            {
+                SetStatus(1);
+            }
+            else
+            {
+                SetStatus(0);
+            }
         }
     }
 

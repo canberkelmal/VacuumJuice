@@ -103,6 +103,8 @@ public class GameManager : MonoBehaviour
     private bool soundState = true;
     private bool vibrationState = true;
 
+    int fruitCount = 0;
+
     /*void Awake()
     {
         mainCam = GameObject.Find("Main Camera");
@@ -186,7 +188,10 @@ public class GameManager : MonoBehaviour
 
     public void FillTank(int fillFactor)
     {
-        if(fillFactor > 0)
+        fruitCount++;
+        Debug.Log("Fruit count: " +  fruitCount);
+
+        if (fillFactor > 0)
         {
             audioManager.Play("AddJuice");
         }
@@ -202,6 +207,7 @@ public class GameManager : MonoBehaviour
         if (tankFillAmount >= (0.75f + ((tankLevel - 1) * tankVolumeMultiplier * 0.2f)) && fillFactor>0)
         {
             Debug.Log("Tank is full!");
+            Debug.Log("Fruit count: " + fruitCount + " | Tank level: "+ tankLevel);
             healthBar.SetFillAmount(1, true);
         }
         else if (tankFillAmount <= (0.25f - ((tankLevel - 1) * tankVolumeMultiplier * 0.2f)) && fillFactor < 0)
@@ -272,7 +278,7 @@ public class GameManager : MonoBehaviour
         ChangePlayerSpeed(false);
         isFinalTankFilling = true;
         FillFinalTank();
-    }
+    } 
 
     public void FillFinalTank()
     {
@@ -578,16 +584,14 @@ public class GameManager : MonoBehaviour
     {
         soundState = !soundState;
         int a = soundState ? 1 : 0;
-        settingsPanel.transform.Find("SoundUI").Find("Stroke").gameObject.SetActive(!soundState);
+        
         PlayerPrefs.SetInt("soundState", a);
         SetVolumes();
     }
     public void SetVolumes()
     {
-        //soundBut.color = soundState ? Color.white : Color.red;
-        //soundBut.transform.parent.Find("Text").GetComponent<Text>().text = soundState ? "On" : "Off"; 
+        settingsPanel.transform.Find("SoundUI").Find("Stroke").gameObject.SetActive(!soundState);
 
-        Debug.Log("Sound button is pressed.");
         float soundLevel = soundState ? 0.5f : 0f;
         audioManager.SetVolume(soundLevel);
     }

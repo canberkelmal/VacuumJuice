@@ -108,8 +108,7 @@ public class PlayerController : MonoBehaviour
                 //player.transform.LookAt(target);
                 Quaternion targetRotation = Quaternion.LookRotation(target - transform.position);
 
-                // Yavaþça dönüþü uygula
-                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, playerRotateSens * 7 * Time.deltaTime);
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, playerRotateSens * 20 * Time.deltaTime);
             }
             else
             {

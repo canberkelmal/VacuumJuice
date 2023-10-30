@@ -232,11 +232,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2153642149479511871, guid: dfb1f5ca69b61a4478714261edfe90df,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2352298921671476003, guid: dfb1f5ca69b61a4478714261edfe90df,
         type: 3}
       propertyPath: m_Name
@@ -291,81 +286,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5729087587952369866, guid: dfb1f5ca69b61a4478714261edfe90df,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 0.2081244
-      objectReference: {fileID: 0}
-    - target: {fileID: 5729087587952369866, guid: dfb1f5ca69b61a4478714261edfe90df,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5729087587952369866, guid: dfb1f5ca69b61a4478714261edfe90df,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5729087587952369866, guid: dfb1f5ca69b61a4478714261edfe90df,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6225059634875866153, guid: dfb1f5ca69b61a4478714261edfe90df,
-        type: 3}
-      propertyPath: levelBarDefColor.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6225059634875866153, guid: dfb1f5ca69b61a4478714261edfe90df,
-        type: 3}
-      propertyPath: levelBarDefColor.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6225059634875866153, guid: dfb1f5ca69b61a4478714261edfe90df,
-        type: 3}
-      propertyPath: levelBarDefColor.g
-      value: 0.79607844
-      objectReference: {fileID: 0}
-    - target: {fileID: 6225059634875866153, guid: dfb1f5ca69b61a4478714261edfe90df,
-        type: 3}
-      propertyPath: levelBarDefColor.r
-      value: 0.23137255
-      objectReference: {fileID: 0}
-    - target: {fileID: 6225059634875866153, guid: dfb1f5ca69b61a4478714261edfe90df,
-        type: 3}
-      propertyPath: levelBarMaxColor.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6225059634875866153, guid: dfb1f5ca69b61a4478714261edfe90df,
-        type: 3}
-      propertyPath: levelBarMaxColor.b
-      value: 0.2784314
-      objectReference: {fileID: 0}
-    - target: {fileID: 6225059634875866153, guid: dfb1f5ca69b61a4478714261edfe90df,
-        type: 3}
-      propertyPath: levelBarMaxColor.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6225059634875866153, guid: dfb1f5ca69b61a4478714261edfe90df,
-        type: 3}
-      propertyPath: levelBarMaxColor.r
-      value: 0.23137255
-      objectReference: {fileID: 0}
-    - target: {fileID: 7829082957677053937, guid: dfb1f5ca69b61a4478714261edfe90df,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 0.27561104
-      objectReference: {fileID: 0}
-    - target: {fileID: 7829082957677053937, guid: dfb1f5ca69b61a4478714261edfe90df,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7829082957677053937, guid: dfb1f5ca69b61a4478714261edfe90df,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 0.23137254
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
