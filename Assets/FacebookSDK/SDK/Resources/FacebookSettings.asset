@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedAppIndex: 0
   clientTokens:
-  - 39c864d3ba1c247e569146d5e96d0c2d
+  - 2598e0e3b9faa661c0fc7f4126c047ec
   appIds:
-  - 1043572603338113
+  - 711327144205338
   appLabels:
-  - Vacuum Juice
+  - VacuumJuice
   cookie: 1
   logging: 1
   status: 1

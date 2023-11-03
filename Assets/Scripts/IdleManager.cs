@@ -1,3 +1,4 @@
+using SupersonicWisdomSDK;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -81,6 +82,7 @@ public class IdleManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        currentLevel = PlayerPrefs.GetInt("IdleLevel", startLevel);
         resourceCount = PlayerPrefs.GetInt("cupCount", 0);
         moneyCount = PlayerPrefs.GetFloat("moneyCount", 0);
         InitIdleScene();
@@ -92,8 +94,6 @@ public class IdleManager : MonoBehaviour
 
         //postProcessVolume.profile.components.ForEach(c => Debug.Log(c.GetType().Name));
 
-        
-
         tutorial = PlayerPrefs.GetInt("tutorial", 0) == 0 ? true : false;
 
         if (tutorial)
@@ -102,10 +102,15 @@ public class IdleManager : MonoBehaviour
         }
         else
         {
+            SupersonicWisdom.Api.NotifyLevelStarted(currentLevel, null, "idle");
             InvokeRepeating("SpawnCostumer", 1, 1);
             Time.timeScale = 1;
         }
-    }  
+    }
+    private void OnApplicationQuit()
+    {
+        PlayerPrefs.SetInt("runnerRestarted", 0);
+    }
 
     void StartTutorial()
     {
@@ -134,6 +139,7 @@ public class IdleManager : MonoBehaviour
 
     public void FinishTutorial()
     {
+        SupersonicWisdom.Api.NotifyLevelStarted(currentLevel, null, "idle");
         tutorialPanel.SetActive(false);
         tutorialPanel.transform.GetChild(0).gameObject.SetActive(false);
         tutorialPanel.transform.GetChild(1).gameObject.SetActive(false);
@@ -141,14 +147,12 @@ public class IdleManager : MonoBehaviour
 
         tutorial = false;
         PlayerPrefs.SetInt("tutorial", 1);
-
         Time.timeScale = 1;
         InvokeRepeating("SpawnCostumer", 1, 1);
     }
      
     void InitIdleScene()
     {
-        currentLevel = PlayerPrefs.GetInt("IdleLevel", startLevel);
         currentMaxMachineLevel = maxMachineLevels[currentLevel];
 
         soundState = PlayerPrefs.GetInt("soundState", 1) == 1 ? true : false; 
@@ -351,6 +355,7 @@ public class IdleManager : MonoBehaviour
     //For scene passing
     public void GoNextLevel()
     {
+        SupersonicWisdom.Api.NotifyLevelCompleted(currentLevel, null, "idle");
         currentLevel = PlayerPrefs.GetInt("IdleLevel", startLevel) + 1;
         PlayerPrefs.SetInt("IdleLevel", currentLevel);
         ResetUpgrades();
@@ -602,6 +607,7 @@ public class IdleManager : MonoBehaviour
         //RemoveFromQueue(sentCostumer);
         if (costumerCount <= 0 && resourceCount <= 0)
         {
+            //SupersonicWisdom.Api.NotifyLevelFailed(currentLevel, null);
             noResource = true;
             CloseMachinePanel(null);
             upgradesPanel.SetActive(false);
@@ -1292,6 +1298,7 @@ public class IdleManager : MonoBehaviour
 
     public void LoadScene(int sceneIndex)
     {
+        PlayerPrefs.SetInt("runnerRestarted", 1);
         SceneManager.LoadScene(sceneIndex);
     }
 
@@ -1301,7 +1308,7 @@ public class IdleManager : MonoBehaviour
         Destroy(transform.parent.gameObject);
     }
 
-    // Reload the current scene to restart the game
+    // Reload the current scene to restart the game 
     public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);

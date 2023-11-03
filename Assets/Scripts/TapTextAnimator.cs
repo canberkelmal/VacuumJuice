@@ -40,7 +40,7 @@ public class TapTextAnimator : MonoBehaviour
 
     public void TapToStart()
     {
-        if (transform.parent.gameObject.activeSelf && !gameManager.settingsPanel.activeSelf)
+        if (transform.parent.gameObject.activeSelf && !gameManager.settingsPanel.activeSelf && gameManager.controller)
         {
             gameManager.StartGame();
             transform.parent.gameObject.SetActive(false);

@@ -1,3 +1,4 @@
+using SupersonicWisdomSDK;
 using System;
 /*using System.Collections;
 using System.Runtime.ConstrainedExecution;
@@ -65,6 +66,7 @@ public class GameManager : MonoBehaviour
     public bool isTankFull = false;
     public LayerMask gatesLayerMask;
     public LineConnector pipeLine;
+    public Transform tapTextParent;
 
     //UI Elements
     public Text cupCountTx;
@@ -81,7 +83,7 @@ public class GameManager : MonoBehaviour
     public GameObject mainCam;
     private Vector3 camOffset;
     private Vector3 camTankOffset;
-    private bool controller = true;
+    public bool controller = false;
     private bool isStarted = false;
     private bool isFinished = false;
     private bool isFinalTankFilling = false;
@@ -119,10 +121,40 @@ public class GameManager : MonoBehaviour
         SetMoneyCount(0);
     }*/
 
+    void Awake()
+    {
+        // Subscribe
+        SupersonicWisdom.Api.AddOnReadyListener(OnSupersonicWisdomReady);
+        // Then initialize
+        SupersonicWisdom.Api.Initialize();
+    }
+
+    void OnSupersonicWisdomReady()
+    {
+        tapTextParent.GetChild(0).gameObject.SetActive(false);
+        tapTextParent.GetChild(1).gameObject.SetActive(true);
+
+        controller = true;
+        Debug.Log("SupersonicREADY");
+    }
+
+    private void OnApplicationQuit()
+    {
+        PlayerPrefs.SetInt("runnerRestarted", 0);
+    }
+
     private void Start()
     {
+        if(!controller && PlayerPrefs.GetInt("runnerRestarted", 0) == 1)
+        {
+            tapTextParent.GetChild(0).gameObject.SetActive(false);
+            tapTextParent.GetChild(1).gameObject.SetActive(true);
+
+            controller = true;
+            Debug.Log("Start set controller");
+        }
         healthBar.SetFillAmount(0, false);
-        controller = true;
+        //controller = true;
         playerTempSpeed = playerMaxSpeed;
         playerMaxSpeed = 0;
 
@@ -550,10 +582,12 @@ public class GameManager : MonoBehaviour
 
         if (PlayerPrefs.GetInt("cupCount", 0)>=4)
         {
+            SupersonicWisdom.Api.NotifyLevelCompleted(currentRunnerLevel, null, "runner");
             finishPanel.transform.Find("ShopButton").gameObject.SetActive(true);
         }
         else
         {
+            SupersonicWisdom.Api.NotifyLevelFailed(currentRunnerLevel, null, "runner");
             finishPanel.transform.Find("NextButton").gameObject.SetActive(true);
         }
 
@@ -700,7 +734,8 @@ public class GameManager : MonoBehaviour
      
     public void StartGame()
     {
-        if(mainCam == null)
+        SupersonicWisdom.Api.NotifyLevelStarted(currentRunnerLevel, null, "runner");
+        if (mainCam == null)
         {
             mainCam = GameObject.Find("Main Camera");
             camOffset = player.transform.position - mainCam.transform.position;
@@ -777,5 +812,6 @@ public class GameManager : MonoBehaviour
     public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        PlayerPrefs.SetInt("runnerRestarted", 1);
     }
 }
