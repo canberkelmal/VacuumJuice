@@ -23,8 +23,8 @@ MonoBehaviour:
   ironSourceIosChinaAppKey: 
   iosGameAnalyticsGameKey: 
   iosGameAnalyticsSecretKey: 
-  androidGameAnalyticsGameKey: 44659223fe7e7e70ee5ea5894e002720
-  androidGameAnalyticsSecretKey: fe85cd19a26881d193edffc74bcd8533889f7299
+  androidGameAnalyticsGameKey: 
+  androidGameAnalyticsSecretKey: 
   adMobIosAppId: 
   adMobIosChinaAppId: 
   adMobAndroidAppId: 
@@ -57,6 +57,6 @@ MonoBehaviour:
   enableIosAutomaticNotificationPermission: 0
   validateBeforeBuild: 1
   accountEmail: pipozagames@gamefactory.gs
-  selectedGameIndex: 2
+  selectedGameIndex: 0
   isTitleSelectedAutomatically: 1
   wasLoggedIn: 1
